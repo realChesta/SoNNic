@@ -1,0 +1,15 @@
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\bin\Debug\SonicPlugin.dll
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\bin\Debug\SonicPlugin.pdb
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\bin\Debug\BizHawk.Client.ApiHawk.dll
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\bin\Debug\BizHawk.Client.Common.dll
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\bin\Debug\BizHawk.Emulation.Common.dll
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Debug\CanvasControl.baml
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Debug\CanvasControl.g.cs
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Debug\SonicPlugin_MarkupCompile.cache
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Debug\SonicPlugin.g.resources
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Debug\BizHawk.Client.EmuHawk.CustomMainForm.resources
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Debug\SonicPlugin.LogForm.resources
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Debug\SonicPlugin.MapForm.resources
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Debug\SonicPlugin.csproj.GenerateResource.Cache
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Debug\SonicPlugin.dll
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Debug\SonicPlugin.pdb

@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{35BFC39D-E28D-4846-A264-53D931F81CEB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SonicPlugin</RootNamespace>
+    <AssemblyName>SonicPlugin</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BizHawk.Client.ApiHawk">
+      <HintPath>.\BizHawk.Client.ApiHawk.dll</HintPath>
+    </Reference>
+    <Reference Include="BizHawk.Client.Common">
+      <HintPath>.\BizHawk.Client.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="BizHawk.Emulation.Common">
+      <HintPath>.\BizHawk.Emulation.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CanvasControl.xaml.cs">
+      <DependentUpon>CanvasControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomMainForm.Designer.cs">
+      <DependentUpon>CustomMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogForm.Designer.cs">
+      <DependentUpon>LogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MapForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MapForm.Designer.cs">
+      <DependentUpon>MapForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sonic\Map\CollisionBlock.cs" />
+    <Compile Include="Sonic\Map\CollisionMap.cs" />
+    <Compile Include="Sonic\Map\MapDrawer.cs" />
+    <Compile Include="Sonic\Map\MapMode.cs" />
+    <Compile Include="Sonic\NN\WorldInput.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="ListViewNF.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sonic\Map\Mapping16x16.cs" />
+    <Compile Include="Sonic\Map\Mapping256x256.cs" />
+    <Compile Include="Sonic\Map\SolidityStatus.cs" />
+    <Compile Include="Sonic\Objects\ArtTile.cs" />
+    <Compile Include="Sonic\Objects\CollisionResponseType.cs" />
+    <Compile Include="Sonic\Objects\ObjectStatus.cs" />
+    <Compile Include="Sonic\Map\SonicMap.cs" />
+    <Compile Include="Sonic\Objects\SonicObject.cs" />
+    <Compile Include="Sonic\Objects\SonicObjectType.cs" />
+    <Compile Include="Sonic\Objects\RenderFlags.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CustomMainForm.resx">
+      <DependentUpon>CustomMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LogForm.resx">
+      <DependentUpon>LogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MapForm.resx">
+      <DependentUpon>MapForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="sonic.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="CanvasControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
