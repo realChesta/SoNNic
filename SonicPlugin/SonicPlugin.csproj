@@ -81,7 +81,6 @@
     <Compile Include="Sonic\Map\CollisionMap.cs" />
     <Compile Include="Sonic\Map\MapDrawer.cs" />
     <Compile Include="Sonic\Map\MapMode.cs" />
-    <Compile Include="Sonic\NN\AddInputMutation.cs" />
     <Compile Include="Sonic\NN\CollisionType.cs" />
     <Compile Include="Sonic\NN\LivingSonic.cs" />
     <Compile Include="Sonic\NN\WorldInput.cs" />
@@ -123,7 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NEAT\NEAT.csproj">
-      <Project>{2d81ccc9-b848-4988-a061-63e68a965f84}</Project>
+      <Project>{2D81CCC9-B848-4988-A061-63E68A965F84}</Project>
       <Name>NEAT</Name>
     </ProjectReference>
   </ItemGroup>

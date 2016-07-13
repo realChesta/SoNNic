@@ -351,8 +351,6 @@ namespace NEAT.Genetics
             }
         }
 
-        
-
         public double CheckWeight(double weight, double min, double max)
         {
             if (weight < min) return min;
@@ -450,8 +448,7 @@ namespace NEAT.Genetics
             Connection,
             Node,
             Weight,
-            RemoveConnection,
-            AddInput
+            RemoveConnection
         }
 
         public CrossoverGenesInformation.MatchingGene[] MatchinGenes(Genome partner)
