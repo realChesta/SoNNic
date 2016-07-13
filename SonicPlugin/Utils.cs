@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NEAT;
 
 namespace SonicPlugin
 {
     public static class Utils
     {
+        public static FastRandom Random = new FastRandom();
 
         public static CollisionResponseType GetCollisionResponseType(byte cr)
         {
