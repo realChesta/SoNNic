@@ -77,6 +77,44 @@
     <Compile Include="MapForm.Designer.cs">
       <DependentUpon>MapForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NEAT\EvolutionController.cs" />
+    <Compile Include="NEAT\Genetics\ConnectionGene.cs" />
+    <Compile Include="NEAT\Genetics\ConnectionGeneCollection.cs" />
+    <Compile Include="NEAT\Genetics\Genome.cs" />
+    <Compile Include="NEAT\Genetics\Innovation.cs" />
+    <Compile Include="NEAT\Genetics\IPhenotype.cs" />
+    <Compile Include="NEAT\Genetics\MutationTypes\AddConnectionMutationInfo.cs" />
+    <Compile Include="NEAT\Genetics\MutationTypes\AddInputMutation.cs" />
+    <Compile Include="NEAT\Genetics\MutationTypes\AddNodeMutationInfo.cs" />
+    <Compile Include="NEAT\Genetics\MutationTypes\IMutationInfo.cs" />
+    <Compile Include="NEAT\Genetics\MutationTypes\RemoveConnectionMutationInfo.cs" />
+    <Compile Include="NEAT\Genetics\MutationTypes\WeightMutationInfo.cs" />
+    <Compile Include="NEAT\Genetics\NodeGene.cs" />
+    <Compile Include="NEAT\Genetics\NodeGeneCollection.cs" />
+    <Compile Include="NEAT\Genetics\NodeGenes.cs" />
+    <Compile Include="NEAT\Genetics\Phenotype.cs" />
+    <Compile Include="NEAT\IEvolutionController.cs" />
+    <Compile Include="NEAT\NeuralNetworks\ActivationFuncs\ActivationFuncs.cs" />
+    <Compile Include="NEAT\NeuralNetworks\ActivationFuncs\IActivationFunction.cs" />
+    <Compile Include="NEAT\NeuralNetworks\INeuralNetwork.cs" />
+    <Compile Include="NEAT\NeuralNetworks\ManualNeuralNetwork.cs" />
+    <Compile Include="NEAT\NeuralNetworks\NeuralNetwork.cs" />
+    <Compile Include="NEAT\NeuralNetworks\Nodes\INeuralHiddenNode.cs" />
+    <Compile Include="NEAT\NeuralNetworks\Nodes\INeuralInputNode.cs" />
+    <Compile Include="NEAT\NeuralNetworks\Nodes\INeuralNode.cs" />
+    <Compile Include="NEAT\NeuralNetworks\Nodes\INeuralOutputNode.cs" />
+    <Compile Include="NEAT\NeuralNetworks\Nodes\InputNeuron.cs" />
+    <Compile Include="NEAT\NeuralNetworks\Nodes\ISynapse.cs" />
+    <Compile Include="NEAT\NeuralNetworks\Nodes\ManualNeuron.cs" />
+    <Compile Include="NEAT\NeuralNetworks\Nodes\ManualOutputNeuron.cs" />
+    <Compile Include="NEAT\NeuralNetworks\Nodes\Neuron.cs" />
+    <Compile Include="NEAT\NeuralNetworks\Nodes\OutputNeuron.cs" />
+    <Compile Include="NEAT\NeuralNetworks\Synapse.cs" />
+    <Compile Include="NEAT\NeuralNetworks\SynapseCollection.cs" />
+    <Compile Include="NEAT\Utils\FastRandom.cs" />
+    <Compile Include="NEAT\Utils\RandomExtensions.cs" />
+    <Compile Include="NEAT\Utils\Utils.cs" />
+    <Compile Include="NEAT\Utils\ZigguratGaussianSampler.cs" />
     <Compile Include="Sonic\Map\CollisionBlock.cs" />
     <Compile Include="Sonic\Map\CollisionMap.cs" />
     <Compile Include="Sonic\Map\MapDrawer.cs" />
@@ -119,12 +157,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NEAT\NEAT.csproj">
-      <Project>{2D81CCC9-B848-4988-A061-63E68A965F84}</Project>
-      <Name>NEAT</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
