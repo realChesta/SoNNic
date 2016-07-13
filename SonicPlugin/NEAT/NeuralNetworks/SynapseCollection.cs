@@ -31,6 +31,11 @@ namespace NEAT.NeuralNetworks
             }
         }
 
+        public static explicit operator SynapseCollection<T>(SynapseCollection<double> v)
+        {
+            throw new NotImplementedException();
+        }
+
         public new void Add(ISynapse<T> synapse)
         {
             base.Add(synapse);

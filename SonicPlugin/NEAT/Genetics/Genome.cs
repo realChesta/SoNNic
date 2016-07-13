@@ -351,7 +351,11 @@ namespace NEAT.Genetics
             }
         }
 
-        
+        public void AddInputMutation(int size, int maxDelta)
+        {
+            if (this.Connections.Count == 0) return;
+
+        }
 
         public double CheckWeight(double weight, double min, double max)
         {

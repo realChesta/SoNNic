@@ -1,31 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Security.Policy;
+﻿using System.Drawing;
 using System.Windows;
-using System.Windows.Controls;
 using SonicPlugin.Sonic.Map;
 using Point = System.Drawing.Point;
 using Size = System.Drawing.Size;
+using NEAT.NeuralNetworks;
+using System;
 
 namespace SonicPlugin.Sonic.NN
 {
-    public class WorldInput
+    public class WorldInput : INeuralInputNode<double>
     {
         public Point RelativePosition;
-        private MapDrawer CurrentMap;
+        //private MapDrawer CurrentMap;
         public static readonly Color SolidColor = Color.FromArgb(169, 169, 169);
         public readonly Size Size;
 
-        public WorldInput(ref MapDrawer map, Point pos, Size size)
+        private SynapseCollection<double> _outputs = new SynapseCollection<double>();
+        public ISynapse<double>[] Outputs
         {
-            this.CurrentMap = map;
+            get
+            {
+                return _outputs.ToArray();
+            }
+        }
+
+        public double InputValue { get; set; }
+
+        public double OutputValue
+        {
+            get
+            {
+                return (int)GetValue(SonicHub.SonicPos, SonicHub.CurrentObjects);
+            }
+        }
+
+        public int NodeNumber { get; private set; }
+
+        public WorldInput(/*ref MapDrawer map, */Point pos, Size size)
+        {
+            //this.CurrentMap = map;
             this.RelativePosition = pos;
             this.Size = size;
         }
-        public WorldInput(ref MapDrawer map, int x, int y, int width, int height)
-            : this(ref map, new Point(x, y), new Size(width, height))
+        public WorldInput(/*ref MapDrawer map, */int x, int y, int width, int height)
+            : this(/*ref map, */new Point(x, y), new Size(width, height))
         { }
 
         public Point Position(Point relative)
@@ -89,7 +107,7 @@ namespace SonicPlugin.Sonic.NN
 
         public bool IsPointSolid(Point pos)
         {
-            return CurrentMap.MapBitmap.GetPixel(pos.X, pos.Y).Equals(SolidColor);
+            return SonicHub.CurrentMap.MapBitmap.GetPixel(pos.X, pos.Y).Equals(SolidColor);
         }
 
         public bool IsCubeSolid(Point pos)
@@ -99,6 +117,15 @@ namespace SonicPlugin.Sonic.NN
                 IsPointSolid(pos + new Size(this.Size.Width, 0)) ||
                 IsPointSolid(pos + new Size(0, this.Size.Height)) ||
                 IsPointSolid(pos + this.Size);
+        }
+
+        public ISynapse<double> AddOutput(INeuralOutputNode<double> neuron, double weight)
+        {
+            return new Synapse(this, neuron, weight);
+        }
+        public void AddOutput(ISynapse<double> s)
+        {
+            _outputs.Add(s);
         }
     }
 }

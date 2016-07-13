@@ -122,6 +122,7 @@
     <Compile Include="Sonic\NN\CollisionType.cs" />
     <Compile Include="Sonic\NN\LivingSonic.cs" />
     <Compile Include="Sonic\NN\WorldInput.cs" />
+    <Compile Include="Sonic\SonicHub.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="ListViewNF.cs">
       <SubType>Component</SubType>

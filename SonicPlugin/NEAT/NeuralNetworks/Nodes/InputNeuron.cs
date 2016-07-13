@@ -8,7 +8,6 @@ namespace NEAT.NeuralNetworks
     public class InputNeuron : INeuralInputNode<double>
     {
         private SynapseCollection<double> _outputs = new SynapseCollection<double>();
-
         public ISynapse<double>[] Outputs
         {
             get { return _outputs.ToArray(); }
