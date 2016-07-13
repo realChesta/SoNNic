@@ -33,7 +33,7 @@ namespace SonicPlugin.Sonic.NN
             return relative + (Size)RelativePosition;
         }
 
-        public int GetValue(Point sonicPos, SonicObject[] sonicObjects)
+        public CollisionType GetValue(Point sonicPos, SonicObject[] sonicObjects)
         {
             Point position = this.Position(sonicPos);
 
@@ -58,11 +58,11 @@ namespace SonicPlugin.Sonic.NN
             }
 
             if (harm)
-                return -1;
+                return CollisionType.Harm;
             else if (IsCubeSolid(position) || solid)
-                return 1;
+                return CollisionType.Solid;
             else 
-                return 0;
+                return CollisionType.None;
         }
 
         //public bool IsSolid(Point pos)

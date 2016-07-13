@@ -276,14 +276,14 @@ namespace SonicPlugin.Sonic.Map
                 //Fill = input.IsCubeSolid(position) ? RedFill : ObjectFill
             };
 
-            int response = input.GetValue(sonicPos, sonicObjects);
+            CollisionType response = input.GetValue(sonicPos, sonicObjects);
 
             switch (response)
             {
-                case 1:
+                case CollisionType.Solid:
                     checkPoint.Fill = GreenFill;
                     break;
-                case -1:
+                case CollisionType.Harm:
                     checkPoint.Fill = RedFill;
                     break;
                 default:

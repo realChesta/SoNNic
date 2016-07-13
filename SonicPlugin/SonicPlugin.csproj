@@ -81,6 +81,7 @@
     <Compile Include="Sonic\Map\CollisionMap.cs" />
     <Compile Include="Sonic\Map\MapDrawer.cs" />
     <Compile Include="Sonic\Map\MapMode.cs" />
+    <Compile Include="Sonic\NN\CollisionType.cs" />
     <Compile Include="Sonic\NN\WorldInput.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="ListViewNF.cs">
