@@ -1,5 +1,6 @@
 ﻿using NEAT;
 using NEAT.NeuralNetworks;
+using SonicPlugin.Sonic.NN;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -355,6 +356,9 @@ namespace NEAT.Genetics
         {
             if (this.Connections.Count == 0) return;
 
+            int inputNr = this.Nodes.NextNodeNumber();
+
+            WorldInput input = new WorldInput(
         }
 
         public double CheckWeight(double weight, double min, double max)

@@ -25,7 +25,8 @@ namespace NEAT.Genetics
         { 
             Input,
             Output,
-            Hidden
+            Hidden,
+            WorldInput
         }
 
         public static NodeGene FromString(string gene)
