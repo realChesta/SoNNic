@@ -6,6 +6,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SonicPlugin.Sonic.NN;
+using System.Diagnostics;
 
 namespace BizHawk.Client.EmuHawk
 {
@@ -24,6 +25,8 @@ namespace BizHawk.Client.EmuHawk
 
         private WorldInput CheckPointInput;
         private WorldInput[] CheckPoints;
+
+        private Stopwatch stopwatch;
 
         public CustomMainForm()
         {

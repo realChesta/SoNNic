@@ -7,8 +7,8 @@ namespace SonicPlugin.Sonic.NN
 {
     public enum CollisionType
     {
-        Harm,
-        Solid,
-        None
+        Harm = 1,
+        Solid = -1,
+        None = 0
     }
 }
