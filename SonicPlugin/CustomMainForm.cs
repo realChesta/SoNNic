@@ -93,19 +93,6 @@ namespace BizHawk.Client.EmuHawk
                 var objects = SonicObject.ReadObjects(_memoryDomains, includeReserved, log).ToArray();
                 label_Objects.Text = "Objects: " + objects.Length;
 
-                SonicHub.CurrentObjects = objects;
-
-                if (SonicHub.SonicPos == null)
-                {
-                    SonicHub.SonicPos = new Point(_watches[0].Value, _watches[1].Value);
-                }
-                else
-                {
-                    SonicHub.SonicPos.X = _watches[0].Value;
-                    SonicHub.SonicPos.Y = _watches[1].Value;
-                }
-
-
                 if (this.Map != null)
                 {
                     this.Map.Drawer.DrawObjects(objects);
@@ -139,18 +126,19 @@ namespace BizHawk.Client.EmuHawk
 
         void Map_Shown(object sender, EventArgs e)
         {
-            SonicHub.CurrentMap = Map.Drawer;
-
-            CheckPointInput = new WorldInput(0, 0, 40, 20);
-
-            Random rnd = new Random();
-
-            int range = 200;
-
-            CheckPoints = new WorldInput[50];
-            for (int i = 0; i < CheckPoints.Length; i++)
+            if (Map.Drawer != null)
             {
-                CheckPoints[i] = new WorldInput(rnd.Next(-range, range), rnd.Next(-range, range), 16, 16);
+                CheckPointInput = new WorldInput(ref Map.Drawer, 0, 0, 40, 20);
+
+                Random rnd = new Random();
+
+                int range = 200;
+
+                CheckPoints = new WorldInput[50];
+                for (int i = 0; i < CheckPoints.Length; i++)
+                {
+                    CheckPoints[i] = new WorldInput(ref Map.Drawer, rnd.Next(-range, range), rnd.Next(-range, range), 16, 16);
+                }
             }
         }
 

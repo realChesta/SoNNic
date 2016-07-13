@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonicPlugin", "SonicPlugin\SonicPlugin.csproj", "{35BFC39D-E28D-4846-A264-53D931F81CEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEAT", "NEAT\NEAT.csproj", "{2D81CCC9-B848-4988-A061-63E68A965F84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{35BFC39D-E28D-4846-A264-53D931F81CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35BFC39D-E28D-4846-A264-53D931F81CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35BFC39D-E28D-4846-A264-53D931F81CEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D81CCC9-B848-4988-A061-63E68A965F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D81CCC9-B848-4988-A061-63E68A965F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D81CCC9-B848-4988-A061-63E68A965F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D81CCC9-B848-4988-A061-63E68A965F84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
