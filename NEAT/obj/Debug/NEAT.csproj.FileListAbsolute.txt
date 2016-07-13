@@ -1,0 +1,10 @@
+Z:\Dropbox\VS2012\Projects\NeuralNetwork\NEAT\bin\Debug\NEAT.dll
+Z:\Dropbox\VS2012\Projects\NeuralNetwork\NEAT\bin\Debug\NEAT.pdb
+Z:\Dropbox\VS2012\Projects\NeuralNetwork\NEAT\obj\Debug\NEAT.dll
+Z:\Dropbox\VS2012\Projects\NeuralNetwork\NEAT\obj\Debug\NEAT.pdb
+D:\Dropbox\VS2012\Projects\NeuralNetwork\NEAT\bin\Debug\NEAT.dll
+D:\Dropbox\VS2012\Projects\NeuralNetwork\NEAT\bin\Debug\NEAT.pdb
+D:\Dropbox\VS2012\Projects\NeuralNetwork\NEAT\obj\Debug\NEAT.csprojResolveAssemblyReference.cache
+D:\Dropbox\VS2012\Projects\NeuralNetwork\NEAT\obj\Debug\NEAT.dll
+D:\Dropbox\VS2012\Projects\NeuralNetwork\NEAT\obj\Debug\NEAT.pdb
+Z:\Dropbox\VS2012\Projects\NeuralNetwork\NEAT\obj\Debug\NEAT.csprojResolveAssemblyReference.cache
