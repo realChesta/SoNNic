@@ -179,5 +179,10 @@ namespace BizHawk.Client.EmuHawk
         {
             _memoryDomains.MainMemory.PokeByte(0xFFFA, checkBox1.Checked ? (byte)1 : (byte)0);
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            new ControllerForm().Show();
+        }
     }
 }

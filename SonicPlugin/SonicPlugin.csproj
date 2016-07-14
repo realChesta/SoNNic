@@ -59,6 +59,15 @@
     <Compile Include="CanvasControl.xaml.cs">
       <DependentUpon>CanvasControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControllerBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ControllerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControllerForm.Designer.cs">
+      <DependentUpon>ControllerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +124,14 @@
     <Compile Include="NEAT\Utils\RandomExtensions.cs" />
     <Compile Include="NEAT\Utils\Utils.cs" />
     <Compile Include="NEAT\Utils\ZigguratGaussianSampler.cs" />
+    <Compile Include="NonSmoothingPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Sonic\Map\CollisionBlock.cs" />
     <Compile Include="Sonic\Map\CollisionMap.cs" />
     <Compile Include="Sonic\Map\MapDrawer.cs" />
@@ -139,6 +156,9 @@
     <Compile Include="Sonic\Objects\RenderFlags.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ControllerForm.resx">
+      <DependentUpon>ControllerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CustomMainForm.resx">
       <DependentUpon>CustomMainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -149,6 +169,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MapForm.resx">
       <DependentUpon>MapForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="sonic.ico" />
   </ItemGroup>

@@ -31,6 +31,7 @@ namespace SonicPlugin.Sonic.NN
             //TODO: create neural network
             //TODO: then start implementing steps, fitness, etc.
 
+            Inputs = new Dictionary<int, WorldInput>();
             Size size = new Size(sensorSize, sensorSize);
             for (int i = 0; i < Brain.Inputs.Length; i++)
             {
