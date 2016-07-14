@@ -62,8 +62,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ControllerForm";
             this.Text = "Controller";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ControllerForm_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ControllerForm_KeyUp);
+            //this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ControllerForm_KeyDown);
+            //this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ControllerForm_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.controllerBox)).EndInit();
             this.ResumeLayout(false);
 

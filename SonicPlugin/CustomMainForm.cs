@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SonicPlugin.Sonic.NN;
 using System.Diagnostics;
+using System.Linq;
 
 namespace BizHawk.Client.EmuHawk
 {
@@ -27,6 +28,8 @@ namespace BizHawk.Client.EmuHawk
         private WorldInput[] CheckPoints;
 
         private Stopwatch stopwatch;
+
+        private ControllerForm controller;
 
         public CustomMainForm()
         {
@@ -90,8 +93,12 @@ namespace BizHawk.Client.EmuHawk
                 //label_Watch3.Text = string.Format("Third watch ({0}) current value: {1}", _watches[2].AddressString, _watches[2].ValueString);
                 //try
                 //{
+
                 var objects = SonicObject.ReadObjects(_memoryDomains, includeReserved, log).ToArray();
                 label_Objects.Text = "Objects: " + objects.Length;
+
+                if ((controller != null) && controller.Visible)
+                    controller.ParseButtons(Global.ActiveController.PressedButtons);
 
                 if (this.Map != null)
                 {
@@ -128,7 +135,7 @@ namespace BizHawk.Client.EmuHawk
         {
             if (Map.Drawer != null)
             {
-                CheckPointInput = new WorldInput(ref Map.Drawer, 0, 0, 40, 20);
+                CheckPointInput = new WorldInput(ref Map.Drawer, 0, -20, LivingSonic.Width, LivingSonic.Height);
 
                 Random rnd = new Random();
 
@@ -182,7 +189,8 @@ namespace BizHawk.Client.EmuHawk
 
         private void button3_Click(object sender, EventArgs e)
         {
-            new ControllerForm().Show();
+            controller = new ControllerForm();
+            controller.Show();
         }
     }
 }

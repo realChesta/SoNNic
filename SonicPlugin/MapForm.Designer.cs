@@ -48,7 +48,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(345, 303);
             this.Controls.Add(this.elementHost1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "MapForm";
             this.Text = "Map";
             this.Shown += new System.EventHandler(this.MapForm_Shown);

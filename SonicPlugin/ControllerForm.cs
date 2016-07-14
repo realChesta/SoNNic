@@ -107,5 +107,16 @@ namespace SonicPlugin
                     break;
             }
         }
+
+        public void ParseButtons(IEnumerable<string> pressed)
+        {
+            controllerBox.A = pressed.Contains("P1 A");
+            controllerBox.B = pressed.Contains("P1 B");
+            controllerBox.C = pressed.Contains("P1 C");
+            controllerBox.PadUp = pressed.Contains("P1 Up");
+            controllerBox.PadDown = pressed.Contains("P1 Down");
+            controllerBox.PadLeft = pressed.Contains("P1 Left");
+            controllerBox.PadRight = pressed.Contains("P1 Right");
+        }
     }
 }
