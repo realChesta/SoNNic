@@ -22,7 +22,15 @@ namespace SonicPlugin.Sonic.NN
 
         public readonly Genome Genome;
         public ManualNeuralNetwork Brain;
-        private Dictionary<int, WorldInput> Inputs; 
+        private Dictionary<int, WorldInput> Inputs;
+
+        public double Fitness
+        {
+            get
+            { return Genome.Fitness; }
+            set
+            { Genome.Fitness = value; }
+        }
 
         public LivingSonic(Genome genome, ref MapDrawer map, int sensorSize, int sensorRangeX, int sensorRangeY)
         {
