@@ -30,5 +30,5 @@ Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Release\SonicPlugin.dll
 Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Release\SonicPlugin.pdb
 D:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Release\SonicPlugin.csprojResolveAssemblyReference.cache
 Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Release\SonicPlugin.csprojResolveAssemblyReference.cache
-Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\bin\Release\NEAT.dll
-Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\bin\Release\NEAT.pdb
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Release\SonicPlugin.ControllerForm.resources
+Z:\Dropbox\BizHawk\SonicPlugin\SonicPlugin\obj\Release\SonicPlugin.Properties.Resources.resources
