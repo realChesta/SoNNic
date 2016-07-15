@@ -22,8 +22,11 @@ namespace SonicPlugin
             }
             set
             {
-                a = value;
-                this.Refresh();
+                if (value != a)
+                {
+                    a = value;
+                    this.Refresh();
+                }
             }
         }
         public bool B
@@ -34,8 +37,11 @@ namespace SonicPlugin
             }
             set
             {
-                b = value;
-                this.Refresh();
+                if (value != b)
+                {
+                    b = value;
+                    this.Refresh();
+                }
             }
         }
         public bool C
@@ -46,8 +52,11 @@ namespace SonicPlugin
             }
             set
             {
-                c = value;
-                this.Refresh();
+                if (value != c)
+                {
+                    c = value;
+                    this.Refresh();
+                }
             }
         }
 
@@ -59,8 +68,11 @@ namespace SonicPlugin
             }
             set
             {
-                up = value;
-                this.Refresh();
+                if (value != up)
+                {
+                    up = value;
+                    this.Refresh();
+                }
             }
         }
         public bool PadDown
@@ -71,8 +83,11 @@ namespace SonicPlugin
             }
             set
             {
-                down = value;
-                this.Refresh();
+                if (value != down)
+                {
+                    down = value;
+                    this.Refresh();
+                }
             }
         }
         public bool PadLeft
@@ -83,8 +98,11 @@ namespace SonicPlugin
             }
             set
             {
-                left = value;
-                this.Refresh();
+                if (value != left)
+                {
+                    left = value;
+                    this.Refresh();
+                }
             }
         }
         public bool PadRight
@@ -95,8 +113,11 @@ namespace SonicPlugin
             }
             set
             {
-                right = value;
-                this.Refresh();
+                if (value != right)
+                {
+                    right = value;
+                    this.Refresh();
+                }
             }
         }
 
