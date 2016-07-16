@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
+using BizHawk.Client.Common;
 using NEAT.NeuralNetworks;
 using SonicPlugin.Sonic.Map;
 using NEAT.Genetics;
@@ -32,6 +34,7 @@ namespace SonicPlugin.Sonic.NN
         {
             this.Genome = genome;
             this.Brain = genome.CreateManualNetwork();
+            this.Brain.Inputs[0].InputValue = 1; //bias
 
             //TODO: then start implementing steps, fitness, etc.
 
@@ -62,7 +65,32 @@ namespace SonicPlugin.Sonic.NN
                 Brain.Inputs[kvp.Key].InputValue = (int)kvp.Value.GetValue(sonic, objects);
             }
 
-            Brain.RelaxNetwork(10, 0.1);
+            if (Brain.RelaxNetwork(10, 0.1))
+                PressButtons();
+        }
+
+        public void PressButtons()
+        {
+            if (this.A)
+                Global.ClickyVirtualPadController.Click("P1 A");
+            else
+                Global.ClickyVirtualPadController.Unclick("P1 A");
+            if (this.PadUp)
+                Global.ClickyVirtualPadController.Click("P1 Up");
+            else
+                Global.ClickyVirtualPadController.Unclick("P1 Up");
+            if (this.PadDown)
+                Global.ClickyVirtualPadController.Click("P1 Down");
+            else
+                Global.ClickyVirtualPadController.Unclick("P1 Down");
+            if (this.PadLeft)
+                Global.ClickyVirtualPadController.Click("P1 Left");
+            else
+                Global.ClickyVirtualPadController.Unclick("P1 Left");
+            if (this.PadRight)
+                Global.ClickyVirtualPadController.Click("P1 Right");
+            else
+                Global.ClickyVirtualPadController.Unclick("P1 Right");
         }
     }
 }
