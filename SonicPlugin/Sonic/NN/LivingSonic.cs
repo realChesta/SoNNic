@@ -8,15 +8,6 @@ namespace SonicPlugin.Sonic.NN
 {
     public class LivingSonic
     {
-        //outputs:
-        // up
-        // down
-        // left
-        // right
-        // a
-        // b
-        // c
-
         public const int Height = 40;
         public const int Width = 20;
 
@@ -26,31 +17,52 @@ namespace SonicPlugin.Sonic.NN
 
         public double Fitness
         {
-            get
-            { return Genome.Fitness; }
-            set
-            { Genome.Fitness = value; }
+            get { return Genome.Fitness; }
+            set { Genome.Fitness = value; }
         }
+
+        public bool A => DtB(Brain.Outputs[1].OutputValue);
+
+        public bool PadUp => DtB(Brain.Outputs[2].OutputValue);
+        public bool PadDown => DtB(Brain.Outputs[3].OutputValue);
+        public bool PadLeft => DtB(Brain.Outputs[4].OutputValue);
+        public bool PadRight => DtB(Brain.Outputs[5].OutputValue);
 
         public LivingSonic(Genome genome, ref MapDrawer map, int sensorSize, int sensorRangeX, int sensorRangeY)
         {
             this.Genome = genome;
             this.Brain = genome.CreateManualNetwork();
-            //TODO: create neural network
+
             //TODO: then start implementing steps, fitness, etc.
 
             Inputs = new Dictionary<int, WorldInput>();
             Size size = new Size(sensorSize, sensorSize);
-            for (int i = 0; i < Brain.Inputs.Length; i++)
+            for (int i = 1; i < Brain.Inputs.Length; i++)
             {
                 WorldInput input = new WorldInput(
-                    ref map, 
+                    ref map,
                     new Point(
-                        Utils.Random.Next(-sensorRangeX, sensorRangeX), 
-                        Utils.Random.Next(-sensorRangeY, sensorRangeY)), 
+                        Utils.Random.Next(-sensorRangeX, sensorRangeX),
+                        Utils.Random.Next(-sensorRangeY, sensorRangeY)),
                     size);
-                Inputs.Add(Brain.Inputs[i].NodeNumber, input);
+                Inputs.Add(i, input);
             }
+        }
+
+        //DoubleToBoolean
+        private static bool DtB(double input)
+        {
+            return input >= 0.5D;
+        }
+         
+        public void Step(Point sonic, SonicObject[] objects)
+        {
+            foreach (var kvp in Inputs)
+            {
+                Brain.Inputs[kvp.Key].InputValue = (int)kvp.Value.GetValue(sonic, objects);
+            }
+
+            Brain.RelaxNetwork(10, 0.1);
         }
     }
 }
