@@ -134,6 +134,12 @@ namespace BizHawk.Client.EmuHawk
                     this.Map.Drawer.DrawCheckPoint(CheckPointInput, sonicPos, objects);
                     this.Map.Drawer.CenterOn(sonicPos.X, sonicPos.Y);
 
+                    if (CurrentSubject != null)
+                    {
+                        CurrentSubject.Fitness = sonicPos.X;
+                        CurrentSubject.Step(sonicPos, objects);
+                    }
+
                     //for (int i = 0; i < CheckPoints.Length; i++)
                     //{
                     //    this.Map.Drawer.DrawCheckPoint(CheckPoints[i], sonicPos, objects);
@@ -230,14 +236,25 @@ namespace BizHawk.Client.EmuHawk
 
                 EvoController.Start(150, 2, 1, new NEAT.NeuralNetworks.ActivationFunctions.EvenSigmoid(5));
 
+                if ((this.Map == null) || !this.Map.Visible)
+                {
+                    this.Map = new MapForm(new SonicMap(_memoryDomains));
+                    this.Map.Show();
+                    this.Map.Shown += Map_Shown;
+                }
+
                 CreateSubjects();
 
                 CurrentSubject = Subjects[0];
 
                 startEvolutionButton.Text = "Stop Evolution";
+
+                ResetLevel(); 
             }
             else
             {
+
+
                 startEvolutionButton.Text = "Start Evolution";
             }
         }

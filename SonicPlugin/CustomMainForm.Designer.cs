@@ -186,6 +186,7 @@ namespace BizHawk.Client.EmuHawk
             this.listViewNF1.Size = new System.Drawing.Size(215, 154);
             this.listViewNF1.TabIndex = 9;
             this.listViewNF1.UseCompatibleStateImageBehavior = false;
+            this.listViewNF1.View = System.Windows.Forms.View.Details;
             // 
             // groupBox3
             // 
