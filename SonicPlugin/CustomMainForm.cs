@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SonicPlugin.Sonic.NN;
 using System.Diagnostics;
-using System.Linq;
+using System.IO;
 
 namespace BizHawk.Client.EmuHawk
 {
@@ -20,9 +20,9 @@ namespace BizHawk.Client.EmuHawk
 
         private WatchList _watches;
         private MapForm Map;
-        private LogForm log;
+        //private LogForm log;
 
-        private bool includeReserved = false;
+        private bool includeReserved;
 
         private WorldInput CheckPointInput;
         private WorldInput[] CheckPoints;
@@ -34,8 +34,8 @@ namespace BizHawk.Client.EmuHawk
         public CustomMainForm()
         {
             InitializeComponent();
-            log = new LogForm("Log: objects");
-            log.Show();
+            //log = new LogForm("Log: objects");
+            //log.Show();
         }
 
         public bool AskSaveChanges()
@@ -43,13 +43,40 @@ namespace BizHawk.Client.EmuHawk
             return true;
         }
 
+        /// <summary>
+        /// This method is called instead of regular <see cref="UpdateValues"/>
+        /// when emulator is runnig in turbo mode
+        /// </summary>
         public void FastUpdate()
         { }
 
+        /// <summary>
+        /// Restart is called the first time you call the form
+        /// but also when you start playing a movie
+        /// </summary>
         public void Restart()
         {
+            if (Global.Game.Name.Contains("Sonic The Hedgehog"))
+            {
+                if (_watches == null)
+                {
+                    _watches = new WatchList(_memoryDomains, _emu.SystemId ?? string.Empty);
+                    Watch myFirstWatch = Watch.GenerateWatch(_memoryDomains.MainMemory, 0xD008, WatchSize.Word, BizHawk.Client.Common.DisplayType.Unsigned, true);
+                    Watch mySecondWatch = Watch.GenerateWatch(_memoryDomains.MainMemory, 0xD00C, WatchSize.Word, BizHawk.Client.Common.DisplayType.Unsigned, true);
+                    _watches.Add(myFirstWatch);
+                    _watches.Add(mySecondWatch);
+                }
+                else
+                {
+                    _watches.RefreshDomains(_memoryDomains);
+                }
+            }
+
+            #region old
+            /*
             if (Global.Game.Name != "Null")
             {
+                MessageBox.Show(Global.Game.Name);
                 //first initialization of WatchList
                 if (_watches == null)
                 {
@@ -73,32 +100,31 @@ namespace BizHawk.Client.EmuHawk
                     _watches.RefreshDomains(_memoryDomains);
                 }
             }
+            */
+            #endregion
         }
 
-        public bool UpdateBefore
-        {
-            get { return false; }
-        }
+        /// <summary>
+        /// Return true if you want the <see cref="UpdateValues"/> method
+        /// to be called before rendering
+        /// </summary>
+        public bool UpdateBefore => false;
 
+        /// <summary>
+        /// This method is called when a frame is rendered
+        /// You can comapre it the lua equivalent emu.frameadvance()
+        /// </summary>
         public void UpdateValues()
         {
-            if (Global.Game.Name != "Null")
+            if (Global.Game.Name.Contains("Sonic The Hedgehog"))
             {
                 //we update our watches
                 _watches.UpdateValues();
                 label_Watch1.Text = "X: " + _watches[0].ValueString;
                 label_Watch2.Text = "Y: " + _watches[1].ValueString;
-                //label_Watch1.Text = string.Format("X: {1}", _watches[0].AddressString, _watches[0].ValueString);
-                //label_Watch2.Text = string.Format("Y: {1}", _watches[1].AddressString, _watches[1].ValueString);
-                //label_Watch3.Text = string.Format("Third watch ({0}) current value: {1}", _watches[2].AddressString, _watches[2].ValueString);
-                //try
-                //{
 
-                var objects = SonicObject.ReadObjects(_memoryDomains, includeReserved, log).ToArray();
+                var objects = SonicObject.ReadObjects(_memoryDomains, includeReserved).ToArray();
                 label_Objects.Text = "Objects: " + objects.Length;
-
-                if ((controller != null) && controller.Visible)
-                    controller.ParseButtons(Global.ActiveController.PressedButtons);
 
                 if (this.Map != null)
                 {
@@ -113,17 +139,12 @@ namespace BizHawk.Client.EmuHawk
                     }
                 }
 
-                //listView1.Items.Clear();
-                //foreach (SonicObject so in objects)
-                //{
-                //    listView1.Items.Add(new System.Windows.Forms.ListViewItem(new string[] { so.ObjectType.ToString(), so.NewHitbox_HorizontalRadius.ToString(), so.NewHitbox_VerticalRadius.ToString(), so.ObjectSubType.ToString() }));
-                //}
-                //}
-                //catch { }
+                if ((controller != null) && controller.Visible)
+                    controller.ParseButtons(Global.ActiveController.PressedButtons);
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void mapButton_Click(object sender, EventArgs e)
         {
             SonicMap map = new SonicMap(_memoryDomains);
             this.Map = new MapForm(map);
@@ -172,11 +193,6 @@ namespace BizHawk.Client.EmuHawk
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void includeReservedObjects_CheckedChanged(object sender, EventArgs e)
         {
             this.includeReserved = includeReservedCheckBox.Checked;
@@ -187,10 +203,29 @@ namespace BizHawk.Client.EmuHawk
             _memoryDomains.MainMemory.PokeByte(0xFFFA, checkBox1.Checked ? (byte)1 : (byte)0);
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void controllerButton_Click(object sender, EventArgs e)
         {
+            if ((controller != null) && !controller.Visible)
+                return;
+
             controller = new ControllerForm();
             controller.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ResetLevel();
+        }
+
+        public static void ResetLevel()
+        {
+            string path = PathManager.SaveStatePrefix(Global.Game) + ".QuickSave1.State";
+            SavestateManager.LoadStateFile(path, Path.GetFileName(path));
+        }
+
+        private void startEvolutionButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

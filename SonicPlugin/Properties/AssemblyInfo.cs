@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 
 //As you can see this is a dedicated attribute. You can write the name of your tool, a small description
 //and give an icon. The icon should be compiled as an embedded resource and you must give the entire path
-[assembly: BizHawkExternalTool("Sonic Plugin", "Sonic the Hedgehog Debugging Tool", "sonic.ico")]
+[assembly: BizHawkExternalTool("SoNNic", "Sonic the Hedgehog NEAT plugin", "sonic.ico")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 //

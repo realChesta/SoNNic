@@ -40,7 +40,7 @@ namespace SonicPlugin.Sonic
 
         public ushort Angle;
 
-        public SonicObject(IMemoryDomains domains, long offset, LogForm log)
+        public SonicObject(IMemoryDomains domains, long offset)
         {
             this.ObjectType = (SonicObjectType)domains.MainMemory.PeekByte(offset);
 
@@ -78,7 +78,7 @@ namespace SonicPlugin.Sonic
             this.Angle = domains.MainMemory.PeekWord(offset + 0x26, true);
         }
 
-        public static List<SonicObject> ReadObjects(IMemoryDomains memory, bool includeReserved, LogForm log)
+        public static List<SonicObject> ReadObjects(IMemoryDomains memory, bool includeReserved)
         {
             List<SonicObject> objs = new List<SonicObject>();
 
@@ -86,7 +86,7 @@ namespace SonicPlugin.Sonic
 
             for (; offset < ObjectSectionEnd; offset += 0x40)
             {
-                SonicObject so = new SonicObject(memory, offset, log);
+                SonicObject so = new SonicObject(memory, offset);
 
                 if (so.ObjectType != SonicObjectType.Null)
                     objs.Add(so);

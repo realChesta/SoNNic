@@ -291,6 +291,8 @@ namespace SonicPlugin.Sonic.Map
                     break;
             }
 
+            checkPoint.Opacity = 0.5;
+
             Canvas.SetLeft(checkPoint, position.X);
             Canvas.SetTop(checkPoint, position.Y);
 

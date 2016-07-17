@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using BizHawk.Client.Common;
 using NEAT.NeuralNetworks;
