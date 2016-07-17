@@ -33,20 +33,19 @@ namespace BizHawk.Client.EmuHawk
             this.label_Watch1 = new System.Windows.Forms.Label();
             this.label_Watch2 = new System.Windows.Forms.Label();
             this.label_Objects = new System.Windows.Forms.Label();
-            this.mapButton = new System.Windows.Forms.Button();
             this.includeReservedCheckBox = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.controllerButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.genomeLabel = new System.Windows.Forms.Label();
+            this.fitnessLabel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.totalTimeLabel = new System.Windows.Forms.Label();
             this.maxFitnessLabel = new System.Windows.Forms.Label();
             this.currentGenLabel = new System.Windows.Forms.Label();
             this.listViewNF1 = new SonicPlugin.ListViewNF();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.startEvolutionButton = new System.Windows.Forms.Button();
-            this.totalTimeLabel = new System.Windows.Forms.Label();
-            this.fitnessLabel = new System.Windows.Forms.Label();
-            this.genomeLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -79,16 +78,6 @@ namespace BizHawk.Client.EmuHawk
             this.label_Objects.Size = new System.Drawing.Size(35, 13);
             this.label_Objects.TabIndex = 3;
             this.label_Objects.Text = "label1";
-            // 
-            // mapButton
-            // 
-            this.mapButton.Location = new System.Drawing.Point(12, 172);
-            this.mapButton.Name = "mapButton";
-            this.mapButton.Size = new System.Drawing.Size(116, 23);
-            this.mapButton.TabIndex = 4;
-            this.mapButton.Text = "Calc && Draw Map";
-            this.mapButton.UseVisualStyleBackColor = true;
-            this.mapButton.Click += new System.EventHandler(this.mapButton_Click);
             // 
             // includeReservedCheckBox
             // 
@@ -126,12 +115,30 @@ namespace BizHawk.Client.EmuHawk
             // 
             this.groupBox1.Controls.Add(this.genomeLabel);
             this.groupBox1.Controls.Add(this.fitnessLabel);
-            this.groupBox1.Location = new System.Drawing.Point(134, 86);
+            this.groupBox1.Location = new System.Drawing.Point(134, 82);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 73);
+            this.groupBox1.Size = new System.Drawing.Size(200, 55);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Current Genome";
+            // 
+            // genomeLabel
+            // 
+            this.genomeLabel.AutoEllipsis = true;
+            this.genomeLabel.Location = new System.Drawing.Point(6, 16);
+            this.genomeLabel.Name = "genomeLabel";
+            this.genomeLabel.Size = new System.Drawing.Size(188, 14);
+            this.genomeLabel.TabIndex = 13;
+            this.genomeLabel.Text = "-";
+            // 
+            // fitnessLabel
+            // 
+            this.fitnessLabel.AutoEllipsis = true;
+            this.fitnessLabel.Location = new System.Drawing.Point(6, 33);
+            this.fitnessLabel.Name = "fitnessLabel";
+            this.fitnessLabel.Size = new System.Drawing.Size(188, 14);
+            this.fitnessLabel.TabIndex = 12;
+            this.fitnessLabel.Text = "-";
             // 
             // groupBox2
             // 
@@ -140,15 +147,24 @@ namespace BizHawk.Client.EmuHawk
             this.groupBox2.Controls.Add(this.currentGenLabel);
             this.groupBox2.Location = new System.Drawing.Point(134, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 68);
+            this.groupBox2.Size = new System.Drawing.Size(200, 64);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Evolution";
             // 
+            // totalTimeLabel
+            // 
+            this.totalTimeLabel.AutoEllipsis = true;
+            this.totalTimeLabel.Location = new System.Drawing.Point(6, 46);
+            this.totalTimeLabel.Name = "totalTimeLabel";
+            this.totalTimeLabel.Size = new System.Drawing.Size(188, 14);
+            this.totalTimeLabel.TabIndex = 13;
+            this.totalTimeLabel.Text = "-";
+            // 
             // maxFitnessLabel
             // 
             this.maxFitnessLabel.AutoEllipsis = true;
-            this.maxFitnessLabel.Location = new System.Drawing.Point(6, 32);
+            this.maxFitnessLabel.Location = new System.Drawing.Point(6, 31);
             this.maxFitnessLabel.Name = "maxFitnessLabel";
             this.maxFitnessLabel.Size = new System.Drawing.Size(188, 14);
             this.maxFitnessLabel.TabIndex = 12;
@@ -167,7 +183,7 @@ namespace BizHawk.Client.EmuHawk
             // 
             this.listViewNF1.Location = new System.Drawing.Point(340, 12);
             this.listViewNF1.Name = "listViewNF1";
-            this.listViewNF1.Size = new System.Drawing.Size(215, 183);
+            this.listViewNF1.Size = new System.Drawing.Size(215, 154);
             this.listViewNF1.TabIndex = 9;
             this.listViewNF1.UseCompatibleStateImageBehavior = false;
             // 
@@ -187,53 +203,25 @@ namespace BizHawk.Client.EmuHawk
             // 
             // startEvolutionButton
             // 
-            this.startEvolutionButton.Location = new System.Drawing.Point(134, 165);
+            this.startEvolutionButton.Location = new System.Drawing.Point(134, 143);
             this.startEvolutionButton.Name = "startEvolutionButton";
-            this.startEvolutionButton.Size = new System.Drawing.Size(200, 30);
+            this.startEvolutionButton.Size = new System.Drawing.Size(200, 23);
             this.startEvolutionButton.TabIndex = 14;
             this.startEvolutionButton.Text = "Start Evolution";
             this.startEvolutionButton.UseVisualStyleBackColor = true;
             this.startEvolutionButton.Click += new System.EventHandler(this.startEvolutionButton_Click);
             // 
-            // totalTimeLabel
-            // 
-            this.totalTimeLabel.AutoEllipsis = true;
-            this.totalTimeLabel.Location = new System.Drawing.Point(6, 50);
-            this.totalTimeLabel.Name = "totalTimeLabel";
-            this.totalTimeLabel.Size = new System.Drawing.Size(188, 14);
-            this.totalTimeLabel.TabIndex = 13;
-            this.totalTimeLabel.Text = "-";
-            // 
-            // fitnessLabel
-            // 
-            this.fitnessLabel.AutoEllipsis = true;
-            this.fitnessLabel.Location = new System.Drawing.Point(6, 37);
-            this.fitnessLabel.Name = "fitnessLabel";
-            this.fitnessLabel.Size = new System.Drawing.Size(188, 14);
-            this.fitnessLabel.TabIndex = 12;
-            this.fitnessLabel.Text = "-";
-            // 
-            // genomeLabel
-            // 
-            this.genomeLabel.AutoEllipsis = true;
-            this.genomeLabel.Location = new System.Drawing.Point(6, 16);
-            this.genomeLabel.Name = "genomeLabel";
-            this.genomeLabel.Size = new System.Drawing.Size(188, 14);
-            this.genomeLabel.TabIndex = 13;
-            this.genomeLabel.Text = "-";
-            // 
             // CustomMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(567, 205);
+            this.ClientSize = new System.Drawing.Size(567, 176);
             this.Controls.Add(this.startEvolutionButton);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.listViewNF1);
             this.Controls.Add(this.controllerButton);
-            this.Controls.Add(this.mapButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CustomMainForm";
             this.Text = "SoNNic";
@@ -250,7 +238,6 @@ namespace BizHawk.Client.EmuHawk
         private System.Windows.Forms.Label label_Watch1;
         private System.Windows.Forms.Label label_Watch2;
         private System.Windows.Forms.Label label_Objects;
-        private System.Windows.Forms.Button mapButton;
         private System.Windows.Forms.CheckBox includeReservedCheckBox;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button controllerButton;

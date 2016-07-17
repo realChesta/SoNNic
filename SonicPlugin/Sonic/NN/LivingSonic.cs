@@ -14,7 +14,7 @@ namespace SonicPlugin.Sonic.NN
 
         public readonly Genome Genome;
         public ManualNeuralNetwork Brain;
-        private Dictionary<int, WorldInput> Inputs;
+        private Dictionary<int, WorldInput> Inputs = new Dictionary<int, WorldInput>();
 
         public double Fitness
         {
@@ -22,12 +22,12 @@ namespace SonicPlugin.Sonic.NN
             set { Genome.Fitness = value; }
         }
 
-        public bool A => DtB(Brain.Outputs[1].OutputValue);
+        public bool A => DtB(Brain.Outputs[0].OutputValue);
 
-        public bool PadUp => DtB(Brain.Outputs[2].OutputValue);
-        public bool PadDown => DtB(Brain.Outputs[3].OutputValue);
-        public bool PadLeft => DtB(Brain.Outputs[4].OutputValue);
-        public bool PadRight => DtB(Brain.Outputs[5].OutputValue);
+        public bool PadUp => DtB(Brain.Outputs[1].OutputValue);
+        public bool PadDown => DtB(Brain.Outputs[2].OutputValue);
+        public bool PadLeft => DtB(Brain.Outputs[3].OutputValue);
+        public bool PadRight => DtB(Brain.Outputs[4].OutputValue);
 
         public LivingSonic(Genome genome, ref MapDrawer map, int sensorSize, int sensorRangeX, int sensorRangeY)
         {
@@ -37,17 +37,24 @@ namespace SonicPlugin.Sonic.NN
 
             //TODO: then start implementing steps, fitness, etc.
 
-            Inputs = new Dictionary<int, WorldInput>();
+           CheckInputs(ref map, sensorSize, sensorRangeX, sensorRangeY);
+        }
+
+        public void CheckInputs(ref MapDrawer map, int sensorSize, int sensorRangeX, int sensorRangeY)
+        {
             Size size = new Size(sensorSize, sensorSize);
             for (int i = 1; i < Brain.Inputs.Length; i++)
             {
-                WorldInput input = new WorldInput(
-                    ref map,
-                    new Point(
-                        Utils.Random.Next(-sensorRangeX, sensorRangeX),
-                        Utils.Random.Next(-sensorRangeY, sensorRangeY)),
-                    size);
-                Inputs.Add(i, input);
+                if (!Inputs.ContainsKey(i))
+                {
+                    WorldInput input = new WorldInput(
+                        ref map,
+                        new Point(
+                            Utils.Random.Next(-sensorRangeX, sensorRangeX),
+                            Utils.Random.Next(-sensorRangeY, sensorRangeY)),
+                        size);
+                    Inputs.Add(i, input);
+                }
             }
         }
 
@@ -56,12 +63,12 @@ namespace SonicPlugin.Sonic.NN
         {
             return input >= 0.5D;
         }
-         
-        public void Step(Point sonic, SonicObject[] objects)
+
+        public void Step(Point sonicPos, SonicObject[] objects)
         {
             foreach (var kvp in Inputs)
             {
-                Brain.Inputs[kvp.Key].InputValue = (int)kvp.Value.GetValue(sonic, objects);
+                Brain.Inputs[kvp.Key].InputValue = (int)kvp.Value.GetValue(sonicPos, objects);
             }
 
             if (Brain.RelaxNetwork(10, 0.1))

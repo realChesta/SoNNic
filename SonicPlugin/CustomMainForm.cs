@@ -8,6 +8,9 @@ using System.Windows.Forms;
 using SonicPlugin.Sonic.NN;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using NEAT;
+using NEAT.Genetics;
 
 namespace BizHawk.Client.EmuHawk
 {
@@ -20,16 +23,14 @@ namespace BizHawk.Client.EmuHawk
 
         private WatchList _watches;
         private MapForm Map;
-        //private LogForm log;
-
-        private bool includeReserved;
-
         private WorldInput CheckPointInput;
-        private WorldInput[] CheckPoints;
-
+        private bool includeReserved;
         private Stopwatch stopwatch;
-
         private ControllerForm controller;
+        private EvolutionController EvoController;
+
+        private LivingSonic[] Subjects;
+        private LivingSonic CurrentSubject;
 
         public CustomMainForm()
         {
@@ -48,7 +49,7 @@ namespace BizHawk.Client.EmuHawk
         /// when emulator is runnig in turbo mode
         /// </summary>
         public void FastUpdate()
-        { }
+        { UpdateValues(); }
 
         /// <summary>
         /// Restart is called the first time you call the form
@@ -123,20 +124,20 @@ namespace BizHawk.Client.EmuHawk
                 label_Watch1.Text = "X: " + _watches[0].ValueString;
                 label_Watch2.Text = "Y: " + _watches[1].ValueString;
 
-                var objects = SonicObject.ReadObjects(_memoryDomains, includeReserved).ToArray();
+                SonicObject[] objects = SonicObject.ReadObjects(_memoryDomains, includeReserved).ToArray();
                 label_Objects.Text = "Objects: " + objects.Length;
 
-                if (this.Map != null)
+                if ((this.Map != null) && this.Map.Visible)
                 {
                     this.Map.Drawer.DrawObjects(objects);
                     Point sonicPos = new Point(_watches[0].Value, _watches[1].Value);
                     this.Map.Drawer.DrawCheckPoint(CheckPointInput, sonicPos, objects);
                     this.Map.Drawer.CenterOn(sonicPos.X, sonicPos.Y);
 
-                    for (int i = 0; i < CheckPoints.Length; i++)
-                    {
-                        this.Map.Drawer.DrawCheckPoint(CheckPoints[i], sonicPos, objects);
-                    }
+                    //for (int i = 0; i < CheckPoints.Length; i++)
+                    //{
+                    //    this.Map.Drawer.DrawCheckPoint(CheckPoints[i], sonicPos, objects);
+                    //}
                 }
 
                 if ((controller != null) && controller.Visible)
@@ -146,27 +147,19 @@ namespace BizHawk.Client.EmuHawk
 
         private void mapButton_Click(object sender, EventArgs e)
         {
-            SonicMap map = new SonicMap(_memoryDomains);
-            this.Map = new MapForm(map);
+            if ((this.Map != null) && !this.Map.Visible)
+                return;
+
+            this.Map = new MapForm(new SonicMap(_memoryDomains));
             this.Map.Show();
             this.Map.Shown += Map_Shown;
         }
 
-        void Map_Shown(object sender, EventArgs e)
+        private void Map_Shown(object sender, EventArgs e)
         {
             if (Map.Drawer != null)
             {
                 CheckPointInput = new WorldInput(ref Map.Drawer, 0, -20, LivingSonic.Width, LivingSonic.Height);
-
-                Random rnd = new Random();
-
-                int range = 200;
-
-                CheckPoints = new WorldInput[50];
-                for (int i = 0; i < CheckPoints.Length; i++)
-                {
-                    CheckPoints[i] = new WorldInput(ref Map.Drawer, rnd.Next(-range, range), rnd.Next(-range, range), 16, 16);
-                }
             }
         }
 
@@ -225,7 +218,40 @@ namespace BizHawk.Client.EmuHawk
 
         private void startEvolutionButton_Click(object sender, EventArgs e)
         {
+            if (EvoController == null)
+            {
+                EvoController = new EvolutionController(-5, 5, 1, 1, 0.4, 3);
+                EvoController.Population.Parameters.MatingOffspringProportion = 0.2;
+                EvoController.Population.Parameters.MutationOffspringProportion = 0.8;
+                EvoController.Population.Parameters.InitialConnectionProportion = 1;
+                EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Weight).Probability = 0.5;
+                EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Node).Probability = 0.03;
+                EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Connection).Probability = 0.5;
 
+                EvoController.Start(150, 2, 1, new NEAT.NeuralNetworks.ActivationFunctions.EvenSigmoid(5));
+
+                CreateSubjects();
+
+                CurrentSubject = Subjects[0];
+
+                startEvolutionButton.Text = "Stop Evolution";
+            }
+            else
+            {
+                startEvolutionButton.Text = "Start Evolution";
+            }
+        }
+
+        private void CreateSubjects()
+        {
+            var genomes = EvoController.Population.GetAll();
+
+            Subjects = new LivingSonic[genomes.Length];
+            for (int i = 0; i < Subjects.Length; i++)
+            {
+                genomes[i].Fitness = 0;
+                Subjects[i] = new LivingSonic(genomes[i], ref Map.Drawer, 16, 200, 200);
+            }
         }
     }
 }
