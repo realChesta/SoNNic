@@ -147,22 +147,23 @@ namespace BizHawk.Client.EmuHawk
                         {
                             CurrentSubject.Fitness = 0;
                             NextSubject();
+                            return;
                         }
                         else if (CurrentSubject.Fitness >= MaxFitness)
                         {
+                            //TODO: handle successful level
                             NextSubject();
+                            return;
                         }
                         else
                         {
                             CurrentSubject.PressButtons();
                         }
+
+                        CurrentSubject.DrawCheckPoints(sonicPos, objects);
+                        UpdateGenomeLabels();
                     }
 
-                    foreach (var kvp in CurrentSubject.Input)
-                    //for (int i = 0; i < CheckPoints.Length; i++)
-                    //{
-                    //    this.Map.Drawer.DrawCheckPoint(CheckPoints[i], sonicPos, objects);
-                    //}
                 }
 
                 if ((controller != null) && controller.Visible)
@@ -178,8 +179,14 @@ namespace BizHawk.Client.EmuHawk
             }
             else //Next generation
             {
+                EvoController.Population.SortGenomesByFitness();
+                currentGenLabel.Text = "Best fitness (?): " + EvoController.Population.GetAll()[0].Fitness;
+
                 EvoController.NextGeneration();
                 CreateSubjects();
+
+                currentGenLabel.Text = "Generation: " + EvoController.Generation;
+                totalTimeLabel.Text = "Total elapsed time: " + stopwatch.Elapsed.ToString("HH:mm:ss");
             }
 
             ResetLevel();
@@ -263,7 +270,7 @@ namespace BizHawk.Client.EmuHawk
                 EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Node).Probability = 0.03;
                 EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Connection).Probability = 0.5;
 
-                EvoController.Start(150, 2, 1, new NEAT.NeuralNetworks.ActivationFunctions.EvenSigmoid(5));
+                EvoController.Start(150, 2, 5, new NEAT.NeuralNetworks.ActivationFunctions.EvenSigmoid(5));
 
                 idleWatcher = new IdleWatcher(5);
 
@@ -278,12 +285,15 @@ namespace BizHawk.Client.EmuHawk
 
                 NextSubject();
 
+                stopwatch.Reset();
+                stopwatch.Start();
+
                 startEvolutionButton.Text = "Stop Evolution";
             }
             else
             {
-
-
+                CurrentSubject = null;
+                stopwatch.Stop();
                 startEvolutionButton.Text = "Start Evolution";
             }
         }
@@ -303,6 +313,11 @@ namespace BizHawk.Client.EmuHawk
         private void button1_Click(object sender, EventArgs e)
         {
             mapButton_Click(null, null);
+        }
+
+        private void UpdateGenomeLabels()
+        {
+            fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0.0000");
         }
     }
 }

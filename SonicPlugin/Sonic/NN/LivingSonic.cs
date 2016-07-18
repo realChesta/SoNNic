@@ -100,5 +100,11 @@ namespace SonicPlugin.Sonic.NN
             else
                 Global.ClickyVirtualPadController.Unclick("P1 Right");
         }
+
+        public void DrawCheckPoints(Point sonicPos, SonicObject[] objects)
+        {
+            foreach (var kvp in Inputs)
+                kvp.Value.Draw(sonicPos, objects);
+        }
     }
 }

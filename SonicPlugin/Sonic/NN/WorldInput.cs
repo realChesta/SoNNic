@@ -82,6 +82,11 @@ namespace SonicPlugin.Sonic.NN
         //    return chunk16.Solidity != SolidityStatus.NonSolid && chunk16.Solidity != SolidityStatus.Unknown;
         //}
 
+        public void Draw(Point sonicPos, SonicObject[] objects)
+        {
+            CurrentMap.DrawCheckPoint(this, sonicPos, objects);
+        }
+
         public bool IsPointSolid(Point pos)
         {
             return CurrentMap.MapBitmap.GetPixel(pos.X, pos.Y).Equals(SolidColor);

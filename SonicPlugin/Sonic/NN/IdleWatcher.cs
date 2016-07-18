@@ -3,7 +3,7 @@
     public class IdleWatcher
     {
         private int idleFrames;
-        private int lastFitness;
+        private double lastFitness;
         public readonly int Limit;
 
         public IdleWatcher(int limit)
@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="fitness"></param>
         /// <returns></returns>
-        public bool Next(int fitness)
+        public bool Next(double fitness)
         {
             if (lastFitness != -1)
             {
