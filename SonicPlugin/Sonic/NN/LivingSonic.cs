@@ -9,12 +9,14 @@ namespace SonicPlugin.Sonic.NN
 {
     public class LivingSonic
     {
+        //TODO: add WorldInputs on AddInputMutation
+
         public const int Height = 40;
         public const int Width = 20;
 
         public readonly Genome Genome;
         public ManualNeuralNetwork Brain;
-        private Dictionary<int, WorldInput> Inputs = new Dictionary<int, WorldInput>();
+        private readonly Dictionary<int, WorldInput> Inputs = new Dictionary<int, WorldInput>();
 
         public double Fitness
         {

@@ -43,9 +43,10 @@ namespace BizHawk.Client.EmuHawk
             this.totalTimeLabel = new System.Windows.Forms.Label();
             this.maxFitnessLabel = new System.Windows.Forms.Label();
             this.currentGenLabel = new System.Windows.Forms.Label();
-            this.listViewNF1 = new SonicPlugin.ListViewNF();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.startEvolutionButton = new System.Windows.Forms.Button();
+            this.listViewNF1 = new SonicPlugin.ListViewNF();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -179,15 +180,6 @@ namespace BizHawk.Client.EmuHawk
             this.currentGenLabel.TabIndex = 11;
             this.currentGenLabel.Text = "-";
             // 
-            // listViewNF1
-            // 
-            this.listViewNF1.Location = new System.Drawing.Point(340, 12);
-            this.listViewNF1.Name = "listViewNF1";
-            this.listViewNF1.Size = new System.Drawing.Size(215, 154);
-            this.listViewNF1.TabIndex = 9;
-            this.listViewNF1.UseCompatibleStateImageBehavior = false;
-            this.listViewNF1.View = System.Windows.Forms.View.Details;
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label_Watch1);
@@ -212,11 +204,31 @@ namespace BizHawk.Client.EmuHawk
             this.startEvolutionButton.UseVisualStyleBackColor = true;
             this.startEvolutionButton.Click += new System.EventHandler(this.startEvolutionButton_Click);
             // 
+            // listViewNF1
+            // 
+            this.listViewNF1.Location = new System.Drawing.Point(340, 12);
+            this.listViewNF1.Name = "listViewNF1";
+            this.listViewNF1.Size = new System.Drawing.Size(215, 154);
+            this.listViewNF1.TabIndex = 9;
+            this.listViewNF1.UseCompatibleStateImageBehavior = false;
+            this.listViewNF1.View = System.Windows.Forms.View.Details;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(340, 143);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "Map";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // CustomMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(567, 176);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.startEvolutionButton);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -252,5 +264,6 @@ namespace BizHawk.Client.EmuHawk
         private System.Windows.Forms.Label totalTimeLabel;
         private System.Windows.Forms.Label fitnessLabel;
         private System.Windows.Forms.Label genomeLabel;
+        private System.Windows.Forms.Button button1;
     }
 }

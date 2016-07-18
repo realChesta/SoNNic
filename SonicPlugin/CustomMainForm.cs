@@ -27,10 +27,14 @@ namespace BizHawk.Client.EmuHawk
         private bool includeReserved;
         private Stopwatch stopwatch;
         private ControllerForm controller;
-        private EvolutionController EvoController;
 
+        private EvolutionController EvoController;
         private LivingSonic[] Subjects;
+        private int SubjectIndex = 0;
         private LivingSonic CurrentSubject;
+        private IdleWatcher idleWatcher;
+
+        public const double MaxFitness = 9676;
 
         public CustomMainForm()
         {
@@ -138,8 +142,23 @@ namespace BizHawk.Client.EmuHawk
                     {
                         CurrentSubject.Fitness = sonicPos.X;
                         CurrentSubject.Step(sonicPos, objects);
+
+                        if (idleWatcher.Next(CurrentSubject.Fitness))
+                        {
+                            CurrentSubject.Fitness = 0;
+                            NextSubject();
+                        }
+                        else if (CurrentSubject.Fitness >= MaxFitness)
+                        {
+                            NextSubject();
+                        }
+                        else
+                        {
+                            CurrentSubject.PressButtons();
+                        }
                     }
 
+                    foreach (var kvp in CurrentSubject.Input)
                     //for (int i = 0; i < CheckPoints.Length; i++)
                     //{
                     //    this.Map.Drawer.DrawCheckPoint(CheckPoints[i], sonicPos, objects);
@@ -149,6 +168,21 @@ namespace BizHawk.Client.EmuHawk
                 if ((controller != null) && controller.Visible)
                     controller.ParseButtons(Global.ActiveController.PressedButtons);
             }
+        }
+
+        private void NextSubject()
+        {
+            if (SubjectIndex < Subjects.Length)
+            {
+                CurrentSubject = Subjects[SubjectIndex++];
+            }
+            else //Next generation
+            {
+                EvoController.NextGeneration();
+                CreateSubjects();
+            }
+
+            ResetLevel();
         }
 
         private void mapButton_Click(object sender, EventArgs e)
@@ -211,11 +245,6 @@ namespace BizHawk.Client.EmuHawk
             controller.Show();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            ResetLevel();
-        }
-
         public static void ResetLevel()
         {
             string path = PathManager.SaveStatePrefix(Global.Game) + ".QuickSave1.State";
@@ -236,6 +265,8 @@ namespace BizHawk.Client.EmuHawk
 
                 EvoController.Start(150, 2, 1, new NEAT.NeuralNetworks.ActivationFunctions.EvenSigmoid(5));
 
+                idleWatcher = new IdleWatcher(5);
+
                 if ((this.Map == null) || !this.Map.Visible)
                 {
                     this.Map = new MapForm(new SonicMap(_memoryDomains));
@@ -245,11 +276,9 @@ namespace BizHawk.Client.EmuHawk
 
                 CreateSubjects();
 
-                CurrentSubject = Subjects[0];
+                NextSubject();
 
                 startEvolutionButton.Text = "Stop Evolution";
-
-                ResetLevel(); 
             }
             else
             {
@@ -269,6 +298,11 @@ namespace BizHawk.Client.EmuHawk
                 genomes[i].Fitness = 0;
                 Subjects[i] = new LivingSonic(genomes[i], ref Map.Drawer, 16, 200, 200);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            mapButton_Click(null, null);
         }
     }
 }

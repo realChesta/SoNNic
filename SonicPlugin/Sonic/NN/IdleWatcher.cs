@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Documents;
-
-namespace SonicPlugin.Sonic.NN
+﻿namespace SonicPlugin.Sonic.NN
 {
     public class IdleWatcher
     {
@@ -19,6 +13,11 @@ namespace SonicPlugin.Sonic.NN
             this.idleFrames = 0;
         }
 
+        /// <summary>
+        /// Returns true if limit has been reached.
+        /// </summary>
+        /// <param name="fitness"></param>
+        /// <returns></returns>
         public bool Next(int fitness)
         {
             if (lastFitness != -1)
