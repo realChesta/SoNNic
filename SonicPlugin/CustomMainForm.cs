@@ -36,6 +36,10 @@ namespace BizHawk.Client.EmuHawk
 
         public const double MaxFitness = 9676;
 
+        //TODO: handle death
+        //TODO: save/load current state
+        //TODO: anchor worldInput position in genomes
+
         public CustomMainForm()
         {
             InitializeComponent();

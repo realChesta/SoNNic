@@ -384,18 +384,17 @@ namespace NEAT.Genetics
         {
             bool iAmFitter = (this.Fitness > partner.Fitness);
             if (this.Fitness == partner.Fitness) iAmFitter = Random.NextBool();
-            Genome offspring;
 
             //NodeGeneCollection nodes = (iAmFitter) ? this.Nodes : partner.Nodes;
             NodeGeneCollection nodes = new NodeGeneCollection();
-            var importantNodes = this.Nodes.Where(n => n.Value.Type != NodeGene.NodeType.Hidden); //Add all inputs/outputs
+            var importantNodes = this.Nodes.Where(n => n.Value.Type == NodeGene.NodeType.Output); //Add all outputs
             foreach (var node in importantNodes)
             {
                 nodes.Add(node.Value);
             }
 
             //if (iAmFitter)
-            offspring = new Genome(nodes, (iAmFitter) ? this.ActivationFunction : partner.ActivationFunction, ref this.Random);
+            Genome offspring = new Genome(nodes, (iAmFitter) ? this.ActivationFunction : partner.ActivationFunction, ref this.Random);
             //else
             //    offspring = new Genome(partner.Nodes._inputs, partner.Nodes._outputs, partner.Nodes._hiddens, partner.ActivationFunction, ref partner.Random);
 
