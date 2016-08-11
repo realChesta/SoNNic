@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -10,10 +11,17 @@ namespace NEAT.Genetics
         public int NodeNumber { get; private set; }
         public NodeType Type { get; private set; }
 
-        public NodeGene(int number, NodeType type)
+        public Point Position;
+        public Size Size;
+
+        public NodeGene(int number, NodeType type) 
+            : this(number, type, Point.Empty, System.Drawing.Size.Empty) { }
+        public NodeGene(int number, NodeType type, Point pos, Size size)
         {
             this.NodeNumber = number;
             this.Type = type;
+            this.Position = pos;
+            this.Size = size;
         }
         public NodeGene(NodeGene copyFrom)
         {
