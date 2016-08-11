@@ -634,13 +634,9 @@ namespace NEAT.Genetics
             //{i1-h1-o1-...|sigmoid|[true:0.3:1-2][-3.5:5-3]...}
             StringBuilder builder = new StringBuilder();
             //builder.Append('{');
-            foreach (var kvp in this.Nodes)
-            {
-                builder.Append(kvp.Value.Type.ToString().ToLower()[0]);
-                builder.Append(kvp.Value.NodeNumber);
-                builder.Append('-');
-            }
-            builder.Remove(builder.Length - 1, 1);
+
+            //B
+            builder.Append(string.Join("_", this.Nodes.Select(kvp => kvp.Value.ToString())));
 
             builder.Append('|');
             builder.Append(this.ActivationFunction.ToString());
@@ -649,7 +645,7 @@ namespace NEAT.Genetics
             foreach (var kvp in this.Connections)
             {
                 builder.Append('[');
-                builder.Append(kvp.Value.Enabled.ToString().ToLower());
+                builder.Append(kvp.Value.Enabled.ToString());
                 builder.Append(':');
                 builder.Append(kvp.Value.InnovationNumber);
                 builder.Append(':');
@@ -661,9 +657,9 @@ namespace NEAT.Genetics
                 builder.Append(']');
             }
 
-            //builder.Append('{');
+            //builder.Append('}');
 
-            return builder.ToString();
+            return builder.ToString().ToLower();
         }
 
         public static Genome FromString(string representation)
@@ -675,7 +671,7 @@ namespace NEAT.Genetics
             if (mainParts.Length != 3)
                 throw new FormatException("String is in wrong format!");
 
-            string[] nodes = mainParts[0].Split(new char[] { '-' });
+            string[] nodes = mainParts[0].Split(new char[] { '_' });
             NodeGeneCollection genes = new NodeGeneCollection();
             for (int i = 0; i < nodes.Length; i++)
             {

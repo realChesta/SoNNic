@@ -56,12 +56,26 @@ namespace NEAT.Genetics
                 default:
                     throw new FormatException("Invalid format!");
             }
-            return new NodeGene(int.Parse(gene.Substring(1)), type);
+            NodeGene toReturn = new NodeGene(int.Parse(gene.Substring(1)), type);
+
+            string[] posAndSize = gene.Substring(2).Split(new char[] { '<', '>' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (posAndSize.Length != 2)
+                throw new FormatException("Invalid NodeGene format!");
+
+            string[] pos = posAndSize[0].Split(':');
+            toReturn.Position = new Point(int.Parse(pos[0]), int.Parse(pos[1]));
+
+            string[] size = posAndSize[1].Split(':');
+            toReturn.Size = new Size(int.Parse(size[0]), int.Parse(size[1]));
+
+            return toReturn;
         }
 
         public override string ToString()
         {
-            return this.Type.ToString().ToLower()[0] + this.NodeNumber.ToString();
+            //e.g. i1<-5:3><3:5>
+            return this.Type.ToString().ToLower()[0] + this.NodeNumber.ToString() + "<" + this.Position.X + ":" + this.Position.Y + "><" + this.Size.Width + ":" + this.Size.Height + ">";
         }
     }
 }
