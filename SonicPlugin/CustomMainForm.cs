@@ -146,7 +146,7 @@ namespace BizHawk.Client.EmuHawk
                         CurrentSubject.Fitness = sonicPos.X;
                         CurrentSubject.Step(sonicPos, objects);
 
-                        if (idleWatcher.Next(CurrentSubject.Fitness))
+                        if (idleWatcher.Next(CurrentSubject.Fitness) || CurrentSubject.Fitness < 75)
                         {
                             CurrentSubject.Fitness = 0;
                             NextSubject();
