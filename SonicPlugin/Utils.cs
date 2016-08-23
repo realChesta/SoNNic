@@ -63,26 +63,28 @@ namespace SonicPlugin
                 throw new IndexOutOfRangeException();
         }
 
+        private static StringBuilder timeBuilder = new StringBuilder();
         public static string ToReadableString(this TimeSpan time)
         {
-            string toReturn = "";
+            timeBuilder.Clear();
+
             if (time.Days > 0)
             {
-                toReturn += time.Days.ToString() + " Days ";
+                timeBuilder.Append(time.Days.ToString() + " d ");
             }
             if (time.Hours > 0)
             {
-                toReturn += time.Hours.ToString() + "h ";
+                timeBuilder.Append(time.Hours.ToString() + "h ");
             }
             if (time.Minutes > 0)
             {
-                toReturn += time.Minutes.ToString() + "min ";
+                timeBuilder.Append(time.Minutes.ToString() + "min ");
             }
-            else
-            {
-                toReturn += time.Seconds.ToString() + "s ";
-            }
-            return toReturn.Trim();
+            //else
+            //{
+            timeBuilder.Append(time.Seconds.ToString() + "s ");
+            //}
+            return timeBuilder.ToString().Trim();
         }
 
         #endregion
