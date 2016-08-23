@@ -27,6 +27,8 @@ namespace NEAT.Genetics
         {
             this.NodeNumber = copyFrom.NodeNumber;
             this.Type = copyFrom.Type;
+            this.Position = new Point(copyFrom.Position.X, copyFrom.Position.Y);
+            this.Size = new Size(copyFrom.Size.Width, copyFrom.Size.Height);
         }
 
         public enum NodeType

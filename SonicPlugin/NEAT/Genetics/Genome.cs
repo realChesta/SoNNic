@@ -17,7 +17,7 @@ namespace NEAT.Genetics
         public IActivationFunction<double> ActivationFunction { get; private set; }
         public double Fitness { get; set; }
 
-        public Genome(int inputs, int outputs, int hiddenNodes, IActivationFunction<double> function, ref FastRandom rnd)
+        public Genome(int inputs, int outputs, int hiddenNodes, IActivationFunction<double> function, ref FastRandom rnd, int sensorSize, int sensorRangeX, int sensorRangeY)
         {
             this.Random = rnd;
             this.ActivationFunction = function;
@@ -25,7 +25,16 @@ namespace NEAT.Genetics
             int nodenr = 0;
             for (; nodenr < inputs; nodenr++)
             {
-                this.Nodes.Add(new NodeGene(nodenr, NodeGene.NodeType.Input));
+                this.Nodes.Add(new NodeGene(
+                    nodenr, 
+                    NodeGene.NodeType.Input, 
+                    new System.Drawing.Point(
+                        rnd.Next(-sensorRangeX, sensorRangeX),
+                        rnd.Next(-sensorRangeY, sensorRangeY)),
+                    new System.Drawing.Size(
+                        sensorSize, 
+                        sensorSize)
+                        ));
             }
             for (; nodenr < (inputs + outputs); nodenr++)
             {
@@ -37,6 +46,8 @@ namespace NEAT.Genetics
             }
             this.Connections = new ConnectionGeneCollection();
         }
+        public Genome(int inputs, int outputs, int hiddenNodes, IActivationFunction<double> function, ref FastRandom rnd) : this(inputs, outputs, hiddenNodes, function, ref rnd, 0, 0, 0)
+        { }
 
         public Genome(NodeGeneCollection nodes, IActivationFunction<double> function, ref FastRandom rnd)
         {
@@ -188,20 +199,20 @@ namespace NEAT.Genetics
         /// </summary>
         /// <param name="network"></param>
         /// <returns></returns>
-        public static Genome FromNeuralNet(NeuralNetwork network, ref FastRandom rnd)
-        {
-            Genome gen = new Genome(network.Inputs.Length, network.Outputs.Length, network.DeepNodes.Sum(l => l.Length), network.Outputs[0].ActivationFunction, ref rnd);
+        //public static Genome FromNeuralNet(NeuralNetwork network, ref FastRandom rnd)
+        //{
+        //    Genome gen = new Genome(network.Inputs.Length, network.Outputs.Length, network.DeepNodes.Sum(l => l.Length), network.Outputs[0].ActivationFunction, ref rnd);
 
-            ISynapse<double>[] cons = network.GetAllConnections();
+        //    ISynapse<double>[] cons = network.GetAllConnections();
 
-            ulong innoNr = 0;
-            for (int i = 0; i < cons.Length; i++)
-            {
-                gen.Connections.Add(new ConnectionGene(innoNr++, cons[i].InputNode.NodeNumber, cons[i].OutputNode.NodeNumber, cons[i].Weight, true));
-            }
+        //    ulong innoNr = 0;
+        //    for (int i = 0; i < cons.Length; i++)
+        //    {
+        //        gen.Connections.Add(new ConnectionGene(innoNr++, cons[i].InputNode.NodeNumber, cons[i].OutputNode.NodeNumber, cons[i].Weight, true));
+        //    }
 
-            return gen;
-        }
+        //    return gen;
+        //}
 
         public void Mutate(ref EvolutionController.SpeciesParameters prms)
         {
@@ -226,7 +237,7 @@ namespace NEAT.Genetics
                     break;
 
                 case MutationType.AddInput:
-                    AddInputMutation();
+                    AddInputMutation(prms.SensorSize, prms.SensorRangeX, prms.SensorRangeY);
                     break;
             }
         }
@@ -355,11 +366,15 @@ namespace NEAT.Genetics
             }
         }
 
-        public void AddInputMutation()
+        public void AddInputMutation(int size, int rangeX, int rangeY)
         {
             if (this.Connections.Count == 0) return;
 
-            NodeGene input = new NodeGene(this.Nodes.NextNodeNumber(), NodeGene.NodeType.Input);
+            NodeGene input = new NodeGene(
+                this.Nodes.NextNodeNumber(), 
+                NodeGene.NodeType.Input, 
+                new System.Drawing.Point(Random.Next(-rangeX, rangeX), Random.Next(-rangeY, rangeY)), 
+                new System.Drawing.Size(size, size));
             NodeGene output = this.Nodes.HiddenNodes[Random.Next(this.Nodes.HiddenNodes.Length)];
 
             ConnectionGene connection = new ConnectionGene(InnovationGenerator.NextMutationNumber(input.NodeNumber, output.NodeNumber), input.NodeNumber, output.NodeNumber, 1, true);
@@ -724,23 +739,23 @@ namespace NEAT.Genetics
             return representator.ToString();
         }
 
-        public static Genome OldFromString(string representation, ref FastRandom rnd)
-        { 
-            string[] baseString = representation.Split(new char[] { '|' });
-            string[] nodes = baseString[0].Split(new char[] { '-' });
+        //public static Genome OldFromString(string representation, ref FastRandom rnd)
+        //{ 
+        //    string[] baseString = representation.Split(new char[] { '|' });
+        //    string[] nodes = baseString[0].Split(new char[] { '-' });
 
-            Genome genome = new Genome(int.Parse(nodes[0]), int.Parse(nodes[1]), int.Parse(nodes[2]), ActivationFunctions.FromName(nodes[3]), ref rnd);
+        //    Genome genome = new Genome(int.Parse(nodes[0]), int.Parse(nodes[1]), int.Parse(nodes[2]), ActivationFunctions.FromName(nodes[3]), ref rnd);
 
-            string[] genes = baseString[1].Split(new char[] { '-' });
+        //    string[] genes = baseString[1].Split(new char[] { '-' });
 
-            for (int i = 1; i < baseString.Length; i++)
-            {
-                string[] geneString = baseString[i].Split(new char[] { '.' });
-                genome.Connections.Add(new ConnectionGene(ulong.Parse(geneString[0]), int.Parse(geneString[1]), int.Parse(geneString[2]), double.Parse(geneString[3]), geneString[4] == "1"));
-            }
+        //    for (int i = 1; i < baseString.Length; i++)
+        //    {
+        //        string[] geneString = baseString[i].Split(new char[] { '.' });
+        //        genome.Connections.Add(new ConnectionGene(ulong.Parse(geneString[0]), int.Parse(geneString[1]), int.Parse(geneString[2]), double.Parse(geneString[3]), geneString[4] == "1"));
+        //    }
 
-            return genome;
-        }
+        //    return genome;
+        //}
 
         public class CrossoverGenesInformation
         {

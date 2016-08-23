@@ -35,6 +35,7 @@ namespace BizHawk.Client.EmuHawk
         private IdleWatcher idleWatcher;
 
         public const double MaxFitness = 9676;
+        private DateTime StartTime;
 
         //TODO: handle death
         //TODO: save/load current state
@@ -165,7 +166,7 @@ namespace BizHawk.Client.EmuHawk
                         }
 
                         CurrentSubject.DrawCheckPoints(sonicPos, objects);
-                        UpdateGenomeLabels();
+                        UpdateLabels();
                     }
 
                 }
@@ -277,7 +278,6 @@ namespace BizHawk.Client.EmuHawk
                 EvoController.Start(150, 2, 5, new NEAT.NeuralNetworks.ActivationFunctions.EvenSigmoid(5));
 
                 idleWatcher = new IdleWatcher(5);
-
                 if ((this.Map == null) || !this.Map.Visible)
                 {
                     this.Map = new MapForm(new SonicMap(_memoryDomains));
@@ -289,15 +289,13 @@ namespace BizHawk.Client.EmuHawk
 
                 NextSubject();
 
-                stopwatch.Reset();
-                stopwatch.Start();
+                this.StartTime = DateTime.Now;
 
                 startEvolutionButton.Text = "Stop Evolution";
             }
             else
             {
                 CurrentSubject = null;
-                stopwatch.Stop();
                 startEvolutionButton.Text = "Start Evolution";
             }
         }
@@ -310,7 +308,7 @@ namespace BizHawk.Client.EmuHawk
             for (int i = 0; i < Subjects.Length; i++)
             {
                 genomes[i].Fitness = 0;
-                Subjects[i] = new LivingSonic(genomes[i], ref Map.Drawer, 16, 200, 200);
+                Subjects[i] = new LivingSonic(genomes[i], ref Map.Drawer); //, 16, 200, 200
             }
         }
 
@@ -319,9 +317,12 @@ namespace BizHawk.Client.EmuHawk
             mapButton_Click(null, null);
         }
 
-        private void UpdateGenomeLabels()
+        private void UpdateLabels()
         {
-            fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0.0000");
+            genomeLabel.Text = "Genome " + SubjectIndex + "/" + Subjects.Length;
+            fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0.00");
+            currentGenLabel.Text = "Generation " + (EvoController.Generation + 1);
+            totalTimeLabel.Text = "Time passed: " + (DateTime.Now - StartTime).ToReadableString();
         }
     }
 }

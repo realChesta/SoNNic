@@ -72,7 +72,15 @@ namespace NEAT
             Genome[] initialPopulation = new Genome[populationCount];
             for (int i = 0; i < populationCount; i++)
             {
-                initialPopulation[i] = new Genome(inputs, outputs, 0, function, ref Random);
+                initialPopulation[i] = new Genome(
+                    inputs,
+                    outputs, 
+                    0, 
+                    function, 
+                    ref Random, 
+                    this.Population.Parameters.SensorSize, 
+                    this.Population.Parameters.SensorRangeX, 
+                    this.Population.Parameters.SensorRangeY);
             }
             this.Start(initialPopulation);
         }
@@ -819,6 +827,10 @@ namespace NEAT
 
             public const double DefaultMinimumWeight = -5;
             public const double DefaultMaximumWeight = 5;
+
+            public int SensorSize = 16;
+            public int SensorRangeX = 200;
+            public int SensorRangeY = 200;
 
 
             public double EliteProportion;
