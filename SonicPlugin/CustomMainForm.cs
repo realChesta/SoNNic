@@ -25,7 +25,6 @@ namespace BizHawk.Client.EmuHawk
         private MapForm Map;
         private WorldInput CheckPointInput;
         private bool includeReserved;
-        private Stopwatch stopwatch;
         private ControllerForm controller;
 
         private EvolutionController EvoController;
@@ -36,6 +35,7 @@ namespace BizHawk.Client.EmuHawk
 
         public const double MaxFitness = 9676;
         private DateTime StartTime;
+        private bool Running;
 
         //TODO: save/load current state
 
@@ -164,7 +164,7 @@ namespace BizHawk.Client.EmuHawk
                         }
 
                         CurrentSubject.DrawCheckPoints(sonicPos, objects);
-                        UpdateLabels();
+                        UpdateGenomeLabels();
                     }
 
                 }
@@ -187,10 +187,11 @@ namespace BizHawk.Client.EmuHawk
 
                 EvoController.NextGeneration();
                 CreateSubjects();
-
-                currentGenLabel.Text = "Generation: " + EvoController.Generation;
-                totalTimeLabel.Text = "Total elapsed time: " + stopwatch.Elapsed.ToString("HH:mm:ss");
+                SubjectIndex = 0;
             }
+
+            currentGenLabel.Text = "Generation: " + (EvoController.Generation + 1);
+            genomeLabel.Text = "Genome " + SubjectIndex + "/" + Subjects.Length;
 
             ResetLevel();
         }
@@ -264,37 +265,18 @@ namespace BizHawk.Client.EmuHawk
         private void startEvolutionButton_Click(object sender, EventArgs e)
         {
             if (EvoController == null)
+                CreateEvolutionController();
+
+            if (!this.Running)
             {
-                EvoController = new EvolutionController(-5, 5, 1, 1, 0.4, 3);
-                EvoController.Population.Parameters.MatingOffspringProportion = 0.2;
-                EvoController.Population.Parameters.MutationOffspringProportion = 0.8;
-                EvoController.Population.Parameters.InitialConnectionProportion = 1;
-                EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Weight).Probability = 0.5;
-                EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Node).Probability = 0.03;
-                EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Connection).Probability = 0.5;
+                if (EvoController.Population.Count < 2)
+                    EvoController.Start(150, 2, 5, new NEAT.NeuralNetworks.ActivationFunctions.EvenSigmoid(5));
 
-                EvoController.Start(150, 2, 5, new NEAT.NeuralNetworks.ActivationFunctions.EvenSigmoid(5));
-
-                idleWatcher = new IdleWatcher(5);
-                if ((this.Map == null) || !this.Map.Visible)
-                {
-                    this.Map = new MapForm(new SonicMap(_memoryDomains));
-                    this.Map.Show();
-                    this.Map.Shown += Map_Shown;
-                }
-
-                CreateSubjects();
-
-                NextSubject();
-
-                this.StartTime = DateTime.Now;
-
-                startEvolutionButton.Text = "Stop Evolution";
+                this.StartEvolution();
             }
             else
             {
-                CurrentSubject = null;
-                startEvolutionButton.Text = "Start Evolution";
+                this.StopEvolution();
             }
         }
 
@@ -310,17 +292,115 @@ namespace BizHawk.Client.EmuHawk
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void UpdateGenomeLabels()
         {
-            mapButton_Click(null, null);
+            fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0.00");
+            totalTimeLabel.Text = "Time passed: " + (DateTime.Now - StartTime).ToReadableString();
         }
 
-        private void UpdateLabels()
+        public void SaveGenomes(Genome[] genomes, string filename)
         {
-            genomeLabel.Text = "Genome " + SubjectIndex + "/" + Subjects.Length;
-            fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0.00");
-            currentGenLabel.Text = "Generation " + (EvoController.Generation + 1);
-            totalTimeLabel.Text = "Time passed: " + (DateTime.Now - StartTime).ToReadableString();
+            using (StreamWriter writer = File.CreateText(filename))
+            {
+                for (int i = 0; i < genomes.Length; i++)
+                    writer.WriteLine(genomes[i].ToString());
+            }
+        }
+
+        public Genome[] LoadGenomes(string filename)
+        {
+            string[] lines = File.ReadAllLines(filename);
+            Genome[] genomes = new Genome[lines.Length];
+
+            for (int i = 0; i < genomes.Length; i++)
+                genomes[i] = Genome.FromString(lines[i]);
+
+            return genomes;
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            if (EvoController != null && EvoController.Population != null)
+            {
+                if (saveGenomeDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        SaveGenomes(EvoController.Population.GetAll(), saveGenomeDialog.FileName);
+                        MessageBox.Show("Successfully saved current population!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show((EvoController == null).ToString());
+                        MessageBox.Show((EvoController.Population == null).ToString());
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Could not save current population!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            if (openGenomesDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if (EvoController == null)
+                        CreateEvolutionController();
+
+                    if (this.Running)
+                        this.StopEvolution();
+
+                    EvoController.Start(LoadGenomes(openGenomesDialog.FileName));
+                    SubjectIndex = 0;
+                    MessageBox.Show("Successfully loaded current population!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show("Could not load current population!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void StopEvolution()
+        {
+            CurrentSubject = null;
+            SubjectIndex = 0;
+            startEvolutionButton.Text = "Start Evolution";
+            genomeLabel.Text = "-";
+            fitnessLabel.Text = "-";
+            this.Running = false;
+        }
+
+        private void StartEvolution()
+        {
+            idleWatcher = new IdleWatcher(5);
+            if ((this.Map == null) || !this.Map.Visible)
+            {
+                this.Map = new MapForm(new SonicMap(_memoryDomains));
+                this.Map.Show();
+                this.Map.Shown += Map_Shown;
+            }
+
+            CreateSubjects();
+            NextSubject();
+
+            this.StartTime = DateTime.Now;
+            startEvolutionButton.Text = "Stop Evolution";
+            this.Running = true;
+        }
+
+        public void CreateEvolutionController()
+        {
+            EvoController = new EvolutionController(-5, 5, 1, 1, 0.4, 3);
+            EvoController.Population.Parameters.MatingOffspringProportion = 0.2;
+            EvoController.Population.Parameters.MutationOffspringProportion = 0.8;
+            EvoController.Population.Parameters.InitialConnectionProportion = 1;
+            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Weight).Probability = 0.5;
+            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Node).Probability = 0.03;
+            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Connection).Probability = 0.5;
         }
     }
 }

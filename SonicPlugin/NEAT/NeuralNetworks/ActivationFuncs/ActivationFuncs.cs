@@ -9,10 +9,13 @@ namespace NEAT.NeuralNetworks
     {
         public static IActivationFunction<double> FromName(string name)
         {
-            switch (name)
+            switch (name.ToLower())
             {
                 case "sigmoid":
                     return new Sigmoid();
+
+                case "evensigmoid":
+                    return new EvenSigmoid();
 
                 case "step":
                     return new StepFunction();

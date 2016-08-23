@@ -46,7 +46,11 @@ namespace BizHawk.Client.EmuHawk
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.startEvolutionButton = new System.Windows.Forms.Button();
             this.listViewNF1 = new SonicPlugin.ListViewNF();
-            this.button1 = new System.Windows.Forms.Button();
+            this.mapButton = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.loadButton = new System.Windows.Forms.Button();
+            this.saveGenomeDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openGenomesDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -104,11 +108,13 @@ namespace BizHawk.Client.EmuHawk
             // 
             // controllerButton
             // 
+            this.controllerButton.Image = ((System.Drawing.Image)(resources.GetObject("controllerButton.Image")));
+            this.controllerButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.controllerButton.Location = new System.Drawing.Point(12, 143);
             this.controllerButton.Name = "controllerButton";
             this.controllerButton.Size = new System.Drawing.Size(116, 23);
             this.controllerButton.TabIndex = 8;
-            this.controllerButton.Text = "Show Controller";
+            this.controllerButton.Text = "   Show Controller";
             this.controllerButton.UseVisualStyleBackColor = true;
             this.controllerButton.Click += new System.EventHandler(this.controllerButton_Click);
             // 
@@ -208,27 +214,67 @@ namespace BizHawk.Client.EmuHawk
             // 
             this.listViewNF1.Location = new System.Drawing.Point(340, 12);
             this.listViewNF1.Name = "listViewNF1";
-            this.listViewNF1.Size = new System.Drawing.Size(215, 154);
+            this.listViewNF1.Size = new System.Drawing.Size(215, 180);
             this.listViewNF1.TabIndex = 9;
             this.listViewNF1.UseCompatibleStateImageBehavior = false;
             this.listViewNF1.View = System.Windows.Forms.View.Details;
             // 
-            // button1
+            // mapButton
             // 
-            this.button1.Location = new System.Drawing.Point(340, 143);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Map";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.mapButton.Image = ((System.Drawing.Image)(resources.GetObject("mapButton.Image")));
+            this.mapButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mapButton.Location = new System.Drawing.Point(12, 172);
+            this.mapButton.Name = "mapButton";
+            this.mapButton.Size = new System.Drawing.Size(116, 23);
+            this.mapButton.TabIndex = 15;
+            this.mapButton.Text = "Map";
+            this.mapButton.UseVisualStyleBackColor = true;
+            this.mapButton.Click += new System.EventHandler(this.mapButton_Click);
+            // 
+            // saveButton
+            // 
+            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
+            this.saveButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.saveButton.Location = new System.Drawing.Point(134, 172);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(97, 23);
+            this.saveButton.TabIndex = 16;
+            this.saveButton.Text = "  Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // loadButton
+            // 
+            this.loadButton.Image = ((System.Drawing.Image)(resources.GetObject("loadButton.Image")));
+            this.loadButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.loadButton.Location = new System.Drawing.Point(237, 172);
+            this.loadButton.Name = "loadButton";
+            this.loadButton.Size = new System.Drawing.Size(97, 23);
+            this.loadButton.TabIndex = 17;
+            this.loadButton.Text = " Load";
+            this.loadButton.UseVisualStyleBackColor = true;
+            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
+            // 
+            // saveGenomeDialog
+            // 
+            this.saveGenomeDialog.DefaultExt = "evo";
+            this.saveGenomeDialog.Filter = "Save Files (*.evo)|*.evo";
+            this.saveGenomeDialog.Title = "Save current population";
+            // 
+            // openGenomesDialog
+            // 
+            this.openGenomesDialog.DefaultExt = "evo";
+            this.openGenomesDialog.Filter = "Save Files (*.evo)|*.evo";
+            this.openGenomesDialog.Title = "Load saved population";
             // 
             // CustomMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(567, 176);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(567, 204);
+            this.Controls.Add(this.loadButton);
+            this.Controls.Add(this.saveButton);
+            this.Controls.Add(this.mapButton);
             this.Controls.Add(this.startEvolutionButton);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -264,6 +310,10 @@ namespace BizHawk.Client.EmuHawk
         private System.Windows.Forms.Label totalTimeLabel;
         private System.Windows.Forms.Label fitnessLabel;
         private System.Windows.Forms.Label genomeLabel;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button mapButton;
+        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Button loadButton;
+        private System.Windows.Forms.SaveFileDialog saveGenomeDialog;
+        private System.Windows.Forms.OpenFileDialog openGenomesDialog;
     }
 }
