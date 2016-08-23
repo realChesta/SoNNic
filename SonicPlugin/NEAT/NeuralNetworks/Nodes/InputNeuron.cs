@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -15,6 +16,9 @@ namespace NEAT.NeuralNetworks
         }
 
         public int NodeNumber { get; private set; }
+
+        public Point Position;
+        public Size Size;
 
         public InputNeuron(int number)
         {

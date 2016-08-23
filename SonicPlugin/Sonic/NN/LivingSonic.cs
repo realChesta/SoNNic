@@ -31,7 +31,7 @@ namespace SonicPlugin.Sonic.NN
         public bool PadLeft => DtB(Brain.Outputs[3].OutputValue);
         public bool PadRight => DtB(Brain.Outputs[4].OutputValue);
 
-        public LivingSonic(Genome genome, ref MapDrawer map, int sensorSize, int sensorRangeX, int sensorRangeY)
+        public LivingSonic(Genome genome, ref MapDrawer map) //, int sensorSize, int sensorRangeX, int sensorRangeY
         {
             this.Genome = genome;
             this.Brain = genome.CreateManualNetwork();
@@ -39,22 +39,24 @@ namespace SonicPlugin.Sonic.NN
 
             //TODO: then start implementing steps, fitness, etc.
 
-           CheckInputs(ref map, sensorSize, sensorRangeX, sensorRangeY);
+           CheckInputs(ref map); //, sensorSize, sensorRangeX, sensorRangeY
         }
 
-        public void CheckInputs(ref MapDrawer map, int sensorSize, int sensorRangeX, int sensorRangeY)
+        public void CheckInputs(ref MapDrawer map) //, int sensorSize, int sensorRangeX, int sensorRangeY
         {
-            Size size = new Size(sensorSize, sensorSize);
+            //Size size = new Size(sensorSize, sensorSize);
+            //new Point(
+            //    Utils.Random.Next(-sensorRangeX, sensorRangeX),
+            //    Utils.Random.Next(-sensorRangeY, sensorRangeY)),
             for (int i = 1; i < Brain.Inputs.Length; i++)
             {
                 if (!Inputs.ContainsKey(i))
                 {
+                    InputNeuron neuron = (InputNeuron)Brain.Inputs[i];
                     WorldInput input = new WorldInput(
                         ref map,
-                        new Point(
-                            Utils.Random.Next(-sensorRangeX, sensorRangeX),
-                            Utils.Random.Next(-sensorRangeY, sensorRangeY)),
-                        size);
+                        neuron.Position,
+                        neuron.Size);
                     Inputs.Add(i, input);
                 }
             }

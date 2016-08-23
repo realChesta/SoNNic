@@ -154,7 +154,7 @@ namespace NEAT.Genetics
 
             for (int i = 0; i < inputs.Length; i++)
             {
-                network.Inputs[i] = new InputNeuron(inputs[i].NodeNumber);
+                network.Inputs[i] = new InputNeuron(inputs[i].NodeNumber) { Position = inputs[i].Position, Size = inputs[i].Size };
             }
             for (int i = 0; i < outputs.Length; i++)
             {
