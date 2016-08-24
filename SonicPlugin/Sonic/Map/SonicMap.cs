@@ -25,10 +25,6 @@ namespace SonicPlugin.Sonic
             this.CollisionTablePointer = domains.MainMemory.PeekDWord(0xF796, true);
             this.CollisionMap = new Map.CollisionMap(domains["MD CART"], CollisionTablePointer);
 
-            LogForm log = new LogForm("Log: SonicMap");
-            log.Show();
-            log.WriteLine("Creating Chunk-Array...");
-
             MemoryDomain memory = domains.MainMemory;
 
             Chunks = new Mapping256x256[8][]; //8 lines of Chunks
@@ -45,8 +41,6 @@ namespace SonicPlugin.Sonic
 
             for (long i = LayoutOffset; i < LayoutEnd; i += 0x80) //0x80 to skip every second line (background-lines)
             {
-                log.WriteLine("Reading line " + iy);
-                log.WriteLine("Vert. Offset: 0x" + i.ToString("X2"));
                 for (long j = i; j < (i + 0x40); j++) //read each index
                 {
                     byte chunkIndex = memory.PeekByte(j);
