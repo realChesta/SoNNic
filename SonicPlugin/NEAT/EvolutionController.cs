@@ -15,7 +15,7 @@ namespace NEAT
         public Dictionary<int, Species> NonImprovingSpecies;
         public int InitialPopulationSize;
 
-        public uint Generation{ get; private set; }
+        public uint Generation;
 
         public double MinConnectionWeight
         {
@@ -52,16 +52,19 @@ namespace NEAT
         /// Start with given initialPopulation (all phenotypes should have 0 hidden nodes!)
         /// </summary>
         /// <param name="initialPopulation">The initial population with 0 hidden nodes.</param>
-        public void Start(Genome[] initialPopulation)
+        public void Start(Genome[] initialPopulation, bool connectLayers)
         {
             this.Population.Clear();
 
             this.InitialPopulationSize = initialPopulation.Length;
 
-            //Connect every input to every output
-            for (int i = 0; i < initialPopulation.Length; i++)
+            if (connectLayers)
             {
-                initialPopulation[i].ConnectLayers(MinConnectionWeight, MaxConnectionWeight, Population.Parameters.InitialConnectionProportion);
+                //Connect every input to every output
+                for (int i = 0; i < initialPopulation.Length; i++)
+                {
+                    initialPopulation[i].ConnectLayers(MinConnectionWeight, MaxConnectionWeight, Population.Parameters.InitialConnectionProportion);
+                }
             }
 
             this.Population = SortGenomesIntoSpecies(initialPopulation);
@@ -82,7 +85,7 @@ namespace NEAT
                     this.Population.Parameters.SensorRangeX, 
                     this.Population.Parameters.SensorRangeY);
             }
-            this.Start(initialPopulation);
+            this.Start(initialPopulation, true);
         }
 
         public void NextGeneration()

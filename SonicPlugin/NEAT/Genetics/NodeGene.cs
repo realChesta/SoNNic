@@ -58,9 +58,12 @@ namespace NEAT.Genetics
                 default:
                     throw new FormatException("Invalid format!");
             }
-            NodeGene toReturn = new NodeGene(int.Parse(gene.Substring(1, 1)), type);
 
-            string[] posAndSize = gene.Substring(2).Split(new char[] { '<', '>' }, StringSplitOptions.RemoveEmptyEntries);
+            int index = gene.IndexOf('<');
+
+            NodeGene toReturn = new NodeGene(int.Parse(gene.Substring(1, index - 1)), type);
+
+            string[] posAndSize = gene.Substring(index).Split(new char[] { '<', '>' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (posAndSize.Length != 2)
                 throw new FormatException("Invalid NodeGene format!");

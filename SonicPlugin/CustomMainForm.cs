@@ -146,7 +146,7 @@ namespace BizHawk.Client.EmuHawk
                         CurrentSubject.Fitness = sonicPos.X;
                         CurrentSubject.Step(sonicPos, objects);
 
-                        if (idleWatcher.Next(CurrentSubject.Fitness) || CurrentSubject.Fitness < 75)
+                        if (idleWatcher.Next(CurrentSubject.Fitness) || CurrentSubject.Fitness < 70)
                         {
                             //CurrentSubject.Fitness = 0;
                             NextSubject();
@@ -183,7 +183,8 @@ namespace BizHawk.Client.EmuHawk
             else //Next generation
             {
                 EvoController.Population.SortGenomesByFitness();
-                currentGenLabel.Text = "Best fitness (?): " + EvoController.Population.GetAll()[0].Fitness;
+                double bestFitness = EvoController.Population.GetAll().OrderByDescending(g => g.Fitness).First().Fitness;
+                maxFitnessLabel.Text = "Best fitness: " + bestFitness.ToString("0") +  " (" + ((bestFitness / MaxFitness) * 100D).ToString("0.00") + "%)";
 
                 EvoController.NextGeneration();
                 CreateSubjects();
@@ -294,26 +295,32 @@ namespace BizHawk.Client.EmuHawk
 
         private void UpdateGenomeLabels()
         {
-            fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0.00");
+            fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0");
             totalTimeLabel.Text = "Time passed: " + (DateTime.Now - StartTime).ToReadableString();
         }
 
-        public void SaveGenomes(Genome[] genomes, string filename)
+        public void SaveGenomes(Genome[] genomes, uint generation,  string filename)
         {
             using (StreamWriter writer = File.CreateText(filename))
             {
+                writer.WriteLine(generation);
+                writer.WriteLine(InnovationGenerator.Current);
+
                 for (int i = 0; i < genomes.Length; i++)
                     writer.WriteLine(genomes[i].ToString());
             }
         }
 
-        public Genome[] LoadGenomes(string filename)
+        public static Genome[] LoadGenomes(string filename, ref uint generation)
         {
             string[] lines = File.ReadAllLines(filename);
-            Genome[] genomes = new Genome[lines.Length];
+            Genome[] genomes = new Genome[lines.Length - 2];
+
+            generation = uint.Parse(lines[0]);
+            InnovationGenerator.Current = ulong.Parse(lines[1]);
 
             for (int i = 0; i < genomes.Length; i++)
-                genomes[i] = Genome.FromString(lines[i]);
+                genomes[i] = Genome.FromString(lines[i + 2]);
 
             return genomes;
         }
@@ -326,7 +333,7 @@ namespace BizHawk.Client.EmuHawk
                 {
                     try
                     {
-                        SaveGenomes(EvoController.Population.GetAll(), saveGenomeDialog.FileName);
+                        SaveGenomes(EvoController.Population.GetAll(), EvoController.Generation, saveGenomeDialog.FileName);
                         MessageBox.Show("Successfully saved current population!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
@@ -352,7 +359,7 @@ namespace BizHawk.Client.EmuHawk
                     if (this.Running)
                         this.StopEvolution();
 
-                    EvoController.Start(LoadGenomes(openGenomesDialog.FileName));
+                    EvoController.Start(LoadGenomes(openGenomesDialog.FileName, ref EvoController.Generation), false);
                     SubjectIndex = 0;
                     MessageBox.Show("Successfully loaded current population!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -376,7 +383,7 @@ namespace BizHawk.Client.EmuHawk
 
         private void StartEvolution()
         {
-            idleWatcher = new IdleWatcher(30); //5
+            idleWatcher = new IdleWatcher(60); //5
             if ((this.Map == null) || !this.Map.Visible)
             {
                 this.Map = new MapForm(new SonicMap(_memoryDomains));
@@ -389,6 +396,7 @@ namespace BizHawk.Client.EmuHawk
 
             this.StartTime = DateTime.Now;
             startEvolutionButton.Text = "Stop Evolution";
+
             this.Running = true;
         }
 
@@ -402,6 +410,7 @@ namespace BizHawk.Client.EmuHawk
             EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Node).Probability = 0.50; //0.03;
             EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Connection).Probability = 1.0; //0.5;
             EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.AddInput).Probability = 1.0;
+            EvoController.Population.Parameters.SensorSize = 20;
         }
     }
 }
