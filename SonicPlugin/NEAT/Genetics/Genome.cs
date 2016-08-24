@@ -375,7 +375,17 @@ namespace NEAT.Genetics
                 NodeGene.NodeType.Input, 
                 new System.Drawing.Point(Random.Next(-rangeX, rangeX), Random.Next(-rangeY, rangeY)), 
                 new System.Drawing.Size(size, size));
-            NodeGene output = this.Nodes.HiddenNodes[Random.Next(this.Nodes.HiddenNodes.Length)];
+
+            List<NodeGene> possibleOutputs = new List<NodeGene>(this.Nodes.Outputs);
+
+            //if (input.Type == NodeGene.NodeType.Input)
+            possibleOutputs.AddRange(this.Nodes.HiddenNodes);
+
+            NodeGene output = possibleOutputs[Random.Next(possibleOutputs.Count)];
+
+            //Make sure node doesn't make connections to itself and no cyclic networks are created
+            while ((output.Type == NodeGene.NodeType.Hidden) && (output.NodeNumber <= input.NodeNumber))
+                output = possibleOutputs[Random.Next(possibleOutputs.Count)];
 
             ConnectionGene connection = new ConnectionGene(InnovationGenerator.NextMutationNumber(input.NodeNumber, output.NodeNumber), input.NodeNumber, output.NodeNumber, 1, true);
 

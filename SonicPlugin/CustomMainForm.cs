@@ -148,7 +148,7 @@ namespace BizHawk.Client.EmuHawk
 
                         if (idleWatcher.Next(CurrentSubject.Fitness) || CurrentSubject.Fitness < 75)
                         {
-                            CurrentSubject.Fitness = 0;
+                            //CurrentSubject.Fitness = 0;
                             NextSubject();
                             return;
                         }
@@ -376,7 +376,7 @@ namespace BizHawk.Client.EmuHawk
 
         private void StartEvolution()
         {
-            idleWatcher = new IdleWatcher(5);
+            idleWatcher = new IdleWatcher(30); //5
             if ((this.Map == null) || !this.Map.Visible)
             {
                 this.Map = new MapForm(new SonicMap(_memoryDomains));
@@ -395,12 +395,13 @@ namespace BizHawk.Client.EmuHawk
         public void CreateEvolutionController()
         {
             EvoController = new EvolutionController(-5, 5, 1, 1, 0.4, 3);
-            EvoController.Population.Parameters.MatingOffspringProportion = 0.2;
-            EvoController.Population.Parameters.MutationOffspringProportion = 0.8;
+            EvoController.Population.Parameters.MatingOffspringProportion = 0.75; //0.2;
+            EvoController.Population.Parameters.MutationOffspringProportion = 0.25; //0.8;
             EvoController.Population.Parameters.InitialConnectionProportion = 1;
-            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Weight).Probability = 0.5;
-            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Node).Probability = 0.03;
-            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Connection).Probability = 0.5;
+            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Weight).Probability = 0.90; //0.5;
+            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Node).Probability = 0.50; //0.03;
+            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Connection).Probability = 1.0; //0.5;
+            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.AddInput).Probability = 1.0;
         }
     }
 }
