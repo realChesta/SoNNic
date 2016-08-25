@@ -133,20 +133,22 @@ namespace SonicPlugin
 
         private void DrawButtons(Graphics g)
         {
+            float factor = g.DpiX / 96f;
+
             if (a)
-                g.FillRectangle(ButtonBrush, new Rectangle(210, 68, 19, 19));
+                g.FillRectangle(ButtonBrush, new Rectangle((int)(210 * factor), (int)(68 * factor), (int)(19 * factor), (int)(19 * factor)));
             if (b)                                            
-                g.FillRectangle(ButtonBrush, new Rectangle(235, 62, 19, 19));
+                g.FillRectangle(ButtonBrush, new Rectangle((int)(235 * factor), (int)(62 * factor), (int)(19 * factor), (int)(19 * factor)));
             if (c)                                            
-                g.FillRectangle(ButtonBrush, new Rectangle(260, 55, 19, 19));
+                g.FillRectangle(ButtonBrush, new Rectangle((int)(260 * factor), (int)(55 * factor), (int)(19 * factor), (int)(19 * factor)));
             if (up)
-                g.FillRectangle(PadBrush, new Rectangle(53, 55, 19, 19));
+                g.FillRectangle(PadBrush, new Rectangle((int)(53 * factor), (int)(55 * factor), (int)(19 * factor), (int)(19 * factor)));
             if (down)                                      
-                g.FillRectangle(PadBrush, new Rectangle(53, 93, 19, 19));
+                g.FillRectangle(PadBrush, new Rectangle((int)(53 * factor), (int)(93 * factor), (int)(19 * factor), (int)(19 * factor)));
             if (left)                                      
-                g.FillRectangle(PadBrush, new Rectangle(35, 74, 19, 19));
+                g.FillRectangle(PadBrush, new Rectangle((int)(35 * factor), (int)(74 * factor), (int)(19 * factor), (int)(19 * factor)));
             if (right)                                     
-                g.FillRectangle(PadBrush, new Rectangle(72, 74, 19, 19));
+                g.FillRectangle(PadBrush, new Rectangle((int)(72 * factor), (int)(74 * factor), (int)(19 * factor), (int)(19 * factor)));
         }
     }
 }
