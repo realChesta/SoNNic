@@ -134,21 +134,24 @@ namespace SonicPlugin
         private void DrawButtons(Graphics g)
         {
             float factor = g.DpiX / 96f;
+            int correction = 0;
+            if (g.DpiX == 144f)
+                correction = 3;
 
             if (a)
-                g.FillRectangle(ButtonBrush, new Rectangle((int)(210 * factor), (int)(68 * factor), (int)(19 * factor), (int)(19 * factor)));
+                g.FillRectangle(ButtonBrush, new Rectangle((int)(210 * factor), (int)(68 * factor) + correction, (int)(19 * factor), (int)(19 * factor)));
             if (b)                                            
-                g.FillRectangle(ButtonBrush, new Rectangle((int)(235 * factor), (int)(62 * factor), (int)(19 * factor), (int)(19 * factor)));
+                g.FillRectangle(ButtonBrush, new Rectangle((int)(235 * factor), (int)(62 * factor) + correction, (int)(19 * factor), (int)(19 * factor)));
             if (c)                                            
-                g.FillRectangle(ButtonBrush, new Rectangle((int)(260 * factor), (int)(55 * factor), (int)(19 * factor), (int)(19 * factor)));
+                g.FillRectangle(ButtonBrush, new Rectangle((int)(260 * factor), (int)(55 * factor) + correction, (int)(19 * factor), (int)(19 * factor)));
             if (up)
-                g.FillRectangle(PadBrush, new Rectangle((int)(53 * factor), (int)(55 * factor), (int)(19 * factor), (int)(19 * factor)));
+                g.FillRectangle(PadBrush, new Rectangle((int)(53 * factor), (int)(55 * factor) + correction, (int)(19 * factor), (int)(19 * factor)));
             if (down)                                      
-                g.FillRectangle(PadBrush, new Rectangle((int)(53 * factor), (int)(93 * factor), (int)(19 * factor), (int)(19 * factor)));
+                g.FillRectangle(PadBrush, new Rectangle((int)(53 * factor), (int)(93 * factor) + correction, (int)(19 * factor), (int)(19 * factor)));
             if (left)                                      
-                g.FillRectangle(PadBrush, new Rectangle((int)(35 * factor), (int)(74 * factor), (int)(19 * factor), (int)(19 * factor)));
+                g.FillRectangle(PadBrush, new Rectangle((int)(35 * factor), (int)(74 * factor) + correction, (int)(19 * factor), (int)(19 * factor)));
             if (right)                                     
-                g.FillRectangle(PadBrush, new Rectangle((int)(72 * factor), (int)(74 * factor), (int)(19 * factor), (int)(19 * factor)));
+                g.FillRectangle(PadBrush, new Rectangle((int)(72 * factor), (int)(74 * factor) + correction, (int)(19 * factor), (int)(19 * factor)));
         }
     }
 }

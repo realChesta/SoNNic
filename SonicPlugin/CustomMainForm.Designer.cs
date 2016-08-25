@@ -265,7 +265,7 @@ namespace BizHawk.Client.EmuHawk
             this.autoSaveBox.AutoCheck = false;
             this.autoSaveBox.AutoEllipsis = true;
             this.autoSaveBox.Image = ((System.Drawing.Image)(resources.GetObject("autoSaveBox.Image")));
-            this.autoSaveBox.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.autoSaveBox.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.autoSaveBox.Location = new System.Drawing.Point(225, 172);
             this.autoSaveBox.Name = "autoSaveBox";
             this.autoSaveBox.Size = new System.Drawing.Size(25, 23);
