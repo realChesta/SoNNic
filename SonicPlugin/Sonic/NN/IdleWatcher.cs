@@ -4,17 +4,13 @@
     {
         private int idleFrames;
         private double lastFitness;
-        private double minFitness;
-        private double previousFitness;
         private double bestFitness;
         public readonly int Limit;
 
         public IdleWatcher(int limit)
         {
             this.Limit = limit;
-            //this.lastFitness = -1;
-            //this.previousFitness = -1;
-            //this.minFitness = -1;
+            this.lastFitness = -1;
             this.bestFitness = -1;
             this.idleFrames = 0;
         }
@@ -28,7 +24,8 @@
         {
             if (fitness <= bestFitness)
             {
-                idleFrames++;
+                if (lastFitness != -1 && lastFitness >= fitness)
+                     idleFrames++;
             }
             else
             {
@@ -36,6 +33,7 @@
                 bestFitness = fitness;
             }
 
+            lastFitness = fitness;
 
             //if ((lastFitness != -1) && (previousFitness != -1))
             //{
@@ -55,9 +53,7 @@
             {
                 idleFrames = 0;
                 bestFitness = -1;
-                //lastFitness = -1;
-                //previousFitness = -1;
-                //minFitness = -1;
+                lastFitness = -1;
                 return true;
             }
             else return false;

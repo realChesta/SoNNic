@@ -220,20 +220,8 @@ namespace BizHawk.Client.EmuHawk
         {
             switch (keyData)
             {
-                case (Keys.Control | Keys.Left):
-                    CheckPointInput.RelativePosition.X -= 5;
-                    break;
-
                 case (Keys.Control | Keys.Right):
-                    CheckPointInput.RelativePosition.X += 5;
-                    break;
-
-                case (Keys.Control | Keys.Up):
-                    CheckPointInput.RelativePosition.Y -= 5;
-                    break;
-
-                case (Keys.Control | Keys.Down):
-                    CheckPointInput.RelativePosition.Y += 5;
+                    NextSubject();
                     break;
             }
             return base.ProcessCmdKey(ref msg, keyData);
