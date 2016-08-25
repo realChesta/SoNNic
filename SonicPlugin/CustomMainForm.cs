@@ -35,6 +35,7 @@ namespace BizHawk.Client.EmuHawk
 
         public const double MaxFitness = 9676;
         private DateTime StartTime;
+        public TimeSpan TimePassed { get { return DateTime.Now - StartTime; } }
         private bool Running;
 
         //TODO: save/load current state
@@ -296,31 +297,37 @@ namespace BizHawk.Client.EmuHawk
         private void UpdateGenomeLabels()
         {
             fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0");
-            totalTimeLabel.Text = "Time passed: " + (DateTime.Now - StartTime).ToReadableString();
+            totalTimeLabel.Text = "Time passed: " + TimePassed.ToReadableString();
         }
 
-        public void SaveGenomes(Genome[] genomes, uint generation,  string filename)
+        public void SaveGenomes(Genome[] genomes, uint generation, string filename)
         {
             using (StreamWriter writer = File.CreateText(filename))
             {
                 writer.WriteLine(generation);
                 writer.WriteLine(InnovationGenerator.Current);
 
+                if (StartTime != DateTime.MinValue)
+                    writer.WriteLine(TimePassed.TotalSeconds);
+                else
+                    writer.WriteLine(0);
+
                 for (int i = 0; i < genomes.Length; i++)
                     writer.WriteLine(genomes[i].ToString());
             }
         }
 
-        public static Genome[] LoadGenomes(string filename, ref uint generation)
+        public Genome[] LoadGenomes(string filename, ref uint generation, ref double secondsPassed)
         {
             string[] lines = File.ReadAllLines(filename);
-            Genome[] genomes = new Genome[lines.Length - 2];
+            Genome[] genomes = new Genome[lines.Length - 3];
 
             generation = uint.Parse(lines[0]);
             InnovationGenerator.Current = ulong.Parse(lines[1]);
+            secondsPassed = double.Parse(lines[2]);
 
             for (int i = 0; i < genomes.Length; i++)
-                genomes[i] = Genome.FromString(lines[i + 2]);
+                genomes[i] = Genome.FromString(lines[i + 3]);
 
             return genomes;
         }
@@ -359,7 +366,14 @@ namespace BizHawk.Client.EmuHawk
                     if (this.Running)
                         this.StopEvolution();
 
-                    EvoController.Start(LoadGenomes(openGenomesDialog.FileName, ref EvoController.Generation), false);
+                    double seconds = 0;
+                    EvoController.Start(LoadGenomes(openGenomesDialog.FileName, ref EvoController.Generation, ref seconds), false);
+
+                    if (seconds != 0)
+                        this.StartTime = DateTime.Now - TimeSpan.FromSeconds(seconds);
+                    else
+                        this.StartTime = DateTime.MinValue;
+
                     SubjectIndex = 0;
                     MessageBox.Show("Successfully loaded current population!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -394,9 +408,10 @@ namespace BizHawk.Client.EmuHawk
             CreateSubjects();
             NextSubject();
 
-            this.StartTime = DateTime.Now;
-            startEvolutionButton.Text = "Stop Evolution";
+            if (this.StartTime == DateTime.MinValue)
+                this.StartTime = DateTime.Now;
 
+            startEvolutionButton.Text = "Stop Evolution";
             this.Running = true;
         }
 
