@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("SonicPlugin")]
+[assembly: AssemblyTitle("SoNNic")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SonicPlugin")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyProduct("SoNNic")]
+[assembly: AssemblyCopyright("Copyright © 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 
 //As you can see this is a dedicated attribute. You can write the name of your tool, a small description
 //and give an icon. The icon should be compiled as an embedded resource and you must give the entire path
-[assembly: BizHawkExternalTool("SoNNic", "Sonic the Hedgehog NEAT plugin", "sonic.ico")]
+[assembly: BizHawkExternalTool("SoNNic", "Sonic the Hedgehog NEAT plugin", "sonic_2.ico")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 //

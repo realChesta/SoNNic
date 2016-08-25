@@ -117,4 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAAAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAA
+        AAD///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af//
+        /wH///8BLS0NZSsrC4crKwuHKysLhysrC4crKwuHKysLhysrC4crKwuHKysLhysrC4crKwuHKysLhysr
+        C4ctLQ1l////ATo6GIH5+en/8/Pi//Pz4v/z8+L/8/Pi//Pz4v/z8+L/8/Pi//Pz4v/z8+L/8/Pi//Pz
+        4v/5+en/OjoYgf///wFNTSl79PTk/3qnm/+Ht6f/h7Wj/4mzov9ooIb/V5d4/1iTef9okH7/kqST/4aX
+        gP+oqI7/9PTk/01NKXv///8BVVUwd/X15v+Etav/mNfH/5DRvv9zsJn/l8u2/6fOvf+Xvaz/lLqo/6m/
+        r/+OraH/t62L//X15v9VVTB3////AVpaNHX29un/kLy1/7nl2/+m3dD/iMCy/4fJtf9+vqT/iLmj/67Q
+        v/+px7X/lLqo/7a1kf/29un/Wlo0df///wFeXjhz9/fr/8W4h///3oz/+Oet/9XRsP/K6+L/veXZ/6DK
+        u/+qzq//gsGk/362mP+YrIT/9/fr/15eOHP///8BY2M8c/j47v/Rrmn/27px/96+dP/pyXz/v82o/5XM
+        wv+hz77/kcSv/3+9pv93t53/qKp3//j47v9jYzxz////AWdnQHH5+fH/06xm///Tfv//1oL/4L50//bh
+        mf+w7eT/r9G//6Lg0/+Y2Mb/jtC6/7iygP/5+fH/Z2dAcf///wFra0Rv+/v0/9WpYv//znn//9J9/9+6
+        b///2IP/5uq9/6bYzf+z7OL/ueTQ/7bcxP+rvpf/+/v0/2trRG////8Bb29Hbfz89//Xp1//2qxk/9yw
+        Z//nvHD/4Lpv/+O+c//f0Zj/28+W/9XRnP/EzaT/ndHD//z89/9vb0dt////AXNzS2v9/fn/2aRc///E
+        b///yHP/3rBn///Oef//0n3/5L5y///Yg//t5Kj/4ua2/9DXrf/9/fn/c3NLa////wF3d05r/v78/9qj
+        Wv//v2v//8Ju/96sYv//yXT//814/+O5bv//037//9eD//zelf/synz//v78/3d3Tmv///8BenpRaf//
+        /v/boVj/26JZ/9ukW//bpV3/26lg/9usY//br2b/27Fo/9u0a//bt27/27lx/////v96elFp////AX19
+        U2f/////////////////////////////////////////////////////////////////////fX1TZ///
+        /wF/f1VNf39VZ39/VWd/f1Vnf39VZ39/VWd/f1Vnf39VZ39/VWd/f1Vnf39VZ39/VWd/f1Vnf39VZ39/
+        VU3///8BAAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA
+        //8AAP//AAD//w==
+</value>
+  </data>
 </root>

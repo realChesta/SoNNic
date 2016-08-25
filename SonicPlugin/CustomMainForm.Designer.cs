@@ -29,6 +29,7 @@ namespace BizHawk.Client.EmuHawk
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomMainForm));
             this.label_Watch1 = new System.Windows.Forms.Label();
             this.label_Watch2 = new System.Windows.Forms.Label();
@@ -52,6 +53,7 @@ namespace BizHawk.Client.EmuHawk
             this.openGenomesDialog = new System.Windows.Forms.OpenFileDialog();
             this.autoSaveBox = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -227,7 +229,7 @@ namespace BizHawk.Client.EmuHawk
             // 
             this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
             this.saveButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.saveButton.Location = new System.Drawing.Point(134, 172);
+            this.saveButton.Location = new System.Drawing.Point(165, 172);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(85, 23);
             this.saveButton.TabIndex = 16;
@@ -265,12 +267,12 @@ namespace BizHawk.Client.EmuHawk
             this.autoSaveBox.AutoCheck = false;
             this.autoSaveBox.AutoEllipsis = true;
             this.autoSaveBox.Image = ((System.Drawing.Image)(resources.GetObject("autoSaveBox.Image")));
-            this.autoSaveBox.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.autoSaveBox.Location = new System.Drawing.Point(225, 172);
+            this.autoSaveBox.Location = new System.Drawing.Point(134, 172);
             this.autoSaveBox.Name = "autoSaveBox";
             this.autoSaveBox.Size = new System.Drawing.Size(25, 23);
             this.autoSaveBox.TabIndex = 19;
             this.autoSaveBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.autoSaveBox, "Auto-save each generation");
             this.autoSaveBox.UseVisualStyleBackColor = true;
             this.autoSaveBox.Click += new System.EventHandler(this.autoSaveBox_Click);
             // 
@@ -327,5 +329,6 @@ namespace BizHawk.Client.EmuHawk
         private System.Windows.Forms.OpenFileDialog openGenomesDialog;
         private System.Windows.Forms.CheckBox autoSaveBox;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

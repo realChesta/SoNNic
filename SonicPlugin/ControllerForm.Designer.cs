@@ -60,10 +60,9 @@
             this.ClientSize = new System.Drawing.Size(324, 213);
             this.Controls.Add(this.controllerBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ControllerForm";
             this.Text = "Controller";
-            //this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ControllerForm_KeyDown);
-            //this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ControllerForm_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.controllerBox)).EndInit();
             this.ResumeLayout(false);
 

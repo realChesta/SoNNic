@@ -178,6 +178,7 @@ namespace BizHawk.Client.EmuHawk
 
         private void NextSubject()
         {
+            ResetLevel();
             if (SubjectIndex < Subjects.Length)
             {
                 CurrentSubject = Subjects[SubjectIndex++];
@@ -195,8 +196,6 @@ namespace BizHawk.Client.EmuHawk
 
             currentGenLabel.Text = "Generation: " + (EvoController.Generation + 1);
             genomeLabel.Text = "Genome " + SubjectIndex + "/" + Subjects.Length;
-
-            ResetLevel();
         }
 
         private void mapButton_Click(object sender, EventArgs e)
