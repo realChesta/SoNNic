@@ -37,6 +37,7 @@ namespace BizHawk.Client.EmuHawk
         private DateTime StartTime;
         public TimeSpan TimePassed { get { return DateTime.Now - StartTime; } }
         private bool Running;
+        private string AutoSavePath = null;
 
         //TODO: save/load current state
 
@@ -286,6 +287,15 @@ namespace BizHawk.Client.EmuHawk
         {
             var genomes = EvoController.Population.GetAll();
 
+            if (AutoSavePath != null)
+            {
+                try
+                {
+                    SaveGenomes(genomes, EvoController.Generation, Path.Combine(AutoSavePath, "gen" + EvoController.Generation + ".evo"));
+                }
+                catch { }
+            }
+
             Subjects = new LivingSonic[genomes.Length];
             for (int i = 0; i < Subjects.Length; i++)
             {
@@ -426,6 +436,24 @@ namespace BizHawk.Client.EmuHawk
             EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Connection).Probability = 1.0; //0.5;
             EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.AddInput).Probability = 1.0;
             EvoController.Population.Parameters.SensorSize = 20;
+        }
+
+        private void autoSaveBox_Click(object sender, EventArgs e)
+        {
+            if (!autoSaveBox.Checked)
+            {
+                folderBrowserDialog.SelectedPath = AppDomain.CurrentDomain.BaseDirectory;
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                {
+                    AutoSavePath = folderBrowserDialog.SelectedPath;
+                    autoSaveBox.Checked = true;
+                }
+            }
+            else
+            {
+                AutoSavePath = null;
+                autoSaveBox.Checked = false;
+            }
         }
     }
 }

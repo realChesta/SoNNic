@@ -181,6 +181,23 @@
   <metadata name="openGenomesDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>174, 17</value>
   </metadata>
+  <data name="autoSaveBox.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
+        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHYSURBVDhPjZJNSxtRFIbPzORPdClu+isEMY2itBuJ
+        I2mpH4Rq3BSsICiSplpSJ43GCI5oILSmgSCJgt9oSquppV10IViwUCkt2EVBbEXMQnO872CGxElhFs/i
+        nvPedy4PQ51KhDqU8TLErFsQcvv9j/4H9sgZBaBDGSslfJD8xwVmviwULGCOPXJmQWv7MLUpL4tE9uJ/
+        +Pzigk/zeQuYY4+cWSCeJUqe0UNFA5NfZn/zsQgfnZxYwBx75MoKgNoeoAdyUP+s/+Ifh3/56OzMAubY
+        I4fLFmGqM7AzHVrnyedLBqHaBZ5u3uCt0X2TD9FD9sgjs7aFPbmt8wv3Kx5tec2aOsefpn6yKgfitoVp
+        LQne3f3IYU+So23znJv4zm55KGFbmL8pxmtrWeNyzLfC78IH3CwPpGwLG3TNcDq9ybp3kd/0vuWs9pXv
+        Sr3LBBEQUiroJtjXKZ17DodDuyN15Yq4pO4oQcT7sW+GHEgq5aawW45qqiOviSghggh8BXIgaXt7x6CS
+        MAE1SD3lBRCBAgQhqd85wZnMckVhAuSp/rrEKLgn9dVAxtP62DEk4emp1GpFYQIqgstGAQ5ChlMccpBU
+        CmZFIMwl+UTWR41Vj+m+EhR/cYSuAGprX7XvMcd4AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <metadata name="folderBrowserDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>340, 17</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAA

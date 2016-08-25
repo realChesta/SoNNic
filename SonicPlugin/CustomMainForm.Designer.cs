@@ -45,12 +45,13 @@ namespace BizHawk.Client.EmuHawk
             this.currentGenLabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.startEvolutionButton = new System.Windows.Forms.Button();
-            this.listViewNF1 = new SonicPlugin.ListViewNF();
             this.mapButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.loadButton = new System.Windows.Forms.Button();
             this.saveGenomeDialog = new System.Windows.Forms.SaveFileDialog();
             this.openGenomesDialog = new System.Windows.Forms.OpenFileDialog();
+            this.autoSaveBox = new System.Windows.Forms.CheckBox();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -124,7 +125,7 @@ namespace BizHawk.Client.EmuHawk
             this.groupBox1.Controls.Add(this.fitnessLabel);
             this.groupBox1.Location = new System.Drawing.Point(134, 82);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 55);
+            this.groupBox1.Size = new System.Drawing.Size(208, 55);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Current Genome";
@@ -154,7 +155,7 @@ namespace BizHawk.Client.EmuHawk
             this.groupBox2.Controls.Add(this.currentGenLabel);
             this.groupBox2.Location = new System.Drawing.Point(134, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 64);
+            this.groupBox2.Size = new System.Drawing.Size(208, 64);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Evolution";
@@ -204,20 +205,11 @@ namespace BizHawk.Client.EmuHawk
             // 
             this.startEvolutionButton.Location = new System.Drawing.Point(134, 143);
             this.startEvolutionButton.Name = "startEvolutionButton";
-            this.startEvolutionButton.Size = new System.Drawing.Size(200, 23);
+            this.startEvolutionButton.Size = new System.Drawing.Size(208, 23);
             this.startEvolutionButton.TabIndex = 14;
             this.startEvolutionButton.Text = "Start Evolution";
             this.startEvolutionButton.UseVisualStyleBackColor = true;
             this.startEvolutionButton.Click += new System.EventHandler(this.startEvolutionButton_Click);
-            // 
-            // listViewNF1
-            // 
-            this.listViewNF1.Location = new System.Drawing.Point(340, 12);
-            this.listViewNF1.Name = "listViewNF1";
-            this.listViewNF1.Size = new System.Drawing.Size(215, 180);
-            this.listViewNF1.TabIndex = 9;
-            this.listViewNF1.UseCompatibleStateImageBehavior = false;
-            this.listViewNF1.View = System.Windows.Forms.View.Details;
             // 
             // mapButton
             // 
@@ -237,9 +229,9 @@ namespace BizHawk.Client.EmuHawk
             this.saveButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.saveButton.Location = new System.Drawing.Point(134, 172);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(97, 23);
+            this.saveButton.Size = new System.Drawing.Size(85, 23);
             this.saveButton.TabIndex = 16;
-            this.saveButton.Text = "  Save";
+            this.saveButton.Text = "   Save";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
@@ -247,11 +239,11 @@ namespace BizHawk.Client.EmuHawk
             // 
             this.loadButton.Image = ((System.Drawing.Image)(resources.GetObject("loadButton.Image")));
             this.loadButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.loadButton.Location = new System.Drawing.Point(237, 172);
+            this.loadButton.Location = new System.Drawing.Point(256, 172);
             this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(97, 23);
+            this.loadButton.Size = new System.Drawing.Size(86, 23);
             this.loadButton.TabIndex = 17;
-            this.loadButton.Text = " Load";
+            this.loadButton.Text = "  Load";
             this.loadButton.UseVisualStyleBackColor = true;
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
@@ -267,11 +259,31 @@ namespace BizHawk.Client.EmuHawk
             this.openGenomesDialog.Filter = "Save Files (*.evo)|*.evo";
             this.openGenomesDialog.Title = "Load saved population";
             // 
+            // autoSaveBox
+            // 
+            this.autoSaveBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.autoSaveBox.AutoCheck = false;
+            this.autoSaveBox.AutoEllipsis = true;
+            this.autoSaveBox.Image = ((System.Drawing.Image)(resources.GetObject("autoSaveBox.Image")));
+            this.autoSaveBox.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.autoSaveBox.Location = new System.Drawing.Point(225, 172);
+            this.autoSaveBox.Name = "autoSaveBox";
+            this.autoSaveBox.Size = new System.Drawing.Size(25, 23);
+            this.autoSaveBox.TabIndex = 19;
+            this.autoSaveBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.autoSaveBox.UseVisualStyleBackColor = true;
+            this.autoSaveBox.Click += new System.EventHandler(this.autoSaveBox_Click);
+            // 
+            // folderBrowserDialog
+            // 
+            this.folderBrowserDialog.Description = "Select a folder to save each generation to:";
+            // 
             // CustomMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(567, 204);
+            this.ClientSize = new System.Drawing.Size(354, 204);
+            this.Controls.Add(this.autoSaveBox);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.mapButton);
@@ -279,7 +291,6 @@ namespace BizHawk.Client.EmuHawk
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.listViewNF1);
             this.Controls.Add(this.controllerButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CustomMainForm";
@@ -300,7 +311,6 @@ namespace BizHawk.Client.EmuHawk
         private System.Windows.Forms.CheckBox includeReservedCheckBox;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button controllerButton;
-        private ListViewNF listViewNF1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label currentGenLabel;
@@ -315,5 +325,7 @@ namespace BizHawk.Client.EmuHawk
         private System.Windows.Forms.Button loadButton;
         private System.Windows.Forms.SaveFileDialog saveGenomeDialog;
         private System.Windows.Forms.OpenFileDialog openGenomesDialog;
+        private System.Windows.Forms.CheckBox autoSaveBox;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
     }
 }
