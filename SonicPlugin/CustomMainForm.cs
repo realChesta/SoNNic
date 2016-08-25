@@ -39,6 +39,8 @@ namespace BizHawk.Client.EmuHawk
         private bool Running;
         private string AutoSavePath = null;
 
+        //TODO: handle multiple starts/stops (passed time!)
+        //TODO: fix back and forth problems
         //TODO: save/load current state
 
         public CustomMainForm()
