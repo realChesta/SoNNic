@@ -16,6 +16,8 @@ namespace BizHawk.Client.EmuHawk
 {
     public partial class CustomMainForm : Form, IExternalToolForm
     {
+        #region Declares
+
         [RequiredService]
         internal IMemoryDomains _memoryDomains { get; set; }
         [RequiredService]
@@ -39,9 +41,13 @@ namespace BizHawk.Client.EmuHawk
         private bool Running;
         private string AutoSavePath = null;
 
+        #endregion
+
         //TODO: handle multiple starts/stops (passed time!)
         //TODO: fix back and forth problems
         //TODO: save/load current state
+
+        #region Initialization/WinForms
 
         public CustomMainForm()
         {
@@ -49,6 +55,68 @@ namespace BizHawk.Client.EmuHawk
             //log = new LogForm("Log: objects");
             //log.Show();
         }
+
+        private void includeReservedObjects_CheckedChanged(object sender, EventArgs e)
+        {
+            this.includeReserved = includeReservedCheckBox.Checked;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            _memoryDomains.MainMemory.PokeByte(0xFFFA, checkBox1.Checked ? (byte)1 : (byte)0);
+        }
+
+        private void UpdateGenomeLabels()
+        {
+            fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0");
+            totalTimeLabel.Text = "Time passed: " + TimePassed.ToReadableString();
+        }
+
+        private void mapButton_Click(object sender, EventArgs e)
+        {
+            if ((this.Map != null) && !this.Map.Visible)
+                return;
+
+            this.Map = new MapForm(new SonicMap(_memoryDomains));
+            this.Map.Show();
+            this.Map.Shown += Map_Shown;
+        }
+
+        private void Map_Shown(object sender, EventArgs e)
+        {
+            if (Map.Drawer != null)
+            {
+                CheckPointInput = new WorldInput(ref Map.Drawer, 0, -20, LivingSonic.Width, LivingSonic.Height);
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case (Keys.Control | Keys.Right):
+                    NextSubject();
+                    break;
+
+                case (Keys.Control | Keys.Left):
+                    PreviousSubject();
+                    break;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void controllerButton_Click(object sender, EventArgs e)
+        {
+            if ((controller != null) && !controller.Visible)
+                return;
+
+            controller = new ControllerForm();
+            controller.Show();
+        }
+
+        #endregion
+
+        #region BizHawk
 
         public bool AskSaveChanges()
         {
@@ -178,95 +246,9 @@ namespace BizHawk.Client.EmuHawk
             }
         }
 
-        private void NextSubject()
-        {
-            ResetLevel();
-            if (SubjectIndex < Subjects.Length)
-            {
-                CurrentSubject = Subjects[SubjectIndex++];
-            }
-            else //Next generation
-            {
-                EvoController.Population.SortGenomesByFitness();
-                double bestFitness = EvoController.Population.GetAll().OrderByDescending(g => g.Fitness).First().Fitness;
-                maxFitnessLabel.Text = "Best fitness: " + bestFitness.ToString("0") +  " (" + ((bestFitness / MaxFitness) * 100D).ToString("0.00") + "%)";
+        #endregion
 
-                EvoController.NextGeneration();
-                CreateSubjects();
-                SubjectIndex = 0;
-                CurrentSubject = Subjects[SubjectIndex];
-            }
-
-            currentGenLabel.Text = "Generation: " + (EvoController.Generation + 1);
-            genomeLabel.Text = "Genome " + SubjectIndex + "/" + Subjects.Length;
-        }
-
-        private void PreviousSubject()
-        {
-            if (SubjectIndex > 0)
-            {
-                ResetLevel();
-                CurrentSubject = Subjects[--SubjectIndex];
-            }
-        }
-
-        private void mapButton_Click(object sender, EventArgs e)
-        {
-            if ((this.Map != null) && !this.Map.Visible)
-                return;
-
-            this.Map = new MapForm(new SonicMap(_memoryDomains));
-            this.Map.Show();
-            this.Map.Shown += Map_Shown;
-        }
-
-        private void Map_Shown(object sender, EventArgs e)
-        {
-            if (Map.Drawer != null)
-            {
-                CheckPointInput = new WorldInput(ref Map.Drawer, 0, -20, LivingSonic.Width, LivingSonic.Height);
-            }
-        }
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            switch (keyData)
-            {
-                case (Keys.Control | Keys.Right):
-                    NextSubject();
-                    break;
-
-                case (Keys.Control | Keys.Left):
-                    PreviousSubject();
-                    break;
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-
-        private void includeReservedObjects_CheckedChanged(object sender, EventArgs e)
-        {
-            this.includeReserved = includeReservedCheckBox.Checked;
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            _memoryDomains.MainMemory.PokeByte(0xFFFA, checkBox1.Checked ? (byte)1 : (byte)0);
-        }
-
-        private void controllerButton_Click(object sender, EventArgs e)
-        {
-            if ((controller != null) && !controller.Visible)
-                return;
-
-            controller = new ControllerForm();
-            controller.Show();
-        }
-
-        public static void ResetLevel()
-        {
-            string path = PathManager.SaveStatePrefix(Global.Game) + ".QuickSave1.State";
-            SavestateManager.LoadStateFile(path, Path.GetFileName(path));
-        }
+        #region Evolution
 
         private void startEvolutionButton_Click(object sender, EventArgs e)
         {
@@ -284,6 +266,49 @@ namespace BizHawk.Client.EmuHawk
             {
                 this.StopEvolution();
             }
+        }
+
+        private void StartEvolution()
+        {
+            idleWatcher = new IdleWatcher(60); //5
+            if ((this.Map == null) || !this.Map.Visible)
+            {
+                this.Map = new MapForm(new SonicMap(_memoryDomains));
+                this.Map.Show();
+                this.Map.Shown += Map_Shown;
+            }
+
+            CreateSubjects();
+            NextSubject();
+
+            if (this.StartTime == DateTime.MinValue)
+                this.StartTime = DateTime.Now;
+
+            startEvolutionButton.Text = "Stop Evolution";
+            this.Running = true;
+        }
+
+        private void StopEvolution()
+        {
+            CurrentSubject = null;
+            SubjectIndex = 0;
+            startEvolutionButton.Text = "Start Evolution";
+            genomeLabel.Text = "-";
+            fitnessLabel.Text = "-";
+            this.Running = false;
+        }
+
+        public void CreateEvolutionController()
+        {
+            EvoController = new EvolutionController(-5, 5, 1, 1, 0.4, 3);
+            EvoController.Population.Parameters.MatingOffspringProportion = 0.75; //0.2;
+            EvoController.Population.Parameters.MutationOffspringProportion = 0.25; //0.8;
+            EvoController.Population.Parameters.InitialConnectionProportion = 1;
+            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Weight).Probability = 0.90; //0.5;
+            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Node).Probability = 0.50; //0.03;
+            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Connection).Probability = 1.0; //0.5;
+            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.AddInput).Probability = 1.0;
+            EvoController.Population.Parameters.SensorSize = 20;
         }
 
         private void CreateSubjects()
@@ -307,11 +332,47 @@ namespace BizHawk.Client.EmuHawk
             }
         }
 
-        private void UpdateGenomeLabels()
+        private void NextSubject()
         {
-            fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0");
-            totalTimeLabel.Text = "Time passed: " + TimePassed.ToReadableString();
+            ResetLevel();
+            if (SubjectIndex < Subjects.Length)
+            {
+                CurrentSubject = Subjects[SubjectIndex++];
+            }
+            else //Next generation
+            {
+                EvoController.Population.SortGenomesByFitness();
+                double bestFitness = EvoController.Population.GetAll().OrderByDescending(g => g.Fitness).First().Fitness;
+                maxFitnessLabel.Text = "Best fitness: " + bestFitness.ToString("0") + " (" + ((bestFitness / MaxFitness) * 100D).ToString("0.00") + "%)";
+
+                EvoController.NextGeneration();
+                CreateSubjects();
+                SubjectIndex = 0;
+                CurrentSubject = Subjects[SubjectIndex];
+            }
+
+            currentGenLabel.Text = "Generation: " + (EvoController.Generation + 1);
+            genomeLabel.Text = "Genome " + SubjectIndex + "/" + Subjects.Length;
         }
+
+        public static void ResetLevel()
+        {
+            string path = PathManager.SaveStatePrefix(Global.Game) + ".QuickSave1.State";
+            SavestateManager.LoadStateFile(path, Path.GetFileName(path));
+        }
+
+        private void PreviousSubject()
+        {
+            if (SubjectIndex > 0)
+            {
+                ResetLevel();
+                CurrentSubject = Subjects[--SubjectIndex];
+            }
+        }
+
+        #endregion
+
+        #region Save/Load
 
         public void SaveGenomes(Genome[] genomes, uint generation, string filename)
         {
@@ -398,49 +459,6 @@ namespace BizHawk.Client.EmuHawk
             }
         }
 
-        private void StopEvolution()
-        {
-            CurrentSubject = null;
-            SubjectIndex = 0;
-            startEvolutionButton.Text = "Start Evolution";
-            genomeLabel.Text = "-";
-            fitnessLabel.Text = "-";
-            this.Running = false;
-        }
-
-        private void StartEvolution()
-        {
-            idleWatcher = new IdleWatcher(60); //5
-            if ((this.Map == null) || !this.Map.Visible)
-            {
-                this.Map = new MapForm(new SonicMap(_memoryDomains));
-                this.Map.Show();
-                this.Map.Shown += Map_Shown;
-            }
-
-            CreateSubjects();
-            NextSubject();
-
-            if (this.StartTime == DateTime.MinValue)
-                this.StartTime = DateTime.Now;
-
-            startEvolutionButton.Text = "Stop Evolution";
-            this.Running = true;
-        }
-
-        public void CreateEvolutionController()
-        {
-            EvoController = new EvolutionController(-5, 5, 1, 1, 0.4, 3);
-            EvoController.Population.Parameters.MatingOffspringProportion = 0.75; //0.2;
-            EvoController.Population.Parameters.MutationOffspringProportion = 0.25; //0.8;
-            EvoController.Population.Parameters.InitialConnectionProportion = 1;
-            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Weight).Probability = 0.90; //0.5;
-            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Node).Probability = 0.50; //0.03;
-            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Connection).Probability = 1.0; //0.5;
-            EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.AddInput).Probability = 1.0;
-            EvoController.Population.Parameters.SensorSize = 20;
-        }
-
         private void autoSaveBox_Click(object sender, EventArgs e)
         {
             if (!autoSaveBox.Checked)
@@ -458,5 +476,7 @@ namespace BizHawk.Client.EmuHawk
                 autoSaveBox.Checked = false;
             }
         }
+
+        #endregion
     }
 }
