@@ -194,6 +194,7 @@ namespace BizHawk.Client.EmuHawk
                 EvoController.NextGeneration();
                 CreateSubjects();
                 SubjectIndex = 0;
+                CurrentSubject = Subjects[SubjectIndex];
             }
 
             currentGenLabel.Text = "Generation: " + (EvoController.Generation + 1);
