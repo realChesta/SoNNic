@@ -200,6 +200,15 @@ namespace BizHawk.Client.EmuHawk
             genomeLabel.Text = "Genome " + SubjectIndex + "/" + Subjects.Length;
         }
 
+        private void PreviousSubject()
+        {
+            if (SubjectIndex > 0)
+            {
+                ResetLevel();
+                CurrentSubject = Subjects[--SubjectIndex];
+            }
+        }
+
         private void mapButton_Click(object sender, EventArgs e)
         {
             if ((this.Map != null) && !this.Map.Visible)
@@ -224,6 +233,10 @@ namespace BizHawk.Client.EmuHawk
             {
                 case (Keys.Control | Keys.Right):
                     NextSubject();
+                    break;
+
+                case (Keys.Control | Keys.Left):
+                    PreviousSubject();
                     break;
             }
             return base.ProcessCmdKey(ref msg, keyData);
