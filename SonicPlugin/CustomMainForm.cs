@@ -47,7 +47,7 @@ namespace BizHawk.Client.EmuHawk
         //TODO: fix back and forth problems
         //TODO: save/load current state
 
-        #region Initialization/WinForms
+        #region WinForms/Initialization
 
         public CustomMainForm()
         {
@@ -295,6 +295,7 @@ namespace BizHawk.Client.EmuHawk
             startEvolutionButton.Text = "Start Evolution";
             genomeLabel.Text = "-";
             fitnessLabel.Text = "-";
+            this.Text = "SoNNic";
             this.Running = false;
         }
 
@@ -352,6 +353,7 @@ namespace BizHawk.Client.EmuHawk
             }
 
             currentGenLabel.Text = "Generation: " + (EvoController.Generation + 1);
+            this.Text = "SoNNic // G" + (EvoController.Generation + 1) + ":" + SubjectIndex;
             genomeLabel.Text = "Genome " + SubjectIndex + "/" + Subjects.Length;
         }
 
