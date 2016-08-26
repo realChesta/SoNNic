@@ -6,6 +6,7 @@
         private double lastFitness;
         private double bestFitness;
         public readonly int Limit;
+        private bool oneFrameTolerance;
 
         public IdleWatcher(int limit)
         {
@@ -24,13 +25,29 @@
         {
             if (fitness <= bestFitness)
             {
-                if (lastFitness != -1 && lastFitness >= fitness)
-                     idleFrames++;
+                if (lastFitness != -1)
+                {
+                    if (fitness <= lastFitness)
+                    {
+                        if (lastFitness == fitness)
+                        {
+                            if (oneFrameTolerance)
+                                idleFrames++;
+                            else
+                                oneFrameTolerance = true;
+                        }
+                        else
+                            idleFrames++;
+                    }
+                    else
+                        oneFrameTolerance = false;
+                }
             }
             else
             {
                 idleFrames = 0;
                 bestFitness = fitness;
+                oneFrameTolerance = false;
             }
 
             lastFitness = fitness;
