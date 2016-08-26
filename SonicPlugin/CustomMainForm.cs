@@ -320,7 +320,7 @@ namespace BizHawk.Client.EmuHawk
             {
                 try
                 {
-                    SaveGenomes(genomes, EvoController.Generation, Path.Combine(AutoSavePath, "gen" + EvoController.Generation + ".evo"));
+                    SaveGenomes(genomes, EvoController.Generation, Path.Combine(AutoSavePath, "gen" + (EvoController.Generation + 1).ToString() + ".evo"));
                 }
                 catch { }
             }
