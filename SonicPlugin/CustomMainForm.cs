@@ -353,9 +353,7 @@ namespace BizHawk.Client.EmuHawk
                 EvoController.Population.SortGenomesByFitness();
                 double bestFitness = EvoController.Population.GetAll().OrderByDescending(g => g.Fitness).First().Fitness;
 
-                if (BestFitness < bestFitness)
-                    BestFitness = bestFitness;
-
+                BestFitness = bestFitness;
 
                 EvoController.NextGeneration();
                 CreateSubjects();
