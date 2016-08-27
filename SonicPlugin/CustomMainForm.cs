@@ -36,6 +36,7 @@ namespace BizHawk.Client.EmuHawk
         private IdleWatcher idleWatcher;
 
         public const double MaxFitness = 9676;
+        private double BestFitness = 0;
         private DateTime StartTime;
         public TimeSpan TimePassed { get { return DateTime.Now - StartTime; } }
         private bool Running;
@@ -336,6 +337,13 @@ namespace BizHawk.Client.EmuHawk
         private void NextSubject()
         {
             ResetLevel();
+
+            if (CurrentSubject != null)
+            {
+                if (BestFitness < CurrentSubject.Fitness)
+                    BestFitness = CurrentSubject.Fitness;
+            }
+
             if (SubjectIndex < Subjects.Length)
             {
                 CurrentSubject = Subjects[SubjectIndex++];
@@ -344,7 +352,10 @@ namespace BizHawk.Client.EmuHawk
             {
                 EvoController.Population.SortGenomesByFitness();
                 double bestFitness = EvoController.Population.GetAll().OrderByDescending(g => g.Fitness).First().Fitness;
-                maxFitnessLabel.Text = "Best fitness: " + bestFitness.ToString("0") + " (" + ((bestFitness / MaxFitness) * 100D).ToString("0.00") + "%)";
+
+                if (BestFitness < bestFitness)
+                    BestFitness = bestFitness;
+
 
                 EvoController.NextGeneration();
                 CreateSubjects();
@@ -352,6 +363,7 @@ namespace BizHawk.Client.EmuHawk
                 CurrentSubject = Subjects[SubjectIndex++];
             }
 
+            maxFitnessLabel.Text = "Best fitness: " + BestFitness.ToString("0") + " (" + ((BestFitness / MaxFitness) * 100D).ToString("0.00") + "%)";
             currentGenLabel.Text = "Generation: " + (EvoController.Generation + 1);
             this.Text = "SoNNic // G" + (EvoController.Generation + 1) + ":" + SubjectIndex;
             genomeLabel.Text = "Genome " + SubjectIndex + "/" + Subjects.Length;
