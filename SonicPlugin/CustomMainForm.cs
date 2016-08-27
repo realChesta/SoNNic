@@ -310,7 +310,7 @@ namespace BizHawk.Client.EmuHawk
             EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Node).Probability = 0.50; //0.03;
             EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.Connection).Probability = 1.0; //0.5;
             EvoController.Population.Parameters.PossibleMutations.FirstOrDefault(mi => mi.MutationType == Genome.MutationType.AddInput).Probability = 1.0;
-            EvoController.Population.Parameters.SensorSize = 20;
+            EvoController.Population.Parameters.SensorSize = 32;
         }
 
         private void CreateSubjects()
