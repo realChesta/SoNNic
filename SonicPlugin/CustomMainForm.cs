@@ -259,7 +259,7 @@ namespace BizHawk.Client.EmuHawk
             if (!this.Running)
             {
                 if (EvoController.Population.Count < 2)
-                    EvoController.Start(150, 2, 5, new NEAT.NeuralNetworks.ActivationFunctions.EvenSigmoid(5));
+                    EvoController.Start(300, 2, 5, new NEAT.NeuralNetworks.ActivationFunctions.EvenSigmoid(5));
 
                 this.StartEvolution();
             }
@@ -302,7 +302,7 @@ namespace BizHawk.Client.EmuHawk
 
         public void CreateEvolutionController()
         {
-            EvoController = new EvolutionController(-5, 5, 1, 1, 0.4, 3);
+            EvoController = new EvolutionController(-5, 5, 1, 1, 0.4, 1);
             EvoController.Population.Parameters.MatingOffspringProportion = 0.75; //0.2;
             EvoController.Population.Parameters.MutationOffspringProportion = 0.25; //0.8;
             EvoController.Population.Parameters.InitialConnectionProportion = 1;
