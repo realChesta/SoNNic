@@ -69,7 +69,7 @@ namespace BizHawk.Client.EmuHawk
 
         private void UpdateGenomeLabels()
         {
-            fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0");
+            fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0") + " (" + ((CurrentSubject.Fitness / MaxFitness) * 100D).ToString("0.00") + "%)";
             totalTimeLabel.Text = "Time passed: " + TimePassed.ToReadableString();
         }
 
