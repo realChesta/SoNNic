@@ -278,7 +278,7 @@ namespace BizHawk.Client.EmuHawk
             // 
             // folderBrowserDialog
             // 
-            this.folderBrowserDialog.Description = "Select a folder to save each generation to:";
+            this.folderBrowserDialog.Description = "Select a folder to save each generation to.";
             // 
             // CustomMainForm
             // 
