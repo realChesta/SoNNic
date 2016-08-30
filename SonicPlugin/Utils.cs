@@ -70,7 +70,7 @@ namespace SonicPlugin
 
             if (time.Days > 0)
             {
-                timeBuilder.Append(time.Days.ToString() + " d ");
+                timeBuilder.Append(time.Days.ToString() + "d ");
             }
             if (time.Hours > 0)
             {
