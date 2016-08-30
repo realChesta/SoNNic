@@ -38,6 +38,7 @@ namespace BizHawk.Client.EmuHawk
         public const double MaxFitness = 9676;
         private double BestFitness = 0;
         private DateTime StartTime;
+        private DateTime StopTime;
         public TimeSpan TimePassed { get { return DateTime.Now - StartTime; } }
         private bool Running;
         private string AutoSavePath = null;
@@ -283,7 +284,15 @@ namespace BizHawk.Client.EmuHawk
             NextSubject();
 
             if (this.StartTime == DateTime.MinValue)
+            {
                 this.StartTime = DateTime.Now;
+            }
+            else if (this.StopTime != DateTime.MinValue)
+            {
+                //account for time not running
+                TimeSpan timeSinceStop = DateTime.Now - this.StopTime;
+                this.StartTime += timeSinceStop;
+            }
 
             startEvolutionButton.Text = "Stop Evolution";
             this.Running = true;
@@ -293,6 +302,7 @@ namespace BizHawk.Client.EmuHawk
         {
             CurrentSubject = null;
             SubjectIndex = 0;
+            StopTime = DateTime.Now;
             startEvolutionButton.Text = "Start Evolution";
             genomeLabel.Text = "-";
             fitnessLabel.Text = "-";
@@ -429,12 +439,9 @@ namespace BizHawk.Client.EmuHawk
                         SaveGenomes(EvoController.Population.GetAll(), EvoController.Generation, saveGenomeDialog.FileName);
                         MessageBox.Show("Successfully saved current population!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        MessageBox.Show((EvoController == null).ToString());
-                        MessageBox.Show((EvoController.Population == null).ToString());
-                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        //MessageBox.Show("Could not save current population!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Could not save current population!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -463,10 +470,9 @@ namespace BizHawk.Client.EmuHawk
                     SubjectIndex = 0;
                     MessageBox.Show("Successfully loaded current population!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //MessageBox.Show("Could not load current population!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Could not load current population!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
