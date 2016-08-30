@@ -58,10 +58,10 @@ namespace BizHawk.Client.EmuHawk
             //log.Show();
         }
 
-        private void includeReservedObjects_CheckedChanged(object sender, EventArgs e)
-        {
-            this.includeReserved = includeReservedCheckBox.Checked;
-        }
+        //private void includeReservedObjects_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    this.includeReserved = includeReservedCheckBox.Checked;
+        //}
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -72,6 +72,12 @@ namespace BizHawk.Client.EmuHawk
         {
             fitnessLabel.Text = "Fitness: " + CurrentSubject.Fitness.ToString("0") + " (" + ((CurrentSubject.Fitness / MaxFitness) * 100D).ToString("0.00") + "%)";
             totalTimeLabel.Text = "Time passed: " + TimePassed.ToReadableString();
+
+            if (idleWatcher != null)
+            {
+                idleLabel.Text = "IdleWatcher: " + idleWatcher.IdleFrames + "/" + idleWatcher.Limit;
+                idleBar.Value = idleWatcher.IdleFrames;
+            }
         }
 
         private void mapButton_Click(object sender, EventArgs e)
@@ -294,6 +300,7 @@ namespace BizHawk.Client.EmuHawk
                 this.StartTime += timeSinceStop;
             }
 
+            idleBar.Maximum = idleWatcher.Limit;
             startEvolutionButton.Text = "Stop Evolution";
             this.Running = true;
         }

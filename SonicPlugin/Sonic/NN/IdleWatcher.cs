@@ -8,6 +8,8 @@
         public readonly int Limit;
         private bool oneFrameTolerance;
 
+        public int IdleFrames { get { return idleFrames; } }
+
         public IdleWatcher(int limit)
         {
             this.Limit = limit;

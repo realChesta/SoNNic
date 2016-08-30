@@ -34,7 +34,6 @@ namespace BizHawk.Client.EmuHawk
             this.label_Watch1 = new System.Windows.Forms.Label();
             this.label_Watch2 = new System.Windows.Forms.Label();
             this.label_Objects = new System.Windows.Forms.Label();
-            this.includeReservedCheckBox = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.controllerButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -54,6 +53,8 @@ namespace BizHawk.Client.EmuHawk
             this.autoSaveBox = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.idleLabel = new System.Windows.Forms.Label();
+            this.idleBar = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -66,37 +67,26 @@ namespace BizHawk.Client.EmuHawk
             this.label_Watch1.Name = "label_Watch1";
             this.label_Watch1.Size = new System.Drawing.Size(104, 14);
             this.label_Watch1.TabIndex = 0;
-            this.label_Watch1.Text = "label1";
+            this.label_Watch1.Text = "watch1 (x)";
             // 
             // label_Watch2
             // 
             this.label_Watch2.AutoEllipsis = true;
-            this.label_Watch2.Location = new System.Drawing.Point(6, 34);
+            this.label_Watch2.Location = new System.Drawing.Point(6, 33);
             this.label_Watch2.Name = "label_Watch2";
-            this.label_Watch2.Size = new System.Drawing.Size(104, 16);
+            this.label_Watch2.Size = new System.Drawing.Size(104, 17);
             this.label_Watch2.TabIndex = 1;
-            this.label_Watch2.Text = "label1";
+            this.label_Watch2.Text = "watch2 (y)";
             // 
             // label_Objects
             // 
-            this.label_Objects.AutoSize = true;
+            this.label_Objects.AutoEllipsis = true;
             this.label_Objects.Location = new System.Drawing.Point(6, 51);
             this.label_Objects.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Objects.Name = "label_Objects";
-            this.label_Objects.Size = new System.Drawing.Size(35, 13);
+            this.label_Objects.Size = new System.Drawing.Size(105, 13);
             this.label_Objects.TabIndex = 3;
-            this.label_Objects.Text = "label1";
-            // 
-            // includeReservedCheckBox
-            // 
-            this.includeReservedCheckBox.AutoSize = true;
-            this.includeReservedCheckBox.Location = new System.Drawing.Point(6, 66);
-            this.includeReservedCheckBox.Name = "includeReservedCheckBox";
-            this.includeReservedCheckBox.Size = new System.Drawing.Size(107, 30);
-            this.includeReservedCheckBox.TabIndex = 6;
-            this.includeReservedCheckBox.Text = "include reserved \r\nObjects";
-            this.includeReservedCheckBox.UseVisualStyleBackColor = true;
-            this.includeReservedCheckBox.CheckedChanged += new System.EventHandler(this.includeReservedObjects_CheckedChanged);
+            this.label_Objects.Text = "objects";
             // 
             // checkBox1
             // 
@@ -191,10 +181,11 @@ namespace BizHawk.Client.EmuHawk
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.idleBar);
+            this.groupBox3.Controls.Add(this.idleLabel);
             this.groupBox3.Controls.Add(this.label_Watch1);
             this.groupBox3.Controls.Add(this.label_Watch2);
             this.groupBox3.Controls.Add(this.label_Objects);
-            this.groupBox3.Controls.Add(this.includeReservedCheckBox);
             this.groupBox3.Controls.Add(this.checkBox1);
             this.groupBox3.Location = new System.Drawing.Point(12, 12);
             this.groupBox3.Name = "groupBox3";
@@ -280,6 +271,23 @@ namespace BizHawk.Client.EmuHawk
             // 
             this.folderBrowserDialog.Description = "Select a folder to save each generation to.";
             // 
+            // idleLabel
+            // 
+            this.idleLabel.AutoEllipsis = true;
+            this.idleLabel.Location = new System.Drawing.Point(6, 70);
+            this.idleLabel.Name = "idleLabel";
+            this.idleLabel.Size = new System.Drawing.Size(100, 13);
+            this.idleLabel.TabIndex = 8;
+            this.idleLabel.Text = "idleWatcher";
+            // 
+            // idleBar
+            // 
+            this.idleBar.Location = new System.Drawing.Point(6, 86);
+            this.idleBar.Name = "idleBar";
+            this.idleBar.Size = new System.Drawing.Size(104, 10);
+            this.idleBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.idleBar.TabIndex = 9;
+            // 
             // CustomMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -310,7 +318,6 @@ namespace BizHawk.Client.EmuHawk
         private System.Windows.Forms.Label label_Watch1;
         private System.Windows.Forms.Label label_Watch2;
         private System.Windows.Forms.Label label_Objects;
-        private System.Windows.Forms.CheckBox includeReservedCheckBox;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button controllerButton;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -330,5 +337,7 @@ namespace BizHawk.Client.EmuHawk
         private System.Windows.Forms.CheckBox autoSaveBox;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label idleLabel;
+        private System.Windows.Forms.ProgressBar idleBar;
     }
 }
