@@ -50,12 +50,8 @@ namespace BizHawk.Client.EmuHawk
 
         private bool BestFitnessAlert;
 
-        private TelegramBotClient Bot;
-        private List<long> ChatIDs = new List<long>();
-
         #endregion
 
-        //TODO: fix back and forth problems
         //TODO: save/load current state: possibly record fitness, time, more?
 
         #region WinForms/Initialization
@@ -63,8 +59,6 @@ namespace BizHawk.Client.EmuHawk
         public CustomMainForm()
         {
             InitializeComponent();
-
-            this.CreateTelegramBot();
         }
 
         //private void includeReservedObjects_CheckedChanged(object sender, EventArgs e)
@@ -424,9 +418,6 @@ namespace BizHawk.Client.EmuHawk
             {
                 if (BestFitnessAlert)
                     FlashWindow(this.Handle, FlashMode.UntilForeground);
-
-                if (this.Bot.IsReceiving)
-                    BroadcastFitness();
             }
             catch { }
         }
@@ -571,115 +562,6 @@ namespace BizHawk.Client.EmuHawk
         {
             UntilForeground,
             UntilClosed
-        }
-
-        #endregion
-
-        #region Telegram
-
-        private void CreateTelegramBot()
-        {
-            this.Bot = new TelegramBotClient("255128125:AAES2Vg3tUdqJq0fWvjfXOHT-Q8i5Yccquo");
-            this.Bot.OnMessage += Bot_OnMessage;
-        }
-
-        private void telegramBox_CheckedChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (telegramBox.Checked)
-                {
-                    this.Bot.StartReceiving();
-                }
-                else
-                {
-                    this.Bot.StopReceiving();
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Error toggling Telegram functionality!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private async void BroadcastFitness()
-        {
-            string msg = "New best fitness achieved!\nCurrent record is now " + BestFitness.ToString("0") + " (" + ((BestFitness / MaxFitness) * 100D).ToString("0.00") + "%)";
-
-            foreach (long id in ChatIDs)
-                await Bot.SendTextMessageAsync(id, msg);
-        }
-
-        private async void Bot_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
-        {
-            var message = e.Message;
-
-            if (message == null || message.Type != MessageType.TextMessage)
-                return;
-            else if (message.Text.StartsWith("/") && message.Text.Length < 2)
-                return;
-
-            string[] cmd = message.Text.Substring(1).Split(' ');
-
-            switch (cmd[0])
-            {
-                case "status":
-                    {
-                        string status =
-                            "Generation " + EvoController.Generation + "\n" + 
-                            "Best fitness: " + "Best fitness: " + BestFitness.ToString("0") + " (" + ((BestFitness / MaxFitness) * 100D).ToString("0.00") + "%)\n" +
-                            "Time passed: " + TimePassed.ToReadableString() + "\n" + 
-                            "Current genome: " + SubjectIndex;
-
-                        await Bot.SendTextMessageAsync(message.Chat.Id, status);
-                    }
-                    break;
-
-                case "sub":
-                case "subscribe":
-                    {
-                        if (!ChatIDs.Contains(message.Chat.Id))
-                        {
-                            await Bot.SendTextMessageAsync(message.Chat.Id, "You are now subscribed to best fitness updates.");
-                            ChatIDs.Add(message.Chat.Id);
-                        }
-                        else
-                        {
-                            await Bot.SendTextMessageAsync(message.Chat.Id, "You are already subscribed!");
-                        }
-                    }
-                    break;
-
-                case "unsub":
-                case "unsubscribe":
-                    {
-                        if (ChatIDs.Contains(message.Chat.Id))
-                        {
-                            ChatIDs.Remove(message.Chat.Id);
-                            await Bot.SendTextMessageAsync(message.Chat.Id, "You have now unsubscribed.");
-                        }
-                        else
-                        {
-                            await Bot.SendTextMessageAsync(message.Chat.Id, "You have not subscribed. (You thus cannot unsubscribe)");
-                        }
-                    }
-                    break;
-
-                case "help":
-                default:
-                    {
-                        string status =
-                            "/status - Displays current evolution status.\n" +
-                            "/subscribe - Subscribe to receive a message when a new fitness record has been achieved.\n" +
-                            "/sub - Shorthand for /subscribe.\n" +
-                            "/unsubscribe - Unsubscribe from fitness record messages.\n" +
-                            "/unsub - Shorthand for /unsubscribe.\n" +
-                            "/help - Displays help.";
-
-                        await Bot.SendTextMessageAsync(message.Chat.Id, status);
-                    }
-                    break;
-            }
         }
 
         #endregion
