@@ -216,6 +216,21 @@
         TkSuQmCC
 </value>
   </data>
+  <data name="telegramBox.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
+        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIQSURBVDhPY/j//z9FGKsgKZghtL6eVMwKxMpA7ArE
+        adgUYMNwTYkdHRl9a9YsXLhnzyYg3wWbYhiGa0rq7MxYsGPHwkv37l249uTJn5vPnv3vWblySnBNjQxO
+        TYlQTTcePbrw99+/P28/f/5/5s6d/3dfvPj/8evXD76lpdF+5eWMGJrmAjVdfvjwwrffv//8+P37//df
+        v/7ffPLk/9ErV/4/fP36/++/f/+v2LVri1tenrF7fj44ENPi29uzT9+7d+zdjx9/Xn358v8V0LY3QPrF
+        hw//j1y69P/I5ctgzd9+/gQZ8C+8srLaNjWVG4jBBnABsWlMa2vS3F27lj759Ontc6ABlx88+L/5yJH/
+        x4A233n+/P9boIGfvn//f/zKlcum0dF+5rGxDCAM8zvYK8G1tTreJSUx8XV1s9fu2/f/xI0b/68+evT/
+        8bt3/59//Pj/3bdv/0v7+xfqBgYq6AUFMYAwsgEMQdXVDK65uUxMmppFu8+c+T99zZobm44evfEMaPvD
+        t2//P3z37pO8k1OukqsrIxAzgDCKAdoBAQzMamoMLGpqTX2LFj3i1tIq4dbWjtP39p616dixh12LFh0R
+        NTOzFTM3Z4BhsEagkxhYlJWRcRcQl3FqaPBxaGiA+KJAHMypqdkBxDxAzADDYAOgmpCxMhDzAQ1ggBoA
+        xuzq6hgYawYhBWMVJB7/ZwAAQMkfJGDvFXgAAAAASUVORK5CYII=
+</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAEBAAAAAAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAA

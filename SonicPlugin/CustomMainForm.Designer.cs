@@ -56,6 +56,7 @@ namespace BizHawk.Client.EmuHawk
             this.saveButton = new System.Windows.Forms.Button();
             this.mapButton = new System.Windows.Forms.Button();
             this.controllerButton = new System.Windows.Forms.Button();
+            this.telegramBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -245,7 +246,7 @@ namespace BizHawk.Client.EmuHawk
             this.autoSaveBox.AutoCheck = false;
             this.autoSaveBox.AutoEllipsis = true;
             this.autoSaveBox.Image = ((System.Drawing.Image)(resources.GetObject("autoSaveBox.Image")));
-            this.autoSaveBox.Location = new System.Drawing.Point(134, 172);
+            this.autoSaveBox.Location = new System.Drawing.Point(165, 172);
             this.autoSaveBox.Name = "autoSaveBox";
             this.autoSaveBox.Size = new System.Drawing.Size(25, 23);
             this.autoSaveBox.TabIndex = 19;
@@ -258,11 +259,11 @@ namespace BizHawk.Client.EmuHawk
             // 
             this.loadButton.Image = ((System.Drawing.Image)(resources.GetObject("loadButton.Image")));
             this.loadButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.loadButton.Location = new System.Drawing.Point(256, 172);
+            this.loadButton.Location = new System.Drawing.Point(272, 172);
             this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(86, 23);
+            this.loadButton.Size = new System.Drawing.Size(70, 23);
             this.loadButton.TabIndex = 17;
-            this.loadButton.Text = "  Load";
+            this.loadButton.Text = "     Load";
             this.loadButton.UseVisualStyleBackColor = true;
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
@@ -270,11 +271,11 @@ namespace BizHawk.Client.EmuHawk
             // 
             this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
             this.saveButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.saveButton.Location = new System.Drawing.Point(165, 172);
+            this.saveButton.Location = new System.Drawing.Point(196, 172);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(85, 23);
+            this.saveButton.Size = new System.Drawing.Size(70, 23);
             this.saveButton.TabIndex = 16;
-            this.saveButton.Text = "   Save";
+            this.saveButton.Text = "    Save";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
@@ -298,15 +299,30 @@ namespace BizHawk.Client.EmuHawk
             this.controllerButton.Name = "controllerButton";
             this.controllerButton.Size = new System.Drawing.Size(116, 23);
             this.controllerButton.TabIndex = 8;
-            this.controllerButton.Text = "   Show Controller";
+            this.controllerButton.Text = "   Controller";
             this.controllerButton.UseVisualStyleBackColor = true;
             this.controllerButton.Click += new System.EventHandler(this.controllerButton_Click);
+            // 
+            // telegramBox
+            // 
+            this.telegramBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.telegramBox.AutoEllipsis = true;
+            this.telegramBox.Image = ((System.Drawing.Image)(resources.GetObject("telegramBox.Image")));
+            this.telegramBox.Location = new System.Drawing.Point(134, 172);
+            this.telegramBox.Name = "telegramBox";
+            this.telegramBox.Size = new System.Drawing.Size(25, 23);
+            this.telegramBox.TabIndex = 22;
+            this.telegramBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.telegramBox, "Enable/Disable Telegram functionality");
+            this.telegramBox.UseVisualStyleBackColor = true;
+            this.telegramBox.CheckedChanged += new System.EventHandler(this.telegramBox_CheckedChanged);
             // 
             // CustomMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(354, 204);
+            this.Controls.Add(this.telegramBox);
             this.Controls.Add(this.autoSaveBox);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.saveButton);
@@ -354,5 +370,6 @@ namespace BizHawk.Client.EmuHawk
         private System.Windows.Forms.Label idleLabel;
         private System.Windows.Forms.ProgressBar idleBar;
         private System.Windows.Forms.LinkLabel maxFitnessAlertLabel;
+        private System.Windows.Forms.CheckBox telegramBox;
     }
 }
