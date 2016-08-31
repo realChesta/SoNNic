@@ -11,6 +11,8 @@ using System.IO;
 using System.Linq;
 using NEAT;
 using NEAT.Genetics;
+using SoNNic.Properties;
+using System.Runtime.InteropServices;
 
 namespace BizHawk.Client.EmuHawk
 {
@@ -43,11 +45,12 @@ namespace BizHawk.Client.EmuHawk
         private bool Running;
         private string AutoSavePath = null;
 
+        private bool BestFitnessAlert;
+
         #endregion
 
-        //TODO: handle multiple starts/stops (passed time!)
         //TODO: fix back and forth problems
-        //TODO: save/load current state
+        //TODO: save/load current state: possibly record fitness, time, more?
 
         #region WinForms/Initialization
 
@@ -120,6 +123,13 @@ namespace BizHawk.Client.EmuHawk
 
             controller = new ControllerForm();
             controller.Show();
+        }
+
+        private void maxFitnessAlertLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            BestFitnessAlert = !BestFitnessAlert;
+            maxFitnessAlertLabel.Image = BestFitnessAlert ? Resources.exclamation_red : Resources.exclamation_circle;
+            toolTip1.SetToolTip(maxFitnessAlertLabel, (BestFitnessAlert ? "Disable" : "Enable") + "alert on fitness increase");
         }
 
         #endregion
@@ -358,7 +368,12 @@ namespace BizHawk.Client.EmuHawk
             if (CurrentSubject != null)
             {
                 if (BestFitness < CurrentSubject.Fitness)
+                {
                     BestFitness = CurrentSubject.Fitness;
+
+                    if (BestFitnessAlert)
+                        FlashWindow(this.Handle, FlashMode.UntilForeground);
+                }
             }
 
             if (SubjectIndex < Subjects.Length)
@@ -500,6 +515,45 @@ namespace BizHawk.Client.EmuHawk
                 AutoSavePath = null;
                 autoSaveBox.Checked = false;
             }
+        }
+
+        #endregion
+
+        #region WinAPI
+
+        public static bool FlashWindow(IntPtr hwnd, FlashMode mode)
+        {
+            FLASHWINFO fInfo = new FLASHWINFO();
+            fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
+            fInfo.hwnd = hwnd;
+            fInfo.dwFlags = FLASHW_ALL | FLASHW_TIMERNOFG;
+            fInfo.uCount = UInt32.MaxValue;
+            fInfo.dwTimeout = 0;
+
+            return FlashWindowEx(ref fInfo);
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct FLASHWINFO
+        {
+            public UInt32 cbSize;
+            public IntPtr hwnd;
+            public UInt32 dwFlags;
+            public UInt32 uCount;
+            public UInt32 dwTimeout;
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
+
+        private const uint FLASHW_ALL = 3;
+        private const uint FLASHW_TIMERNOFG = 12;
+
+        public enum FlashMode
+        {
+            UntilForeground,
+            UntilClosed
         }
 
         #endregion

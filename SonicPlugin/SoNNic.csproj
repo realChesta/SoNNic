@@ -189,6 +189,21 @@
   <ItemGroup>
     <EmbeddedResource Include="sonic_2.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exclamation-small-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exclamation-small-red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exclamation-red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exclamation-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exclamation-circle.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /y SoNNic.* ExternalTools</PostBuildEvent>

@@ -35,26 +35,27 @@ namespace BizHawk.Client.EmuHawk
             this.label_Watch2 = new System.Windows.Forms.Label();
             this.label_Objects = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.controllerButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.genomeLabel = new System.Windows.Forms.Label();
             this.fitnessLabel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.maxFitnessAlertLabel = new System.Windows.Forms.LinkLabel();
             this.totalTimeLabel = new System.Windows.Forms.Label();
             this.maxFitnessLabel = new System.Windows.Forms.Label();
             this.currentGenLabel = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.idleBar = new System.Windows.Forms.ProgressBar();
+            this.idleLabel = new System.Windows.Forms.Label();
             this.startEvolutionButton = new System.Windows.Forms.Button();
-            this.mapButton = new System.Windows.Forms.Button();
-            this.saveButton = new System.Windows.Forms.Button();
-            this.loadButton = new System.Windows.Forms.Button();
             this.saveGenomeDialog = new System.Windows.Forms.SaveFileDialog();
             this.openGenomesDialog = new System.Windows.Forms.OpenFileDialog();
-            this.autoSaveBox = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.idleLabel = new System.Windows.Forms.Label();
-            this.idleBar = new System.Windows.Forms.ProgressBar();
+            this.autoSaveBox = new System.Windows.Forms.CheckBox();
+            this.loadButton = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.mapButton = new System.Windows.Forms.Button();
+            this.controllerButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -99,18 +100,6 @@ namespace BizHawk.Client.EmuHawk
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // controllerButton
-            // 
-            this.controllerButton.Image = ((System.Drawing.Image)(resources.GetObject("controllerButton.Image")));
-            this.controllerButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.controllerButton.Location = new System.Drawing.Point(12, 143);
-            this.controllerButton.Name = "controllerButton";
-            this.controllerButton.Size = new System.Drawing.Size(116, 23);
-            this.controllerButton.TabIndex = 8;
-            this.controllerButton.Text = "   Show Controller";
-            this.controllerButton.UseVisualStyleBackColor = true;
-            this.controllerButton.Click += new System.EventHandler(this.controllerButton_Click);
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.genomeLabel);
@@ -142,6 +131,7 @@ namespace BizHawk.Client.EmuHawk
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.maxFitnessAlertLabel);
             this.groupBox2.Controls.Add(this.totalTimeLabel);
             this.groupBox2.Controls.Add(this.maxFitnessLabel);
             this.groupBox2.Controls.Add(this.currentGenLabel);
@@ -151,6 +141,18 @@ namespace BizHawk.Client.EmuHawk
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Evolution";
+            // 
+            // maxFitnessAlertLabel
+            // 
+            this.maxFitnessAlertLabel.Image = ((System.Drawing.Image)(resources.GetObject("maxFitnessAlertLabel.Image")));
+            this.maxFitnessAlertLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.maxFitnessAlertLabel.LinkColor = System.Drawing.SystemColors.ControlText;
+            this.maxFitnessAlertLabel.Location = new System.Drawing.Point(186, 30);
+            this.maxFitnessAlertLabel.Name = "maxFitnessAlertLabel";
+            this.maxFitnessAlertLabel.Size = new System.Drawing.Size(16, 16);
+            this.maxFitnessAlertLabel.TabIndex = 14;
+            this.toolTip1.SetToolTip(this.maxFitnessAlertLabel, "Enable alert on fitness increase");
+            this.maxFitnessAlertLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.maxFitnessAlertLabel_LinkClicked);
             // 
             // totalTimeLabel
             // 
@@ -166,7 +168,7 @@ namespace BizHawk.Client.EmuHawk
             this.maxFitnessLabel.AutoEllipsis = true;
             this.maxFitnessLabel.Location = new System.Drawing.Point(6, 31);
             this.maxFitnessLabel.Name = "maxFitnessLabel";
-            this.maxFitnessLabel.Size = new System.Drawing.Size(188, 14);
+            this.maxFitnessLabel.Size = new System.Drawing.Size(172, 14);
             this.maxFitnessLabel.TabIndex = 12;
             this.maxFitnessLabel.Text = "-";
             // 
@@ -194,6 +196,23 @@ namespace BizHawk.Client.EmuHawk
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Debug";
             // 
+            // idleBar
+            // 
+            this.idleBar.Location = new System.Drawing.Point(6, 86);
+            this.idleBar.Name = "idleBar";
+            this.idleBar.Size = new System.Drawing.Size(104, 10);
+            this.idleBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.idleBar.TabIndex = 9;
+            // 
+            // idleLabel
+            // 
+            this.idleLabel.AutoEllipsis = true;
+            this.idleLabel.Location = new System.Drawing.Point(6, 70);
+            this.idleLabel.Name = "idleLabel";
+            this.idleLabel.Size = new System.Drawing.Size(100, 13);
+            this.idleLabel.TabIndex = 8;
+            this.idleLabel.Text = "idleWatcher";
+            // 
             // startEvolutionButton
             // 
             this.startEvolutionButton.Location = new System.Drawing.Point(134, 143);
@@ -203,42 +222,6 @@ namespace BizHawk.Client.EmuHawk
             this.startEvolutionButton.Text = "Start Evolution";
             this.startEvolutionButton.UseVisualStyleBackColor = true;
             this.startEvolutionButton.Click += new System.EventHandler(this.startEvolutionButton_Click);
-            // 
-            // mapButton
-            // 
-            this.mapButton.Image = ((System.Drawing.Image)(resources.GetObject("mapButton.Image")));
-            this.mapButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.mapButton.Location = new System.Drawing.Point(12, 172);
-            this.mapButton.Name = "mapButton";
-            this.mapButton.Size = new System.Drawing.Size(116, 23);
-            this.mapButton.TabIndex = 15;
-            this.mapButton.Text = "Map";
-            this.mapButton.UseVisualStyleBackColor = true;
-            this.mapButton.Click += new System.EventHandler(this.mapButton_Click);
-            // 
-            // saveButton
-            // 
-            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
-            this.saveButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.saveButton.Location = new System.Drawing.Point(165, 172);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(85, 23);
-            this.saveButton.TabIndex = 16;
-            this.saveButton.Text = "   Save";
-            this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            // 
-            // loadButton
-            // 
-            this.loadButton.Image = ((System.Drawing.Image)(resources.GetObject("loadButton.Image")));
-            this.loadButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.loadButton.Location = new System.Drawing.Point(256, 172);
-            this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(86, 23);
-            this.loadButton.TabIndex = 17;
-            this.loadButton.Text = "  Load";
-            this.loadButton.UseVisualStyleBackColor = true;
-            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
             // saveGenomeDialog
             // 
@@ -251,6 +234,10 @@ namespace BizHawk.Client.EmuHawk
             this.openGenomesDialog.DefaultExt = "evo";
             this.openGenomesDialog.Filter = "Save Files (*.evo)|*.evo";
             this.openGenomesDialog.Title = "Load saved population";
+            // 
+            // folderBrowserDialog
+            // 
+            this.folderBrowserDialog.Description = "Select a folder to save each generation to.";
             // 
             // autoSaveBox
             // 
@@ -267,26 +254,53 @@ namespace BizHawk.Client.EmuHawk
             this.autoSaveBox.UseVisualStyleBackColor = true;
             this.autoSaveBox.Click += new System.EventHandler(this.autoSaveBox_Click);
             // 
-            // folderBrowserDialog
+            // loadButton
             // 
-            this.folderBrowserDialog.Description = "Select a folder to save each generation to.";
+            this.loadButton.Image = ((System.Drawing.Image)(resources.GetObject("loadButton.Image")));
+            this.loadButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.loadButton.Location = new System.Drawing.Point(256, 172);
+            this.loadButton.Name = "loadButton";
+            this.loadButton.Size = new System.Drawing.Size(86, 23);
+            this.loadButton.TabIndex = 17;
+            this.loadButton.Text = "  Load";
+            this.loadButton.UseVisualStyleBackColor = true;
+            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
-            // idleLabel
+            // saveButton
             // 
-            this.idleLabel.AutoEllipsis = true;
-            this.idleLabel.Location = new System.Drawing.Point(6, 70);
-            this.idleLabel.Name = "idleLabel";
-            this.idleLabel.Size = new System.Drawing.Size(100, 13);
-            this.idleLabel.TabIndex = 8;
-            this.idleLabel.Text = "idleWatcher";
+            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
+            this.saveButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.saveButton.Location = new System.Drawing.Point(165, 172);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(85, 23);
+            this.saveButton.TabIndex = 16;
+            this.saveButton.Text = "   Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // idleBar
+            // mapButton
             // 
-            this.idleBar.Location = new System.Drawing.Point(6, 86);
-            this.idleBar.Name = "idleBar";
-            this.idleBar.Size = new System.Drawing.Size(104, 10);
-            this.idleBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.idleBar.TabIndex = 9;
+            this.mapButton.Image = ((System.Drawing.Image)(resources.GetObject("mapButton.Image")));
+            this.mapButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mapButton.Location = new System.Drawing.Point(12, 172);
+            this.mapButton.Name = "mapButton";
+            this.mapButton.Size = new System.Drawing.Size(116, 23);
+            this.mapButton.TabIndex = 15;
+            this.mapButton.Text = "Map";
+            this.mapButton.UseVisualStyleBackColor = true;
+            this.mapButton.Click += new System.EventHandler(this.mapButton_Click);
+            // 
+            // controllerButton
+            // 
+            this.controllerButton.Image = ((System.Drawing.Image)(resources.GetObject("controllerButton.Image")));
+            this.controllerButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.controllerButton.Location = new System.Drawing.Point(12, 143);
+            this.controllerButton.Name = "controllerButton";
+            this.controllerButton.Size = new System.Drawing.Size(116, 23);
+            this.controllerButton.TabIndex = 8;
+            this.controllerButton.Text = "   Show Controller";
+            this.controllerButton.UseVisualStyleBackColor = true;
+            this.controllerButton.Click += new System.EventHandler(this.controllerButton_Click);
             // 
             // CustomMainForm
             // 
@@ -339,5 +353,6 @@ namespace BizHawk.Client.EmuHawk
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label idleLabel;
         private System.Windows.Forms.ProgressBar idleBar;
+        private System.Windows.Forms.LinkLabel maxFitnessAlertLabel;
     }
 }
