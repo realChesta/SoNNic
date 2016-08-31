@@ -152,7 +152,7 @@ namespace BizHawk.Client.EmuHawk
             this.maxFitnessAlertLabel.Size = new System.Drawing.Size(16, 16);
             this.maxFitnessAlertLabel.TabIndex = 14;
             this.toolTip1.SetToolTip(this.maxFitnessAlertLabel, "Enable alert on fitness increase");
-            this.maxFitnessAlertLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.maxFitnessAlertLabel_LinkClicked);
+            this.maxFitnessAlertLabel.Click += new System.EventHandler(this.maxFitnessAlertLabel_LinkClicked);
             // 
             // totalTimeLabel
             // 

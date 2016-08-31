@@ -125,11 +125,11 @@ namespace BizHawk.Client.EmuHawk
             controller.Show();
         }
 
-        private void maxFitnessAlertLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void maxFitnessAlertLabel_LinkClicked(object sender, EventArgs e)
         {
             BestFitnessAlert = !BestFitnessAlert;
             maxFitnessAlertLabel.Image = BestFitnessAlert ? Resources.exclamation_red : Resources.exclamation_circle;
-            toolTip1.SetToolTip(maxFitnessAlertLabel, (BestFitnessAlert ? "Disable" : "Enable") + "alert on fitness increase");
+            toolTip1.SetToolTip(maxFitnessAlertLabel, (BestFitnessAlert ? "Disable" : "Enable") + " alert on fitness increase");
         }
 
         #endregion
