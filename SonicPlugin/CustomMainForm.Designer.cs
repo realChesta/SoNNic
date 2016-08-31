@@ -211,7 +211,7 @@ namespace BizHawk.Client.EmuHawk
             this.idleLabel.Name = "idleLabel";
             this.idleLabel.Size = new System.Drawing.Size(100, 13);
             this.idleLabel.TabIndex = 8;
-            this.idleLabel.Text = "idleWatcher";
+            this.idleLabel.Text = "IdleWatcher";
             // 
             // startEvolutionButton
             // 
