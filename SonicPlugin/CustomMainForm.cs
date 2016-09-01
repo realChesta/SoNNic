@@ -1,21 +1,22 @@
 ﻿using BizHawk.Client.Common;
 using BizHawk.Emulation.Common;
-using SonicPlugin;
-using SonicPlugin.Sonic;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using SonicPlugin.Sonic.NN;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using NEAT;
 using NEAT.Genetics;
+using SonicPlugin;
+using SonicPlugin.Sonic;
+using SonicPlugin.Sonic.NN;
+using SoNNic;
 using SoNNic.Properties;
-using System.Runtime.InteropServices;
-using Telegram.Bot;
-using Telegram.Bot.Types.Enums;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace BizHawk.Client.EmuHawk
 {
@@ -49,6 +50,10 @@ namespace BizHawk.Client.EmuHawk
         private string AutoSavePath = null;
 
         private bool BestFitnessAlert;
+
+        private bool Listen;
+        private TcpListener Listener;
+        private List<SonicTcpClient> Clients = new List<SonicTcpClient>();
 
         #endregion
 
@@ -130,6 +135,18 @@ namespace BizHawk.Client.EmuHawk
             BestFitnessAlert = !BestFitnessAlert;
             maxFitnessAlertLabel.Image = BestFitnessAlert ? Resources.exclamation_red : Resources.exclamation_circle;
             toolTip1.SetToolTip(maxFitnessAlertLabel, (BestFitnessAlert ? "Disable" : "Enable") + " alert on fitness increase");
+        }
+
+        private void networkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (networkBox.Checked)
+            {
+                StartListener();
+            }
+            else
+            {
+                StopListener();
+            }
         }
 
         #endregion
@@ -395,6 +412,8 @@ namespace BizHawk.Client.EmuHawk
             currentGenLabel.Text = "Generation: " + (EvoController.Generation + 1);
             this.Text = "SoNNic // G" + (EvoController.Generation + 1) + ":" + SubjectIndex;
             genomeLabel.Text = "Genome " + SubjectIndex + "/" + Subjects.Length;
+
+            BroadcastState();
         }
 
         public static void ResetLevel()
@@ -418,6 +437,9 @@ namespace BizHawk.Client.EmuHawk
             {
                 if (BestFitnessAlert)
                     FlashWindow(this.Handle, FlashMode.UntilForeground);
+
+                foreach (SonicTcpClient client in Clients)
+                    SendState(client);
             }
             catch { }
         }
@@ -562,6 +584,101 @@ namespace BizHawk.Client.EmuHawk
         {
             UntilForeground,
             UntilClosed
+        }
+
+        #endregion
+
+        #region TCP
+
+        private void StartListener()
+        {
+            StopListener();
+            try
+            {
+                if (Listener == null)
+                    Listener = new TcpListener(IPAddress.Any, 2729);
+
+                Listener.Start();
+                Listen = true;
+
+                new Thread(delegate ()
+                {
+                    try
+                    {
+                        while (Listen)
+                        {
+                            if (!Listener.Pending())
+                            {
+                                Thread.Sleep(500);
+                                continue;
+                            }
+
+                            SonicTcpClient client = new SonicTcpClient(Listener.AcceptTcpClient());
+                            new Thread(delegate () { HandleClient(client); })
+                            { IsBackground = true, Name = "Handler of " + ((IPEndPoint)client.Client.Client.RemoteEndPoint).ToString() }.Start();
+                        }
+                    }
+                    catch { }
+                })
+                { IsBackground = true, Name = "ListenThread" }.Start();
+            }
+            catch { }
+        }
+
+        private void StopListener()
+        {
+            try
+            {
+                Listen = false;
+
+                if (Listener != null)
+                    Listener.Stop();
+            }
+            catch { }
+        }
+
+        private void HandleClient(SonicTcpClient client)
+        {
+            try
+            {
+                Clients.Add(client);
+                SendState(client);
+                client.Client.GetStream().ReadByte();
+            }
+            catch { }
+
+            if (Clients.Contains(client))
+            {
+                try { client.Close(); } catch { }
+                Clients.Remove(client);
+            }
+        }
+
+        private void SendState(SonicTcpClient client)
+        {
+            client.Writer.Write(EvoController.Generation); //uint
+            client.Writer.Write(BestFitness); //double
+            client.Writer.Write(MaxFitness); //double
+            client.Writer.Write(TimePassed.TotalSeconds); //double
+            client.Writer.Write(SubjectIndex); //int
+            client.Writer.Write(Subjects.Length); //int
+            client.Writer.Flush();
+        }
+
+        private void BroadcastState()
+        {
+            for (int i = 0; i < Clients.Count; i++)
+            {
+                try
+                {
+                    SendState(Clients[i]);
+                }
+                catch
+                {
+                    try { Clients[i].Close(); } catch { }
+                    Clients.RemoveAt(i--);
+                }
+            }
         }
 
         #endregion
