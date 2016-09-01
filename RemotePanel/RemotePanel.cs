@@ -58,17 +58,23 @@ namespace RemotePanel
             {
                 try
                 {
-                    this.Client = new TcpClient(host, port);
-
                     this.InvokeEx(f =>
                     {
                         f.destBox.Enabled = false;
                         f.connectButton.Enabled = false;
                     });
 
+                    this.Client = new TcpClient(host, port);
+                    
                     HandleCommunication(Client);
                 }
                 catch { }
+
+                this.InvokeEx(f =>
+                {
+                    f.destBox.Enabled = true;
+                    f.connectButton.Enabled = true;
+                });
             })
             { IsBackground = true, Name = "ConnectionThread" }.Start();
         }
@@ -111,12 +117,6 @@ namespace RemotePanel
             try
             { client.Close(); }
             catch { }
-
-            this.InvokeEx(f =>
-            {
-                f.destBox.Enabled = true;
-                f.connectButton.Enabled = true;
-            });
         }
 
         private void maxFitnessAlertLabel_Click(object sender, EventArgs e)
