@@ -368,6 +368,15 @@ namespace BizHawk.Client.EmuHawk
                 genomes[i].Fitness = 0;
                 Subjects[i] = new LivingSonic(genomes[i], ref Map.Drawer); //, 16, 200, 200
             }
+
+            if (AutoSavePath != null)
+            {
+                try
+                {
+                    SaveGenomes(Subjects, EvoController.Generation, Path.Combine(AutoSavePath, "gen" + (EvoController.Generation + 1).ToString() + ".evo"));
+                }
+                catch { }
+            }
         }
 
         private void NextSubject()
