@@ -57,6 +57,7 @@ namespace BizHawk.Client.EmuHawk
             this.saveButton = new System.Windows.Forms.Button();
             this.mapButton = new System.Windows.Forms.Button();
             this.controllerButton = new System.Windows.Forms.Button();
+            this.telegramBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -103,6 +104,7 @@ namespace BizHawk.Client.EmuHawk
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.telegramBox);
             this.groupBox1.Controls.Add(this.genomeLabel);
             this.groupBox1.Controls.Add(this.fitnessLabel);
             this.groupBox1.Location = new System.Drawing.Point(134, 82);
@@ -317,6 +319,17 @@ namespace BizHawk.Client.EmuHawk
             this.controllerButton.UseVisualStyleBackColor = true;
             this.controllerButton.Click += new System.EventHandler(this.controllerButton_Click);
             // 
+            // telegramBox
+            // 
+            this.telegramBox.AutoSize = true;
+            this.telegramBox.Location = new System.Drawing.Point(128, 38);
+            this.telegramBox.Name = "telegramBox";
+            this.telegramBox.Size = new System.Drawing.Size(66, 17);
+            this.telegramBox.TabIndex = 14;
+            this.telegramBox.Text = "telegram";
+            this.telegramBox.UseVisualStyleBackColor = true;
+            this.telegramBox.CheckedChanged += new System.EventHandler(this.telegramBox_CheckedChanged);
+            // 
             // CustomMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -338,6 +351,7 @@ namespace BizHawk.Client.EmuHawk
             this.Name = "CustomMainForm";
             this.Text = "SoNNic";
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -373,5 +387,6 @@ namespace BizHawk.Client.EmuHawk
         private System.Windows.Forms.ProgressBar idleBar;
         private System.Windows.Forms.LinkLabel maxFitnessAlertLabel;
         private System.Windows.Forms.CheckBox networkBox;
+        private System.Windows.Forms.CheckBox telegramBox;
     }
 }
