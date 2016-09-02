@@ -4,6 +4,7 @@ using BizHawk.Client.Common;
 using NEAT.NeuralNetworks;
 using SonicPlugin.Sonic.Map;
 using NEAT.Genetics;
+using System;
 
 namespace SonicPlugin.Sonic.NN
 {
@@ -17,6 +18,8 @@ namespace SonicPlugin.Sonic.NN
         public readonly Genome Genome;
         public ManualNeuralNetwork Brain;
         private readonly Dictionary<int, WorldInput> Inputs = new Dictionary<int, WorldInput>();
+
+        public TimeSpan TimePassed;
 
         public double Fitness
         {

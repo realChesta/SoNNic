@@ -52,11 +52,11 @@ namespace BizHawk.Client.EmuHawk
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.autoSaveBox = new System.Windows.Forms.CheckBox();
+            this.networkBox = new System.Windows.Forms.CheckBox();
             this.loadButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.mapButton = new System.Windows.Forms.Button();
             this.controllerButton = new System.Windows.Forms.Button();
-            this.networkBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -255,6 +255,20 @@ namespace BizHawk.Client.EmuHawk
             this.autoSaveBox.UseVisualStyleBackColor = true;
             this.autoSaveBox.Click += new System.EventHandler(this.autoSaveBox_Click);
             // 
+            // networkBox
+            // 
+            this.networkBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.networkBox.AutoEllipsis = true;
+            this.networkBox.Image = ((System.Drawing.Image)(resources.GetObject("networkBox.Image")));
+            this.networkBox.Location = new System.Drawing.Point(134, 172);
+            this.networkBox.Name = "networkBox";
+            this.networkBox.Size = new System.Drawing.Size(25, 23);
+            this.networkBox.TabIndex = 21;
+            this.networkBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.networkBox, "Enable listener");
+            this.networkBox.UseVisualStyleBackColor = true;
+            this.networkBox.CheckedChanged += new System.EventHandler(this.networkBox_CheckedChanged);
+            // 
             // loadButton
             // 
             this.loadButton.Image = ((System.Drawing.Image)(resources.GetObject("loadButton.Image")));
@@ -303,20 +317,6 @@ namespace BizHawk.Client.EmuHawk
             this.controllerButton.UseVisualStyleBackColor = true;
             this.controllerButton.Click += new System.EventHandler(this.controllerButton_Click);
             // 
-            // networkBox
-            // 
-            this.networkBox.Appearance = System.Windows.Forms.Appearance.Button;
-            this.networkBox.AutoEllipsis = true;
-            this.networkBox.Image = ((System.Drawing.Image)(resources.GetObject("networkBox.Image")));
-            this.networkBox.Location = new System.Drawing.Point(134, 172);
-            this.networkBox.Name = "networkBox";
-            this.networkBox.Size = new System.Drawing.Size(25, 23);
-            this.networkBox.TabIndex = 21;
-            this.networkBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip1.SetToolTip(this.networkBox, "Auto-save each generation");
-            this.networkBox.UseVisualStyleBackColor = true;
-            this.networkBox.CheckedChanged += new System.EventHandler(this.networkBox_CheckedChanged);
-            // 
             // CustomMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -332,7 +332,9 @@ namespace BizHawk.Client.EmuHawk
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.controllerButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "CustomMainForm";
             this.Text = "SoNNic";
             this.groupBox1.ResumeLayout(false);

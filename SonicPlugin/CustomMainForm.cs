@@ -40,6 +40,7 @@ namespace BizHawk.Client.EmuHawk
         private int SubjectIndex = 0;
         private LivingSonic CurrentSubject;
         private IdleWatcher idleWatcher;
+        private DateTime SubjectStartTime;
 
         public const double MaxFitness = 9676;
         private double BestFitness = 0;
@@ -361,15 +362,6 @@ namespace BizHawk.Client.EmuHawk
         {
             var genomes = EvoController.Population.GetAll();
 
-            if (AutoSavePath != null)
-            {
-                try
-                {
-                    SaveGenomes(genomes, EvoController.Generation, Path.Combine(AutoSavePath, "gen" + (EvoController.Generation + 1).ToString() + ".evo"));
-                }
-                catch { }
-            }
-
             Subjects = new LivingSonic[genomes.Length];
             for (int i = 0; i < Subjects.Length; i++)
             {
@@ -384,6 +376,7 @@ namespace BizHawk.Client.EmuHawk
 
             if (CurrentSubject != null)
             {
+                CurrentSubject.TimePassed = DateTime.Now - SubjectStartTime;
                 if (BestFitness < CurrentSubject.Fitness)
                 {
                     BestFitness = CurrentSubject.Fitness;
@@ -394,6 +387,7 @@ namespace BizHawk.Client.EmuHawk
             if (SubjectIndex < Subjects.Length)
             {
                 CurrentSubject = Subjects[SubjectIndex++];
+                SubjectStartTime = DateTime.Now;
             }
             else //Next generation
             {
@@ -401,6 +395,15 @@ namespace BizHawk.Client.EmuHawk
                 double bestFitness = EvoController.Population.GetAll().OrderByDescending(g => g.Fitness).First().Fitness;
 
                 BestFitness = bestFitness;
+
+                if (AutoSavePath != null)
+                {
+                    try
+                    {
+                        SaveGenomes(Subjects, EvoController.Generation, Path.Combine(AutoSavePath, "gen" + (EvoController.Generation + 1).ToString() + ".evo"));
+                    }
+                    catch { }
+                }
 
                 EvoController.NextGeneration();
                 CreateSubjects();
@@ -448,7 +451,7 @@ namespace BizHawk.Client.EmuHawk
 
         #region Save/Load
 
-        public void SaveGenomes(Genome[] genomes, uint generation, string filename)
+        public void SaveGenomes(LivingSonic[] subjects, uint generation, string filename)
         {
             using (StreamWriter writer = File.CreateText(filename))
             {
@@ -460,8 +463,10 @@ namespace BizHawk.Client.EmuHawk
                 else
                     writer.WriteLine(0);
 
-                for (int i = 0; i < genomes.Length; i++)
-                    writer.WriteLine(genomes[i].ToString());
+                for (int i = 0; i < subjects.Length; i++)
+                {
+                    writer.WriteLine(subjects[i].Fitness.ToString() + "/" + subjects[i].TimePassed.TotalSeconds.ToString() + "/" + subjects[i].ToString());
+                }
             }
         }
 
@@ -475,7 +480,10 @@ namespace BizHawk.Client.EmuHawk
             secondsPassed = double.Parse(lines[2]);
 
             for (int i = 0; i < genomes.Length; i++)
-                genomes[i] = Genome.FromString(lines[i + 3]);
+            {
+                string[] values = lines[i + 3].Split('/');
+                genomes[i] = Genome.FromString(values[2]);
+            }
 
             return genomes;
         }
@@ -488,7 +496,7 @@ namespace BizHawk.Client.EmuHawk
                 {
                     try
                     {
-                        SaveGenomes(EvoController.Population.GetAll(), EvoController.Generation, saveGenomeDialog.FileName);
+                        SaveGenomes(Subjects, EvoController.Generation, saveGenomeDialog.FileName);
                         MessageBox.Show("Successfully saved current population!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch
