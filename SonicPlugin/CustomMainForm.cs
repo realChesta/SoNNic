@@ -847,8 +847,8 @@ namespace BizHawk.Client.EmuHawk
                     }
                     break;
 
+                case "start":
                 case "help":
-                default:
                     {
                         string status =
                             "/status - Displays current evolution status.\n" +
@@ -865,7 +865,5 @@ namespace BizHawk.Client.EmuHawk
         }
 
         #endregion
-
-        
     }
 }
