@@ -55,12 +55,14 @@ namespace BizHawk.Client.EmuHawk
             this.networkBox = new System.Windows.Forms.CheckBox();
             this.loadButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
+            this.telegramBox = new System.Windows.Forms.CheckBox();
+            this.portUpDown = new System.Windows.Forms.NumericUpDown();
             this.mapButton = new System.Windows.Forms.Button();
             this.controllerButton = new System.Windows.Forms.Button();
-            this.telegramBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.portUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // label_Watch1
@@ -104,7 +106,6 @@ namespace BizHawk.Client.EmuHawk
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.telegramBox);
             this.groupBox1.Controls.Add(this.genomeLabel);
             this.groupBox1.Controls.Add(this.fitnessLabel);
             this.groupBox1.Location = new System.Drawing.Point(134, 82);
@@ -248,7 +249,7 @@ namespace BizHawk.Client.EmuHawk
             this.autoSaveBox.AutoCheck = false;
             this.autoSaveBox.AutoEllipsis = true;
             this.autoSaveBox.Image = ((System.Drawing.Image)(resources.GetObject("autoSaveBox.Image")));
-            this.autoSaveBox.Location = new System.Drawing.Point(165, 172);
+            this.autoSaveBox.Location = new System.Drawing.Point(255, 172);
             this.autoSaveBox.Name = "autoSaveBox";
             this.autoSaveBox.Size = new System.Drawing.Size(25, 23);
             this.autoSaveBox.TabIndex = 19;
@@ -262,38 +263,70 @@ namespace BizHawk.Client.EmuHawk
             this.networkBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.networkBox.AutoEllipsis = true;
             this.networkBox.Image = ((System.Drawing.Image)(resources.GetObject("networkBox.Image")));
-            this.networkBox.Location = new System.Drawing.Point(134, 172);
+            this.networkBox.Location = new System.Drawing.Point(165, 172);
             this.networkBox.Name = "networkBox";
             this.networkBox.Size = new System.Drawing.Size(25, 23);
             this.networkBox.TabIndex = 21;
             this.networkBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip1.SetToolTip(this.networkBox, "Enable listener");
+            this.toolTip1.SetToolTip(this.networkBox, "Toggle listener");
             this.networkBox.UseVisualStyleBackColor = true;
             this.networkBox.CheckedChanged += new System.EventHandler(this.networkBox_CheckedChanged);
             // 
             // loadButton
             // 
             this.loadButton.Image = ((System.Drawing.Image)(resources.GetObject("loadButton.Image")));
-            this.loadButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.loadButton.Location = new System.Drawing.Point(272, 172);
+            this.loadButton.Location = new System.Drawing.Point(317, 172);
             this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(70, 23);
+            this.loadButton.Size = new System.Drawing.Size(25, 23);
             this.loadButton.TabIndex = 17;
-            this.loadButton.Text = "    Load";
+            this.toolTip1.SetToolTip(this.loadButton, "Load population");
             this.loadButton.UseVisualStyleBackColor = true;
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
             // saveButton
             // 
             this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
-            this.saveButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.saveButton.Location = new System.Drawing.Point(196, 172);
+            this.saveButton.Location = new System.Drawing.Point(286, 172);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(70, 23);
+            this.saveButton.Size = new System.Drawing.Size(25, 23);
             this.saveButton.TabIndex = 16;
-            this.saveButton.Text = "    Save";
+            this.toolTip1.SetToolTip(this.saveButton, "Save current population");
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // telegramBox
+            // 
+            this.telegramBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.telegramBox.AutoEllipsis = true;
+            this.telegramBox.Image = ((System.Drawing.Image)(resources.GetObject("telegramBox.Image")));
+            this.telegramBox.Location = new System.Drawing.Point(134, 172);
+            this.telegramBox.Name = "telegramBox";
+            this.telegramBox.Size = new System.Drawing.Size(25, 23);
+            this.telegramBox.TabIndex = 22;
+            this.telegramBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.telegramBox, "Toggle Telegram functionality");
+            this.telegramBox.UseVisualStyleBackColor = true;
+            this.telegramBox.CheckedChanged += new System.EventHandler(this.telegramBox_CheckedChanged);
+            // 
+            // portUpDown
+            // 
+            this.portUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.portUpDown.Location = new System.Drawing.Point(196, 173);
+            this.portUpDown.Maximum = new decimal(new int[] {
+            99999,
+            0,
+            0,
+            0});
+            this.portUpDown.Name = "portUpDown";
+            this.portUpDown.Size = new System.Drawing.Size(53, 20);
+            this.portUpDown.TabIndex = 23;
+            this.toolTip1.SetToolTip(this.portUpDown, "Listener port");
+            this.portUpDown.Value = new decimal(new int[] {
+            2729,
+            0,
+            0,
+            0});
+            this.portUpDown.ValueChanged += new System.EventHandler(this.portUpDown_ValueChanged);
             // 
             // mapButton
             // 
@@ -319,22 +352,13 @@ namespace BizHawk.Client.EmuHawk
             this.controllerButton.UseVisualStyleBackColor = true;
             this.controllerButton.Click += new System.EventHandler(this.controllerButton_Click);
             // 
-            // telegramBox
-            // 
-            this.telegramBox.AutoSize = true;
-            this.telegramBox.Location = new System.Drawing.Point(128, 38);
-            this.telegramBox.Name = "telegramBox";
-            this.telegramBox.Size = new System.Drawing.Size(66, 17);
-            this.telegramBox.TabIndex = 14;
-            this.telegramBox.Text = "telegram";
-            this.telegramBox.UseVisualStyleBackColor = true;
-            this.telegramBox.CheckedChanged += new System.EventHandler(this.telegramBox_CheckedChanged);
-            // 
             // CustomMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(354, 204);
+            this.Controls.Add(this.portUpDown);
+            this.Controls.Add(this.telegramBox);
             this.Controls.Add(this.networkBox);
             this.Controls.Add(this.autoSaveBox);
             this.Controls.Add(this.loadButton);
@@ -351,10 +375,10 @@ namespace BizHawk.Client.EmuHawk
             this.Name = "CustomMainForm";
             this.Text = "SoNNic";
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.portUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -388,5 +412,6 @@ namespace BizHawk.Client.EmuHawk
         private System.Windows.Forms.LinkLabel maxFitnessAlertLabel;
         private System.Windows.Forms.CheckBox networkBox;
         private System.Windows.Forms.CheckBox telegramBox;
+        private System.Windows.Forms.NumericUpDown portUpDown;
     }
 }

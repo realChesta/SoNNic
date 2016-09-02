@@ -52,6 +52,9 @@ namespace BizHawk.Client.EmuHawk
         private bool Running;
         private string AutoSavePath = null;
 
+        private readonly string SettingsPath = AppDomain.CurrentDomain.BaseDirectory + "settings.cfg";
+        private int Port = 2729;
+
         private bool BestFitnessAlert;
 
         private bool Listen;
@@ -71,6 +74,8 @@ namespace BizHawk.Client.EmuHawk
         {
             InitializeComponent();
 
+            this.LoadSettings();
+            this.portUpDown.Value = this.Port;
             this.CreateTelegramBot();
         }
 
@@ -507,6 +512,38 @@ namespace BizHawk.Client.EmuHawk
             return genomes;
         }
 
+        private void SaveSettings()
+        {
+            try
+            {
+                using (StreamWriter writer = File.CreateText(SettingsPath))
+                {
+                    writer.WriteLine(this.Port);
+
+                    foreach (long id in ChatIDs)
+                        writer.WriteLine(id);
+                }
+            }
+            catch { }
+        }
+
+        private void LoadSettings()
+        {
+            try
+            {
+                if (File.Exists(SettingsPath))
+                {
+                    string[] lines = File.ReadAllLines(SettingsPath);
+
+                    this.Port = int.Parse(lines[0]);
+
+                    for (int i = 1; i < lines.Length; i++)
+                        ChatIDs.Add(long.Parse(lines[i]));
+                }
+            }
+            catch { }
+        }
+
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (EvoController != null && EvoController.Population != null)
@@ -572,6 +609,12 @@ namespace BizHawk.Client.EmuHawk
                 AutoSavePath = null;
                 autoSaveBox.Checked = false;
             }
+        }
+
+        private void portUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            this.Port = (int)portUpDown.Value;
+            SaveSettings();
         }
 
         #endregion
@@ -739,7 +782,7 @@ namespace BizHawk.Client.EmuHawk
 
         private async void BroadcastFitness()
         {
-            string msg = "New best fitness achieved!\nCurrent record is now " + BestFitness.ToString("0") + " (" + ((BestFitness / MaxFitness) * 100D).ToString("0.00") + "%)";
+            string msg = "New fitness record achieved!\nCurrent record is now " + BestFitness.ToString("0") + " (" + ((BestFitness / MaxFitness) * 100D).ToString("0.00") + "%)";
 
             foreach (long id in ChatIDs)
                 await Bot.SendTextMessageAsync(id, msg);
@@ -761,10 +804,10 @@ namespace BizHawk.Client.EmuHawk
                 case "status":
                     {
                         string status =
-                            "Generation " + EvoController.Generation + "\n" +
+                            "Generation " + (EvoController.Generation + 1).ToString() + "\n" +
                             "Best fitness: " + "Best fitness: " + BestFitness.ToString("0") + " (" + ((BestFitness / MaxFitness) * 100D).ToString("0.00") + "%)\n" +
                             "Time passed: " + TimePassed.ToReadableString() + "\n" +
-                            "Current genome: " + SubjectIndex;
+                            "Current genome: " + SubjectIndex + "/" + Subjects.Length;
 
                         await Bot.SendTextMessageAsync(message.Chat.Id, status);
                     }
@@ -775,8 +818,10 @@ namespace BizHawk.Client.EmuHawk
                     {
                         if (!ChatIDs.Contains(message.Chat.Id))
                         {
-                            await Bot.SendTextMessageAsync(message.Chat.Id, "You are now subscribed to best fitness updates.");
+                            await Bot.SendTextMessageAsync(message.Chat.Id, "You are now subscribed to fitness record updates.");
+
                             ChatIDs.Add(message.Chat.Id);
+                            SaveSettings();
                         }
                         else
                         {
@@ -791,11 +836,13 @@ namespace BizHawk.Client.EmuHawk
                         if (ChatIDs.Contains(message.Chat.Id))
                         {
                             ChatIDs.Remove(message.Chat.Id);
-                            await Bot.SendTextMessageAsync(message.Chat.Id, "You have now unsubscribed.");
+                            SaveSettings();
+
+                            await Bot.SendTextMessageAsync(message.Chat.Id, "You are now unsubscribed.");
                         }
                         else
                         {
-                            await Bot.SendTextMessageAsync(message.Chat.Id, "You have not subscribed. (You thus cannot unsubscribe)");
+                            await Bot.SendTextMessageAsync(message.Chat.Id, "You are not subscribed. (You thus cannot unsubscribe)");
                         }
                     }
                     break;
@@ -818,5 +865,7 @@ namespace BizHawk.Client.EmuHawk
         }
 
         #endregion
+
+        
     }
 }
