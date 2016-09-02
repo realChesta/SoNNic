@@ -74,6 +74,11 @@ namespace RemotePanel
                 {
                     f.destBox.Enabled = true;
                     f.connectButton.Enabled = true;
+                    f.currentGenLabel.Text = "-";
+                    f.maxFitnessLabel.Text = "-";
+                    f.totalTimeLabel.Text = "-";
+                    f.genomeLabel.Text = "-";
+                    f.Text = "SoNNic remote Panel";
                 });
             })
             { IsBackground = true, Name = "ConnectionThread" }.Start();
