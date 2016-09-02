@@ -848,9 +848,10 @@ namespace BizHawk.Client.EmuHawk
                     break;
 
                 case "start":
-                case "help":
                     {
-                        string status =
+                        await Bot.SendTextMessageAsync(message.Chat.Id, "Hey there! I'm a bot created to tell you the current state of the SoNNic instance.\n\nHere are all commands I can help you with:\n");
+
+                        string help =
                             "/status - Displays current evolution status.\n" +
                             "/subscribe - Subscribe to receive a message when a new fitness record has been achieved.\n" +
                             "/sub - Shorthand for /subscribe.\n" +
@@ -858,7 +859,22 @@ namespace BizHawk.Client.EmuHawk
                             "/unsub - Shorthand for /unsubscribe.\n" +
                             "/help - Displays help.";
 
-                        await Bot.SendTextMessageAsync(message.Chat.Id, status);
+                        await Bot.SendTextMessageAsync(message.Chat.Id, help);
+                    }
+                    break;
+
+                case "help":
+                    {
+                        string help =
+                            "Here are all my supported commands:\n\n" + 
+                            "/status - Displays current evolution status.\n" +
+                            "/subscribe - Subscribe to receive a message when a new fitness record has been achieved.\n" +
+                            "/sub - Shorthand for /subscribe.\n" +
+                            "/unsubscribe - Unsubscribe from fitness record messages.\n" +
+                            "/unsub - Shorthand for /unsubscribe.\n" +
+                            "/help - Displays help.";
+
+                        await Bot.SendTextMessageAsync(message.Chat.Id, help);
                     }
                     break;
             }
