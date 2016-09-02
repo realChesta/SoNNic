@@ -489,7 +489,7 @@ namespace BizHawk.Client.EmuHawk
 
                 for (int i = 0; i < subjects.Length; i++)
                 {
-                    writer.WriteLine(subjects[i].Fitness.ToString() + "/" + subjects[i].TimePassed.TotalSeconds.ToString() + "/" + subjects[i].ToString());
+                    writer.WriteLine(subjects[i].Fitness.ToString() + "/" + subjects[i].TimePassed.TotalSeconds.ToString() + "/" + subjects[i].Genome.ToString());
                 }
             }
         }
