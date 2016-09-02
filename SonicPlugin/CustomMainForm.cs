@@ -849,7 +849,7 @@ namespace BizHawk.Client.EmuHawk
 
                 case "start":
                     {
-                        await Bot.SendTextMessageAsync(message.Chat.Id, "Hey there! I'm a bot created to tell you the current state of the SoNNic instance.\n\nHere are all commands I can help you with:\n");
+                        await Bot.SendTextMessageAsync(message.Chat.Id, "Hey there! I'm a bot created to tell you the current state of the SoNNic instance running.\n\nHere are all commands I can help you with:\n");
 
                         string help =
                             "/status - Displays current evolution status.\n" +
