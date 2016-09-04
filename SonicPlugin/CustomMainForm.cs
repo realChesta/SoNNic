@@ -785,13 +785,17 @@ namespace BizHawk.Client.EmuHawk
             string msg = "New fitness record achieved!\nCurrent record is now " + BestFitness.ToString("0") + " (" + ((BestFitness / MaxFitness) * 100D).ToString("0.00") + "%)\n" +
                          "(Generation " + (EvoController.Generation + 1).ToString() + ")";
 
-            foreach (long id in ChatIDs)
+            for (int i = 0; i < ChatIDs.Count; i++)
             {
                 try
                 {
-                    await Bot.SendTextMessageAsync(id, msg);
+                    await Bot.SendTextMessageAsync(ChatIDs[i], msg);
                 }
-                catch { }
+                catch
+                {
+                    ChatIDs.RemoveAt(i--);
+                    SaveSettings();
+                }
             }
         }
 
