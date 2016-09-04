@@ -786,7 +786,13 @@ namespace BizHawk.Client.EmuHawk
                          "(Generation " + (EvoController.Generation + 1).ToString() + ")";
 
             foreach (long id in ChatIDs)
-                await Bot.SendTextMessageAsync(id, msg);
+            {
+                try
+                {
+                    await Bot.SendTextMessageAsync(id, msg);
+                }
+                catch { }
+            }
         }
 
         private async void Bot_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
