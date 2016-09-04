@@ -782,6 +782,7 @@ namespace BizHawk.Client.EmuHawk
 
         private async void BroadcastFitness()
         {
+            
             string msg = "New fitness record achieved!\nCurrent record is now " + BestFitness.ToString("0") + " (" + ((BestFitness / MaxFitness) * 100D).ToString("0.00") + "%)\n" +
                          "(Generation " + (EvoController.Generation + 1).ToString() + ")";
 
@@ -791,11 +792,15 @@ namespace BizHawk.Client.EmuHawk
                 {
                     await Bot.SendTextMessageAsync(ChatIDs[i], msg);
                 }
-                catch
+                catch (Telegram.Bot.Exceptions.ApiRequestException ex)
                 {
-                    ChatIDs.RemoveAt(i--);
-                    SaveSettings();
+                    if (ex.Message.Contains("blocked"))
+                    {
+                        ChatIDs.RemoveAt(i--);
+                        SaveSettings();
+                    }
                 }
+                catch { }
             }
         }
 
