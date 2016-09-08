@@ -794,7 +794,7 @@ namespace BizHawk.Client.EmuHawk
         private async void BroadcastFitness()
         {
             string msg = "New fitness record achieved!\nCurrent record is now " + BestFitness.ToString("0") + " (" + ((BestFitness / MaxFitness) * 100D).ToString("0.00") + "%)\n" +
-                         "(Generation " + (EvoController.Generation + 1).ToString() + ")";
+                         "(Generation " + (EvoController.Generation + 1).ToString() + ", Genome " + SubjectIndex + "/" + Subjects.Length + ")";
             Telegram.Bot.Types.FileToSend fts = new Telegram.Bot.Types.FileToSend("screenshot.png", Screenshot().ToStream(ImageFormat.Png));
 
             for (int i = 0; i < ChatIDs.Count; i++)
