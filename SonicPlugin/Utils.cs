@@ -1,10 +1,11 @@
 ﻿using SonicPlugin.Sonic;
 using SonicPlugin.Sonic.Map;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using NEAT;
+using System.IO;
+using System.Drawing.Imaging;
+using System.Drawing;
 
 namespace SonicPlugin
 {
@@ -85,6 +86,14 @@ namespace SonicPlugin
             timeBuilder.Append(time.Seconds.ToString() + "s ");
             //}
             return timeBuilder.ToString().Trim();
+        }
+
+        public static Stream ToStream(this Image image, ImageFormat format)
+        {
+            var stream = new MemoryStream();
+            image.Save(stream, format);
+            stream.Position = 0;
+            return stream;
         }
 
         #endregion

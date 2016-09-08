@@ -1,4 +1,5 @@
-﻿using BizHawk.Client.Common;
+﻿using BizHawk.Bizware.BizwareGL;
+using BizHawk.Client.Common;
 using BizHawk.Emulation.Common;
 using NEAT;
 using NEAT.Genetics;
@@ -10,6 +11,7 @@ using SoNNic.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -294,6 +296,15 @@ namespace BizHawk.Client.EmuHawk
             }
         }
 
+        public Image Screenshot()
+        {
+            using (var bb = GlobalWin.DisplayManager.RenderOffscreen(Global.Emulator.VideoProvider(), true))
+            {
+                bb.DiscardAlpha();
+                return bb.ToSysdrawingBitmap();
+            }
+        }
+
         #endregion
 
         #region Evolution
@@ -393,8 +404,6 @@ namespace BizHawk.Client.EmuHawk
 
         private void NextSubject()
         {
-            ResetLevel();
-
             if (CurrentSubject != null)
             {
                 CurrentSubject.TimePassed = DateTime.Now - SubjectStartTime;
@@ -404,6 +413,8 @@ namespace BizHawk.Client.EmuHawk
                     OnNewBestFitness();
                 }
             }
+
+            ResetLevel();
 
             if (SubjectIndex < Subjects.Length)
             {
@@ -782,15 +793,15 @@ namespace BizHawk.Client.EmuHawk
 
         private async void BroadcastFitness()
         {
-            
             string msg = "New fitness record achieved!\nCurrent record is now " + BestFitness.ToString("0") + " (" + ((BestFitness / MaxFitness) * 100D).ToString("0.00") + "%)\n" +
                          "(Generation " + (EvoController.Generation + 1).ToString() + ")";
+            Telegram.Bot.Types.FileToSend fts = new Telegram.Bot.Types.FileToSend("screenshot.png", Screenshot().ToStream(ImageFormat.Png));
 
             for (int i = 0; i < ChatIDs.Count; i++)
             {
                 try
                 {
-                    await Bot.SendTextMessageAsync(ChatIDs[i], msg);
+                    await Bot.SendPhotoAsync(ChatIDs[i], fts, msg);
                 }
                 catch (Telegram.Bot.Exceptions.ApiRequestException ex)
                 {

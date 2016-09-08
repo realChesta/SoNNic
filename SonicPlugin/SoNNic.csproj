@@ -37,6 +37,9 @@
     <ApplicationIcon>sonic_2.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BizHawk.Bizware.BizwareGL">
+      <HintPath>..\..\BizHawk-1.11.4\dll\BizHawk.Bizware.BizwareGL.dll</HintPath>
+    </Reference>
     <Reference Include="BizHawk.Client.ApiHawk">
       <HintPath>.\BizHawk.Client.ApiHawk.dll</HintPath>
     </Reference>
@@ -45,6 +48,9 @@
     </Reference>
     <Reference Include="BizHawk.Emulation.Common">
       <HintPath>.\BizHawk.Emulation.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="EmuHawk">
+      <HintPath>..\..\BizHawk-1.11.4\EmuHawk.exe</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
