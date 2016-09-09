@@ -298,7 +298,7 @@ namespace BizHawk.Client.EmuHawk
 
         public Image Screenshot()
         {
-            using (var bb = GlobalWin.DisplayManager.RenderOffscreen(Global.Emulator.VideoProvider(), true))
+            using (var bb = GlobalWin.DisplayManager.RenderOffscreen(Global.Emulator.VideoProvider(), false))
             {
                 bb.DiscardAlpha();
                 return bb.ToSysdrawingBitmap();
