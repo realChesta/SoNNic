@@ -68,8 +68,6 @@ namespace BizHawk.Client.EmuHawk
 
         #endregion
 
-        //TODO: save/load current state: possibly record fitness, time, more?
-
         #region WinForms/Initialization
 
         public CustomMainForm()

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoNNic", "SonicPlugin\SoNNi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemotePanel", "RemotePanel\RemotePanel.csproj", "{2FBDCFB1-7471-495B-955A-165507943256}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analyzer", "Analyzer\Analyzer.csproj", "{F633B79E-120E-46BD-9D4C-79DE8F7F4F0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2FBDCFB1-7471-495B-955A-165507943256}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FBDCFB1-7471-495B-955A-165507943256}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FBDCFB1-7471-495B-955A-165507943256}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F633B79E-120E-46BD-9D4C-79DE8F7F4F0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F633B79E-120E-46BD-9D4C-79DE8F7F4F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F633B79E-120E-46BD-9D4C-79DE8F7F4F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F633B79E-120E-46BD-9D4C-79DE8F7F4F0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
